@@ -10,7 +10,8 @@ public class ResourceSpawner : MonoBehaviour
     public float spawnChance;
 
     [Header("Raycast Settings")]
-    public float distanceBetweenChecks;
+    public float checkGapForTrees;
+    public float checkGapForStones;
     public float heightOfCheck = 200f;
     public float rangeOfCheck = 200f;
     public LayerMask layerMask;
@@ -25,9 +26,9 @@ public class ResourceSpawner : MonoBehaviour
 
     void SpawnTrees()
     {
-        for (float x = minPosition.x; x < maxPosition.x; x += distanceBetweenChecks)
+        for (float x = minPosition.x; x < maxPosition.x; x += checkGapForTrees)
         {
-            for (float z = minPosition.y; z < maxPosition.y; z += distanceBetweenChecks)
+            for (float z = minPosition.y; z < maxPosition.y; z += checkGapForTrees)
             {
                 RaycastHit hit;
                 if (Physics.Raycast(new Vector3(x, heightOfCheck, z), Vector3.down, out hit, rangeOfCheck, layerMask))
@@ -43,9 +44,9 @@ public class ResourceSpawner : MonoBehaviour
 
     void SpawnStones()
     {
-        for (float x = minPosition.x; x < maxPosition.x; x += 13f)
+        for (float x = minPosition.x; x < maxPosition.x; x += checkGapForStones)
         {
-            for (float z = minPosition.y; z < maxPosition.y; z += 13f)
+            for (float z = minPosition.y; z < maxPosition.y; z += checkGapForStones)
             {
                 RaycastHit hit;
                 if (Physics.Raycast(new Vector3(x, heightOfCheck, z), Vector3.down, out hit, rangeOfCheck, layerMask))

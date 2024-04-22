@@ -1617,15 +1617,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   treePrefab: {fileID: 559246287}
   stonePrefab: {fileID: 2081370534}
-  spawnChance: 30
-  distanceBetweenChecks: 10
-  heightOfCheck: 200
-  rangeOfCheck: 200
+  spawnChance: 25
+  checkGapForTrees: 7
+  checkGapForStones: 11
+  heightOfCheck: 300
+  rangeOfCheck: 300
   layerMask:
     serializedVersion: 2
     m_Bits: 4294967295
-  minPosition: {x: 0, y: 0}
-  maxPosition: {x: 1000, y: 1000}
+  minPosition: {x: -500, y: -500}
+  maxPosition: {x: 500, y: 500}
 --- !u!4 &1049108409
 Transform:
   m_ObjectHideFlags: 0
