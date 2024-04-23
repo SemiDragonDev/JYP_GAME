@@ -1448,10 +1448,10 @@ MonoBehaviour:
   player: {fileID: 1946649239143024285}
   knockBackDir: {x: 0, y: 0, z: 0}
   stackedTime: 0
-  knockBackDistance: 1.5
+  knockBackDistance: 1
   layerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 8
 --- !u!1 &811172490
 GameObject:
   m_ObjectHideFlags: 0
@@ -1706,7 +1706,7 @@ MonoBehaviour:
   rangeOfCheck: 300
   layerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 8
   minPosition: {x: -500, y: -500}
   maxPosition: {x: 500, y: 500}
 --- !u!4 &1049108409

@@ -10,43 +10,52 @@ public class KnockBack : MonoBehaviour
     public float stackedTime;
     public float knockBackDistance;
     public LayerMask layerMask;
-    
-    private WaitForSeconds waitTime;
 
     private Vector3 startPos;
     private Vector3 endPos;
-    private Vector3 posToMove;
+    private Vector3 hitPos;
+    private Vector3 rayHeight = new Vector3(0f, 20f, 0f);
+
+    private NavMeshAgent agent;
+    private Rigidbody rb;
 
     private void Awake()
     {
-        waitTime = new WaitForSeconds(Time.deltaTime);
+        agent = GetComponentInParent<NavMeshAgent>();
+        rb = GetComponentInParent<Rigidbody>();
+    }
+
+    public void SetKnockBackInfo()
+    {
+        stackedTime = 0f;
+        knockBackDir = player.transform.forward;
+        startPos = transform.position;
+        endPos = startPos + knockBackDir * knockBackDistance;
+        startPos += rayHeight;
+        endPos += rayHeight;
     }
 
     public IEnumerator CoroutineKnockBack()
     {
         Debug.Log("넉백 실행");
 
-        stackedTime = 0f;
-        knockBackDir = player.transform.forward;
-        startPos = transform.position;
-        endPos = (startPos + knockBackDir).normalized * knockBackDistance;
-
         while (stackedTime <= 1f)
         {
-            
             stackedTime += Time.deltaTime;
-            var posPerTime =  Vector3.Lerp(startPos, endPos, stackedTime);
-            if(Physics.Raycast(posPerTime, Vector3.down, out RaycastHit hit, 10f, layerMask))
+            var posUpdate = Vector3.Lerp(startPos, endPos, stackedTime);
+            if(Physics.Raycast(endPos, Vector3.down, out RaycastHit hit, 30f, layerMask))
             {
-                posToMove = hit.transform.position;
+                //  hit.point를 써야 ray가 맞은 위치를 반환한다. hit.transform.position을 쓸 경우 terrain 오브젝트의 position 값을 가져오게 된다.
+                hitPos = hit.point;
             }
-            transform.position = posToMove;
-            yield return waitTime;
+            agent.nextPosition = hitPos;
+            yield return null;
         }
     }
 
     public void PlayingKnockBack()
     {
+        SetKnockBackInfo();
         StartCoroutine(CoroutineKnockBack());
     }
 }
