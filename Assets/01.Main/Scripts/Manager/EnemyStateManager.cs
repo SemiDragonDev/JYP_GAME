@@ -28,19 +28,16 @@ public class EnemyStateManager : FSM<EnemyStateManager>
     private float passedTime = 0;
     public bool canMove;
 
-    private float stillThreshold = 0.05f;
-    private float maxKnockBackTime = 0.5f;
-
     private NavMeshAgent agent;
-    private Rigidbody rigidBody;
     public Animator animator;
+    public KnockBack knockBack;
     public PlayerHealth playerHealth;
 
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
-        rigidBody = GetComponent<Rigidbody>();
+        knockBack = GetComponent<KnockBack>();
         InitState(this, Patrol.Instance);
     }
 

@@ -6,31 +6,36 @@ public class Attack : FSMSingleton<Attack>, IFSMState<EnemyStateManager>
 {
     public void OnEnter(EnemyStateManager e)
     {
-        e.SetTargetToPlayer();
-        Debug.Log("Enter Attack");
-        e.StopAnimBool("Move");
-        e.PlayAnimTrigger("Attack");
+        if (e.knockBack.isAgentAvailable)
+        {
+            e.SetTargetToPlayer();
+            Debug.Log("Enter Attack");
+            e.StopAnimBool("Move");
+            e.PlayAnimTrigger("Attack");
+        }
     }
 
     public void OnUpdate(EnemyStateManager e)
     {
-
-        // °Å¸®°¡ 1º¸´Ù ¸Ö¾îÁö¸é >> CHASE
-        if (!e.IsCloseToTarget(e.targetToChase.position, e.stopDistanceFromPlayer) && e.canMove)
+        if (e.knockBack.isAgentAvailable)
         {
-            e.ChangeState(Chase.Instance);
-        }
-        //5º¸´Ù ¸Ö¶§ >> Patrol
-        else if (!e.IsCloseToTarget(e.targetToChase.position, e.minimumSensibleDist))
-        {
-            Debug.Log("Lost Player. Enter Patrol Again.");
-            e.ChangeState(Patrol.Instance);
-        }
-        // When In Attack Range >> Attack
-        else if (e.IsCloseToTarget(e.targetToChase.position, e.stopDistanceFromPlayer))
-        {
-            e.AttackWithDelay(2f);
-            if (e.CheckPlayerIsDead()) { e.ChangeState(Patrol.Instance); }
+            // ï¿½Å¸ï¿½ï¿½ï¿½ 1ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¾ï¿½ï¿½ï¿½ï¿½ï¿½ >> CHASE
+            if (!e.IsCloseToTarget(e.targetToChase.position, e.stopDistanceFromPlayer) && e.canMove)
+            {
+                e.ChangeState(Chase.Instance);
+            }
+            //5ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¶ï¿½ >> Patrol
+            else if (!e.IsCloseToTarget(e.targetToChase.position, e.minimumSensibleDist))
+            {
+                Debug.Log("Lost Player. Enter Patrol Again.");
+                e.ChangeState(Patrol.Instance);
+            }
+            // When In Attack Range >> Attack
+            else if (e.IsCloseToTarget(e.targetToChase.position, e.stopDistanceFromPlayer))
+            {
+                e.AttackWithDelay(2f);
+                if (e.CheckPlayerIsDead()) { e.ChangeState(Patrol.Instance); }
+            }
         }
     }
 

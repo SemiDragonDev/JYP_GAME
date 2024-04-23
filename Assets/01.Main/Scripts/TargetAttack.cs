@@ -44,7 +44,7 @@ public class TargetAttack : MonoBehaviour
         if(isTargetInCollider)
         {
             Debug.Log("�˹����");
-            //knockback.GetKnockedBack();
+            knockback.PlayingKnockBack();
         }
     }
 }

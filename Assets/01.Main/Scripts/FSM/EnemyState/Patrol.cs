@@ -8,19 +8,25 @@ public class Patrol : FSMSingleton<Patrol>, IFSMState<EnemyStateManager>
 
     public void OnEnter(EnemyStateManager e)
     {
-        Debug.Log("Enter Patrol");
-        e.InitPatrolDestination();
-        e.SetTargetToPlayer();
+        if (e.knockBack.isAgentAvailable)
+        {
+            Debug.Log("Enter Patrol");
+            e.InitPatrolDestination();
+            e.SetTargetToPlayer();
+        }
     }
 
     public void OnUpdate(EnemyStateManager e)
     {
-        e.UpdateDestination();
-        if (!e.CheckPlayerIsDead())
+        if (e.knockBack.isAgentAvailable)
         {
-            if (e.CanSeePlayer() || e.IsCloseToTarget(e.targetToChase.position, e.minimumSensibleDist))
+            e.UpdateDestination();
+            if (!e.CheckPlayerIsDead())
             {
-                e.ChangeState(Chase.Instance);
+                if (e.CanSeePlayer() || e.IsCloseToTarget(e.targetToChase.position, e.minimumSensibleDist))
+                {
+                    e.ChangeState(Chase.Instance);
+                }
             }
         }
     }

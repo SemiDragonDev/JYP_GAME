@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.09674967, g: 0.35171837, b: 0.7160277, a: 1}
+  m_IndirectSpecularColor: {r: 0.096754305, g: 0.35154676, b: 0.7148684, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -207,6 +207,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &291199177
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 291199178}
+  m_Layer: 0
+  m_Name: =========== Manager ============
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &291199178
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 291199177}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &374090725
 GameObject:
   m_ObjectHideFlags: 0
@@ -2975,7 +3006,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1870890997
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3212,6 +3243,7 @@ MonoBehaviour:
     m_Bits: 512
   canMove: 0
   animator: {fileID: 0}
+  knockBack: {fileID: 0}
   playerHealth: {fileID: 1951823325931173803}
 --- !u!4 &1879381055 stripped
 Transform:
@@ -3256,6 +3288,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1946649239143024285}
   knockBackDir: {x: 0, y: 0, z: 0}
+  stackedTime: 0
+  knockBackDistance: 1.5
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  isAgentAvailable: 0
 --- !u!1 &1922933958
 GameObject:
   m_ObjectHideFlags: 0
@@ -6052,6 +6090,7 @@ SceneRoots:
   - {fileID: 1107888389}
   - {fileID: 7293277348886964823}
   - {fileID: 123886126}
+  - {fileID: 291199178}
   - {fileID: 1257111322}
   - {fileID: 2103925787}
   - {fileID: 1049108409}
