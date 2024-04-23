@@ -1448,7 +1448,7 @@ MonoBehaviour:
   player: {fileID: 1946649239143024285}
   knockBackDir: {x: 0, y: 0, z: 0}
   stackedTime: 0
-  knockBackDistance: 1
+  knockBackDistance: 1.3
   layerMask:
     serializedVersion: 2
     m_Bits: 8
