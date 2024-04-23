@@ -6,36 +6,27 @@ public class Attack : FSMSingleton<Attack>, IFSMState<EnemyStateManager>
 {
     public void OnEnter(EnemyStateManager e)
     {
-        if (e.knockBack.isAgentAvailable)
-        {
-            e.SetTargetToPlayer();
-            Debug.Log("Enter Attack");
-            e.StopAnimBool("Move");
-            e.PlayAnimTrigger("Attack");
-        }
+        e.SetTargetToPlayer();
+        Debug.Log("Enter Attack");
+        e.StopAnimBool("Move");
+        e.PlayAnimTrigger("Attack");
     }
 
     public void OnUpdate(EnemyStateManager e)
     {
-        if (e.knockBack.isAgentAvailable)
+        if (!e.IsCloseToTarget(e.targetToChase.position, e.stopDistanceFromPlayer) && e.canMove)
         {
-            // �Ÿ��� 1���� �־����� >> CHASE
-            if (!e.IsCloseToTarget(e.targetToChase.position, e.stopDistanceFromPlayer) && e.canMove)
-            {
-                e.ChangeState(Chase.Instance);
-            }
-            //5���� �ֶ� >> Patrol
-            else if (!e.IsCloseToTarget(e.targetToChase.position, e.minimumSensibleDist))
-            {
-                Debug.Log("Lost Player. Enter Patrol Again.");
-                e.ChangeState(Patrol.Instance);
-            }
-            // When In Attack Range >> Attack
-            else if (e.IsCloseToTarget(e.targetToChase.position, e.stopDistanceFromPlayer))
-            {
-                e.AttackWithDelay(2f);
-                if (e.CheckPlayerIsDead()) { e.ChangeState(Patrol.Instance); }
-            }
+            e.ChangeState(Chase.Instance);
+        }
+        else if (!e.IsCloseToTarget(e.targetToChase.position, e.minimumSensibleDist))
+        {
+            Debug.Log("Lost Player. Enter Patrol Again.");
+            e.ChangeState(Patrol.Instance);
+        }
+        else if (e.IsCloseToTarget(e.targetToChase.position, e.stopDistanceFromPlayer))
+        {
+            e.AttackWithDelay(2f);
+            if (e.CheckPlayerIsDead()) { e.ChangeState(Patrol.Instance); }
         }
     }
 

@@ -26,7 +26,7 @@ public class TargetAttack : MonoBehaviour
         {
             isTargetInCollider = true;
             target = other.gameObject;
-            knockback = target.GetComponent<KnockBack>();
+            knockback = target.GetComponentInChildren<KnockBack>();
         }
     }
 
@@ -43,7 +43,6 @@ public class TargetAttack : MonoBehaviour
     {
         if(isTargetInCollider)
         {
-            Debug.Log("�˹����");
             knockback.PlayingKnockBack();
         }
     }

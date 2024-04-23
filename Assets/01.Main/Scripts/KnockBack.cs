@@ -12,28 +12,19 @@ public class KnockBack : MonoBehaviour
     public LayerMask layerMask;
     
     private WaitForSeconds waitTime;
-    private NavMeshAgent agent;
-    private Rigidbody rb;
 
     private Vector3 startPos;
     private Vector3 endPos;
     private Vector3 posToMove;
 
-    public bool isAgentAvailable;
-
     private void Awake()
     {
         waitTime = new WaitForSeconds(Time.deltaTime);
-        agent = GetComponent<NavMeshAgent>();
-        rb = GetComponent<Rigidbody>();
     }
 
     public IEnumerator CoroutineKnockBack()
     {
-        agent.enabled = false;
-        rb.useGravity = true;
-        rb.isKinematic = false;
-        isAgentAvailable = false;
+        Debug.Log("³Ë¹é ½ÇÇà");
 
         stackedTime = 0f;
         knockBackDir = player.transform.forward;
@@ -42,7 +33,7 @@ public class KnockBack : MonoBehaviour
 
         while (stackedTime <= 1f)
         {
-            yield return waitTime;
+            
             stackedTime += Time.deltaTime;
             var posPerTime =  Vector3.Lerp(startPos, endPos, stackedTime);
             if(Physics.Raycast(posPerTime, Vector3.down, out RaycastHit hit, 10f, layerMask))
@@ -50,16 +41,12 @@ public class KnockBack : MonoBehaviour
                 posToMove = hit.transform.position;
             }
             transform.position = posToMove;
+            yield return waitTime;
         }
-
-        agent.enabled = true;
-        rb.useGravity = false;
-        rb.isKinematic = true;
     }
 
     public void PlayingKnockBack()
     {
         StartCoroutine(CoroutineKnockBack());
-        isAgentAvailable = true;
     }
 }
