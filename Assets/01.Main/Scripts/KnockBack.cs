@@ -7,16 +7,28 @@ public class KnockBack : MonoBehaviour
 {
     public GameObject player;
     public Vector3 knockBackDir;
-    WaitForSeconds waitTime;
+    
+    private WaitForSeconds waitTime;
+    private NavMeshAgent agent;
+    private Rigidbody rb;
 
     private void Awake()
     {
         knockBackDir = player.transform.forward;
-        waitTime = new WaitForSeconds(Time.deltaTime);  
+        waitTime = new WaitForSeconds(Time.deltaTime);
+        agent = GetComponent<NavMeshAgent>();
+        rb = GetComponent<Rigidbody>();
     }
 
     public IEnumerator CoroutineKnockBack()
     {
-        yield return waitTime;
+        agent.enabled = false;
+        rb.useGravity = true;
+        rb.isKinematic = false;
+        while(true)
+        {
+            yield return waitTime;
+
+        }
     }
 }
