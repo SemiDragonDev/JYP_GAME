@@ -47,7 +47,7 @@ public class KnockBack : MonoBehaviour
 
     public IEnumerator CoroutineKnockBack()
     {
-        Debug.Log("�˹� ����");
+        Debug.Log("넉백 실행");
 
         while (stackedTime <= knockBackTime)
         {
@@ -55,10 +55,11 @@ public class KnockBack : MonoBehaviour
             var posUpdate = Vector3.Lerp(startPos, endPos, stackedTime * makeItOne);
             if(Physics.Raycast(posUpdate, Vector3.down, out RaycastHit hit, 30f, layerMask))
             {
-                //  hit.point�� ��� ray�� ���� ��ġ�� ��ȯ�Ѵ�. hit.transform.position�� �� ��� terrain ������Ʈ�� position ���� �������� �ȴ�.
+                //  hit.point를 써야 ray가 맞은 지점을 반환함. hit.transform.position를 사용하면 ray에 맞은 terrain 오브젝트의 position을 반환.
                 hitPos = hit.point;
             }
-            agent.nextPosition = hitPos;
+            //agent.nextPosition = hitPos;
+            agent.Warp(hitPos);
             yield return null;
         }
     }
@@ -66,7 +67,7 @@ public class KnockBack : MonoBehaviour
     public void PlayingKnockBack()
     {
         SetKnockBackInfo();
-        //animator.SetTrigger(animIDIsHit);
+        animator.SetTrigger(animIDIsHit);
         StartCoroutine(CoroutineKnockBack());
     }
 
