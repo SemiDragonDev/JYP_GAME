@@ -15,19 +15,24 @@ public class KnockBack : MonoBehaviour
     private float knockBackDistance;
     [SerializeField]
     private float knockBackTime;
-    private float makeOneByMultiply;
+    private float makeItOne;
 
     private Vector3 startPos;
     private Vector3 endPos;
     private Vector3 hitPos;
     private Vector3 rayHeight = new Vector3(0f, 20f, 0f);
 
+    private int animIDIsHit;
+
     private NavMeshAgent agent;
+    private Animator animator;
 
     private void Awake()
     {
         agent = GetComponentInParent<NavMeshAgent>();
-        makeOneByMultiply = 1f / knockBackTime;
+        animator = GetComponentInParent<Animator>();
+        makeItOne = 1f / knockBackTime;
+        AssignAnimID();
     }
 
     public void SetKnockBackInfo()
@@ -42,15 +47,15 @@ public class KnockBack : MonoBehaviour
 
     public IEnumerator CoroutineKnockBack()
     {
-        Debug.Log("³Ë¹é ½ÇÇà");
+        Debug.Log("ï¿½Ë¹ï¿½ ï¿½ï¿½ï¿½ï¿½");
 
         while (stackedTime <= knockBackTime)
         {
             stackedTime += Time.deltaTime;
-            var posUpdate = Vector3.Lerp(startPos, endPos, stackedTime * 2f);
+            var posUpdate = Vector3.Lerp(startPos, endPos, stackedTime * makeItOne);
             if(Physics.Raycast(posUpdate, Vector3.down, out RaycastHit hit, 30f, layerMask))
             {
-                //  hit.point¸¦ ½á¾ß ray°¡ ¸ÂÀº À§Ä¡¸¦ ¹ÝÈ¯ÇÑ´Ù. hit.transform.positionÀ» ¾µ °æ¿ì terrain ¿ÀºêÁ§Æ®ÀÇ position °ªÀ» °¡Á®¿À°Ô µÈ´Ù.
+                //  hit.pointï¿½ï¿½ ï¿½ï¿½ï¿½ rayï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½È¯ï¿½Ñ´ï¿½. hit.transform.positionï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ terrain ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ position ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½È´ï¿½.
                 hitPos = hit.point;
             }
             agent.nextPosition = hitPos;
@@ -61,6 +66,12 @@ public class KnockBack : MonoBehaviour
     public void PlayingKnockBack()
     {
         SetKnockBackInfo();
+        //animator.SetTrigger(animIDIsHit);
         StartCoroutine(CoroutineKnockBack());
+    }
+
+    private void AssignAnimID()
+    {
+        animIDIsHit = Animator.StringToHash("IsHit");
     }
 }
