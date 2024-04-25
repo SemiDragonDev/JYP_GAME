@@ -279,7 +279,10 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetButtonDown("Fire1"))
         {
-            animator.SetTrigger(animIDAttack);
+            if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
+            {
+                animator.SetTrigger(animIDAttack);
+            }
         }
     }
 
@@ -306,16 +309,4 @@ public class PlayerMovement : MonoBehaviour
 
         Gizmos.DrawSphere(new Vector3(transform.position.x, transform.position.y - groundedOffset, transform.position.z), groundedRadius);
     }
-
-    //public void HitReaction(Transform hitter)
-    //{
-    //    Vector3 direction = (transform.position - hitter.position).normalized;
-    //    //startPos = transform.position;
-    //    //endPos = startPos + direction;
-
-    //    //Vector3 movement = Vector3.Lerp(startPos, endPos, Time.deltaTime);
-
-
-    //    charController.Move(direction);
-    //}
 }
