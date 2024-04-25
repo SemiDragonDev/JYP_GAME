@@ -277,7 +277,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void AnimAttackPlay()
     {
-        if (Input.GetButton("Fire1"))
+        if (Input.GetButtonDown("Fire1"))
         {
             if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
             {
