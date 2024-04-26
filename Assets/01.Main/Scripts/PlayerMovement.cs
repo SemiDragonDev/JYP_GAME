@@ -77,6 +77,7 @@ public class PlayerMovement : MonoBehaviour
     private CharacterController charController;
     private Animator animator;
     private GameObject mainCamera;
+    private SwitchFPandTP switchFPandTP;
 
     [Space(10)]
     [Header("Interactor")]
@@ -94,6 +95,7 @@ public class PlayerMovement : MonoBehaviour
         if(mainCamera == null)
         {
             mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
+            switchFPandTP = mainCamera.GetComponent<SwitchFPandTP>();
         }
     }
 
@@ -203,6 +205,12 @@ public class PlayerMovement : MonoBehaviour
 
         if (moveInput != Vector3.zero)
         {
+            // WASD 입력에 의한 캐릭터의 몸 회전 + 카메라의 좌우 입력에 대한 캐릭터의 몸 회전
+            // (if문 조건으로 인해, 이동 입력값이 있을때만 카메라의 회전에 따른 몸 회전이 적용)
+            // (3인칭 카메라의 경우, 가만히 서있을 때는 카메라를 좌우로 움직여도 몸이 회전하지 않음)
+            // (1인칭 카메라에는 따로 RotatePlayerBody 클래스를 사용해 카메라의 움직임만으로 몸이 회전하게 함)
+            // tan(x/z) 의 Radian 값을 Degree 값으로 변환 + 카메라의 y축 회전
+            
             targetRotation = Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg + mainCamera.transform.eulerAngles.y;
             float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRotation, ref rotationVelocity, rotationSmoothTime);
 

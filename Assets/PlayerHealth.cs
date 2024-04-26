@@ -39,7 +39,7 @@ public class PlayerHealth : MonoBehaviour
         {
             health = 0;
             isDead = true;
-            animator.SetTrigger(animIDDeath);
+            //animator.SetTrigger(animIDDeath);
         }
     }
 }

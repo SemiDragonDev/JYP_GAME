@@ -9,6 +9,8 @@ public class SwitchFPandTP : MonoBehaviour
     [SerializeField]
     private GameObject tpCamera;
 
+    public bool isFP;
+
     private Camera camera;
 
     private void Awake()
@@ -18,6 +20,7 @@ public class SwitchFPandTP : MonoBehaviour
         tpCamera.SetActive(false);
         camera.cullingMask = -1;
         PlayerToInvisible();
+        isFP = true;
     }
 
     // Update is called once per frame
@@ -25,12 +28,14 @@ public class SwitchFPandTP : MonoBehaviour
     {
         if (fpCamera.activeSelf == true && Input.GetKeyDown(KeyCode.F5))
         {
+            isFP = false;
             fpCamera.SetActive (false);
             tpCamera.SetActive (true);
             camera.cullingMask = -1;
         }
         else if (tpCamera.activeSelf == true && Input.GetKeyDown(KeyCode.F5))
         {
+            isFP = true;
             fpCamera.SetActive(true);
             tpCamera.SetActive(false);
             camera.cullingMask = -1;
