@@ -210,14 +210,28 @@ public class PlayerMovement : MonoBehaviour
             // (3인칭 카메라의 경우, 가만히 서있을 때는 카메라를 좌우로 움직여도 몸이 회전하지 않음)
             // (1인칭 카메라에는 따로 RotatePlayerBody 클래스를 사용해 카메라의 움직임만으로 몸이 회전하게 함)
             // tan(x/z) 의 Radian 값을 Degree 값으로 변환 + 카메라의 y축 회전
-            
-            targetRotation = Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg + mainCamera.transform.eulerAngles.y;
-            float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRotation, ref rotationVelocity, rotationSmoothTime);
 
+            //targetRotation = Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg + mainCamera.transform.eulerAngles.y;
+            //float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRotation, ref rotationVelocity, rotationSmoothTime);
+
+            //transform.rotation = Quaternion.Euler(0f, rotation, 0f);
+
+
+            // 수정 방향
+            // 카메라 시선만을 항상 캐릭터 몸 방향으로 고정
+            // WASD 입력은 캐릭터 몸 방향에 영향을 주지 않는다
+
+            targetRotation = mainCamera.transform.eulerAngles.y;
+            float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRotation, ref rotationVelocity, rotationSmoothTime);
             transform.rotation = Quaternion.Euler(0f, rotation, 0f);
         }
 
-        Vector3 targetDirection = Quaternion.Euler(0f, targetRotation, 0f) * Vector3.forward;
+        // 방향 입력값 + 카메라의 방향을 반환한 targetRotation 값이 targetDirection이 된다.
+        //Vector3 targetDirection = Quaternion.Euler(0f, targetRotation, 0f) * Vector3.forward;
+
+        // 수정 방향
+        // 방향 입력값만 targetDirection이 되게 한다
+        Vector3 targetDirection = moveInput;    //  지금 이대로는 WASD의 방향이 동서남북처럼 고정이 되어버림. 카메라의 방향에 따른 상대적인 방향으로 바꿔야함.
 
         charController.Move(targetDirection.normalized * (speed * Time.deltaTime) + new Vector3(0f, verticalVelocity, 0f) * Time.deltaTime);
 
