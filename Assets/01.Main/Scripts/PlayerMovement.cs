@@ -72,6 +72,8 @@ public class PlayerMovement : MonoBehaviour
     private int animIDFreeFall;
     private int animIDMotionSpeed;
     private int animIDAttack;
+    private int animIDFwOrBw;
+    private int animIDLeftOrRight;
 
     private Vector3 velocity;
     private CharacterController charController;
@@ -137,6 +139,8 @@ public class PlayerMovement : MonoBehaviour
         animIDFreeFall = Animator.StringToHash("FreeFall");
         animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
         animIDAttack = Animator.StringToHash("Attack");
+        animIDFwOrBw = Animator.StringToHash("ForwardOrBackward");
+        animIDLeftOrRight = Animator.StringToHash("LeftOrRight");
     }
 
     private void GroundedCheck()
@@ -245,6 +249,8 @@ public class PlayerMovement : MonoBehaviour
         {
             animator.SetFloat(animIDSpeed, animationBlend);
             animator.SetFloat(animIDMotionSpeed, 1f);
+            animator.SetFloat(animIDFwOrBw, verticalInput);
+            animator.SetFloat(animIDLeftOrRight, horizontalInput);
         }
     }
 
