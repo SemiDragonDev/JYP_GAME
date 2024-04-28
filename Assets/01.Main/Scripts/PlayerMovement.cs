@@ -190,6 +190,8 @@ public class PlayerMovement : MonoBehaviour
 
         float speedOffset = 0.1f;
 
+        //  속도 변화를 Lerp를 사용하여 매끄럽게 함
+        //  오프셋 이내로 들어오면 targetSpeed로 맞춘다
         if(currentHorizontalSpeed < targetSpeed - speedOffset || currentHorizontalSpeed > targetSpeed + speedOffset)
         {
             speed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed, Time.deltaTime * speedChangeRate);
@@ -200,8 +202,6 @@ public class PlayerMovement : MonoBehaviour
         {
             speed = targetSpeed;
         }
-
-        //Debug.Log("Current Speed : " + speed);
 
         animationBlend = Mathf.Lerp(animationBlend, targetSpeed, Time.deltaTime * speedChangeRate);
         if (animationBlend < 0.01f) animationBlend = 0f;
