@@ -6089,6 +6089,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fpCamera: {fileID: 1810951161}
   tpCamera: {fileID: 123886124}
+  isFP: 0
 --- !u!114 &7936627853586082937
 MonoBehaviour:
   m_ObjectHideFlags: 0

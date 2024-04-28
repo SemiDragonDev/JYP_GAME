@@ -176,8 +176,11 @@ public class PlayerMovement : MonoBehaviour
 
         float targetSpeed = isSprint ? sprintSpeed : moveSpeed;
 
-        var moveInput = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
-        var dir = moveInput.normalized;
+        float horizontalInput  = Input.GetAxis("Horizontal");
+        float verticalInput = Input.GetAxis("Vertical");
+
+        Vector3 moveInput = new Vector3(horizontalInput, 0f, verticalInput);
+        Vector3 dir = moveInput.normalized;
 
         if (moveInput == Vector3.zero) targetSpeed = 0f;
 
@@ -231,7 +234,10 @@ public class PlayerMovement : MonoBehaviour
 
         // 수정 방향
         // 방향 입력값만 targetDirection이 되게 한다
-        Vector3 targetDirection = moveInput;    //  지금 이대로는 WASD의 방향이 동서남북처럼 고정이 되어버림. 카메라의 방향에 따른 상대적인 방향으로 바꿔야함.
+        //Vector3 targetDirection = moveInput;    //  지금 이대로는 WASD의 방향이 동서남북처럼 고정이 되어버림. 카메라의 방향에 따른 상대적인 방향으로 바꿔야함.
+        Vector3 relativeHorizontalMove = horizontalInput * mainCamera.transform.right;
+        Vector3 relativeVerticalMove = verticalInput * mainCamera.transform.forward;
+        Vector3 targetDirection = relativeHorizontalMove + relativeVerticalMove;
 
         charController.Move(targetDirection.normalized * (speed * Time.deltaTime) + new Vector3(0f, verticalVelocity, 0f) * Time.deltaTime);
 
