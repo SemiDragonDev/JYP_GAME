@@ -12,11 +12,9 @@ public class TargetAttack : MonoBehaviour
     private Transform player;
 
     KnockBack knockback;
-    ObjectPoolManager poolManager;
 
     private void Start()
     {
-        poolManager = ObjectPoolManager.Instance;
         player = GetComponentInParent<Transform>();
     }
 
