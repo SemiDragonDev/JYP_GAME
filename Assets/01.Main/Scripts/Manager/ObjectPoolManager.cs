@@ -4,55 +4,61 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
+//  OnParticlaSystemStopped 이벤트 호출시 파티클 시스템을 풀에 반환해주는 컴퍼넌트
+[RequireComponent(typeof(ParticleSystem))]
+public class ReturnToPool : MonoBehaviour
+{
+    public ParticleSystem system;
+    public IObjectPool<ParticleSystem> pool;
+
+    private void Start()
+    {
+        system = GetComponent<ParticleSystem>();
+        var main = system.main;
+        main.stopAction = ParticleSystemStopAction.Callback;
+    }
+
+    private void OnParticleSystemStopped()
+    {
+        pool.Release(system);
+    }
+}
+
 public class ObjectPoolManager : MonoBehaviour
 {
-    public static ObjectPoolManager Instance;
-
-    public int defaultPoolSize = 5;
+    public bool collectionChecks = true;
     public int maxPoolSize = 10;
 
-    public IObjectPool<GameObject> Pool { get; private set; }
+    IObjectPool<ParticleSystem> pool;
 
-    [SerializeField]
-    private List<GameObject> listOfPoolObjects = new List<GameObject>();
-
-    private Dictionary<GameObject, IObjectPool<GameObject>> poolDict = new Dictionary<GameObject, IObjectPool<GameObject>>();
-
-    private void Awake()
+    public IObjectPool<ParticleSystem> Pool
     {
-        if (Instance == null)
+        get
         {
-            Instance = this;
-        }
-        else Destroy(this.gameObject);
-    }
-
-    private void Init()
-    {
-        Pool = new ObjectPool<GameObject>(CreatePooledObject, OnTakeFromPool, OnReturnedToPool, OnDestroyPoolObject, true, defaultPoolSize, maxPoolSize);
-
-        for(int i=0; i< listOfPoolObjects.Count; i++)
-        {
-            poolDict.Add(listOfPoolObjects[i], Pool);
+            if(pool == null)
+            {
+                pool = new ObjectPool<ParticleSystem>(CreatePooledObject, OnTakeFromPool, OnReturnedToPool, OnDestroyPoolObject, collectionChecks, maxPoolSize, maxPoolSize);
+            }
+            return pool;
         }
     }
 
-    private GameObject CreatePooledObject()
+    private ParticleSystem CreatePooledObject()
     {
         throw new NotImplementedException();
     }
 
-    private void OnTakeFromPool(GameObject @object)
+    private void OnTakeFromPool(ParticleSystem system)
     {
         throw new NotImplementedException();
     }
 
-    private void OnReturnedToPool(GameObject @object)
+    private void OnReturnedToPool(ParticleSystem system)
     {
         throw new NotImplementedException();
     }
 
-    private void OnDestroyPoolObject(GameObject @object)
+    private void OnDestroyPoolObject(ParticleSystem system)
     {
         throw new NotImplementedException();
     }
