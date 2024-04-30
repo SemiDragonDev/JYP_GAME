@@ -6,7 +6,7 @@ public class DayNightCycle : MonoBehaviour
 {
     [SerializeField] private Transform light;
     //  timeScale = 1일 경우 하루는 360초
-    [SerializeField] private float timeScale;
+    [SerializeField] private float timeSpeed;
     private float timeStacked;
 
     private void Start()
@@ -21,7 +21,7 @@ public class DayNightCycle : MonoBehaviour
     private void LightRotation()
     {
         timeStacked += Time.deltaTime;
-        float xRotation = timeStacked * timeScale;
+        float xRotation = timeStacked * timeSpeed;
         if (xRotation >= 360) timeStacked = 0;
         
         light.transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
