@@ -37,7 +37,7 @@ public class ObjectPoolManager : MonoBehaviour
         {
             if(pool == null)
             {
-                pool = new ObjectPool<ParticleSystem>(CreatePooledObject, OnTakeFromPool, OnReturnedToPool, OnDestroyPoolObject, collectionChecks, maxPoolSize, maxPoolSize);
+                pool = new ObjectPool<ParticleSystem>(CreatePooledObject, OnGetFromPool, OnReturnedToPool, OnDestroyPoolObject, collectionChecks, 5, maxPoolSize);
             }
             return pool;
         }
@@ -48,18 +48,18 @@ public class ObjectPoolManager : MonoBehaviour
         throw new NotImplementedException();
     }
 
-    private void OnTakeFromPool(ParticleSystem system)
+    private void OnGetFromPool(ParticleSystem system)
     {
-        throw new NotImplementedException();
+        system.gameObject.SetActive(true);
     }
 
     private void OnReturnedToPool(ParticleSystem system)
     {
-        throw new NotImplementedException();
+        system.gameObject.SetActive(false);
     }
 
     private void OnDestroyPoolObject(ParticleSystem system)
     {
-        throw new NotImplementedException();
+        Destroy(system.gameObject);
     }
 }
