@@ -29,6 +29,8 @@ public class ObjectPoolManager : MonoBehaviour
     public bool collectionChecks = true;
     public int maxPoolSize = 10;
 
+    [SerializeField] private List<GameObject> listOfObjects = new List<GameObject>();
+
     IObjectPool<ParticleSystem> pool;
 
     public IObjectPool<ParticleSystem> Pool
