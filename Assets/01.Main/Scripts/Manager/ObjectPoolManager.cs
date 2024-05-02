@@ -2,66 +2,77 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Pool;
 
-//  OnParticlaSystemStopped 이벤트 호출시 파티클 시스템을 풀에 반환해주는 컴퍼넌트
-[RequireComponent(typeof(ParticleSystem))]
-public class ReturnToPool : MonoBehaviour
+public sealed class ObjectPoolManager : MonoBehaviour
 {
-    public ParticleSystem system;
-    public IObjectPool<ParticleSystem> pool;
-
-    private void Start()
+    [Serializable]
+    public class ThingsToPool
     {
-        system = GetComponent<ParticleSystem>();
-        var main = system.main;
-        main.stopAction = ParticleSystemStopAction.Callback;
-    }
+        public string name;
+        public GameObject prefab;
+        public int defaultSize;
+        public int maxSize;
 
-    private void OnParticleSystemStopped()
-    {
-        pool.Release(system);
-    }
-}
-
-public class ObjectPoolManager : MonoBehaviour
-{
-    public bool collectionChecks = true;
-    public int maxPoolSize = 10;
-
-    [SerializeField] private List<GameObject> listOfObjects = new List<GameObject>();
-
-    IObjectPool<ParticleSystem> pool;
-
-    public IObjectPool<ParticleSystem> Pool
-    {
-        get
+        private int curSize;
+        public int CurSize
         {
-            if(pool == null)
-            {
-                pool = new ObjectPool<ParticleSystem>(CreatePooledObject, OnGetFromPool, OnReturnedToPool, OnDestroyPoolObject, collectionChecks, 5, maxPoolSize);
-            }
-            return pool;
+            get { return curSize; }
+            set { curSize = value; }
         }
     }
 
-    private ParticleSystem CreatePooledObject()
+    public static ObjectPoolManager instance;
+
+    public ThingsToPool[] itemsToPool;
+    public List<GameObject>[] objectsPoolList;
+
+    private void Awake()
     {
-        throw new NotImplementedException();
+        instance = this;
+
+        objectsPoolList = new List<GameObject>[itemsToPool.Length];
+
+        for(int i=0; i< itemsToPool.Length; i++)
+        {
+            objectsPoolList[i] = new List<GameObject> ();
+
+            int index = 0;
+            for(int j=0; j < itemsToPool[i].defaultSize; j++)
+            {
+                GameObject go = Instantiate(itemsToPool[i].prefab);
+
+                string suffix = "_" + index;
+                ReturnToPool(i, go, suffix);
+                ++index;
+            }
+        }
     }
 
-    private void OnGetFromPool(ParticleSystem system)
+    private GameObject GetFromPool(string nameToGet)
     {
-        system.gameObject.SetActive(true);
+        for(int itemIdx = 0;  itemIdx < objectsPoolList.Length; itemIdx++)
+        {
+            if (itemsToPool[itemIdx].prefab.name == nameToGet)
+            {
+                int listIdx = 0;
+                for (listIdx = 0; listIdx < objectsPoolList[itemIdx].Count; listIdx++)
+                {
+                    if (objectsPoolList[itemIdx][listIdx] == null)
+                        return null;
+                    if (objectsPoolList[itemIdx][listIdx].activeInHierarchy == false)
+                        return objectsPoolList[itemIdx][listIdx];
+                }
+                break;
+            }
+        }
+        return null;
     }
 
-    private void OnReturnedToPool(ParticleSystem system)
+    private void ReturnToPool(int i, GameObject go, string suffix)
     {
-        system.gameObject.SetActive(false);
-    }
-
-    private void OnDestroyPoolObject(ParticleSystem system)
-    {
-        Destroy(system.gameObject);
+        go.name += suffix;
+        go.SetActive(false);
+        go.transform.parent = transform;
+        objectsPoolList[i].Add(go);
     }
 }
