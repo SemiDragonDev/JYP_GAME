@@ -10,7 +10,7 @@ public class ObjectPool : Singleton<ObjectPool>
     // 여러개의 풀을 리스트로 관리
     [SerializeField] private List<PooledObject> pooledObjectsList;
     // 풀이 여러개일 경우 Dict 통해 어느 풀을 찾는 지 알아야함
-    private Dictionary<int, PooledObject> pools;
+    private Dictionary<string, Stack<PooledObject>> pools;
     // 각각의 풀은 스택으로 형성;
     private Stack<PooledObject> stack;
 
@@ -37,6 +37,9 @@ public class ObjectPool : Singleton<ObjectPool>
                 instance.gameObject.SetActive(false);
                 stack.Push(instance);
             }
+
+            //Dict 에 풀을 저장 (objectName을 Key로 사용해 원하는 풀을 찾는다)
+            pools.Add(pooledObjectsList[i].objectName, stack);
         }
 
         //for(int i = 0; i<defPoolSize; i++)
