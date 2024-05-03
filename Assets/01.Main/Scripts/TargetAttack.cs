@@ -4,19 +4,10 @@ using UnityEngine;
 
 public class TargetAttack : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject target;
-    [SerializeField]
-    private bool isTargetInCollider;
-
-    private Transform player;
+    [SerializeField] private GameObject target;
+    [SerializeField] private bool isTargetInCollider;
 
     KnockBack knockback;
-
-    private void Start()
-    {
-        player = GetComponentInParent<Transform>();
-    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -41,6 +32,8 @@ public class TargetAttack : MonoBehaviour
     {
         if(isTargetInCollider)
         {
+            var vfx = ObjectPool.Instance.GetPooledObject("HitEffect");
+            vfx.transform.position = target.transform.position;
             knockback.PlayingKnockBack();
         }
     }
