@@ -7,6 +7,8 @@ public class TargetAttack : MonoBehaviour
     [SerializeField] private GameObject target;
     [SerializeField] private bool isTargetInCollider;
 
+    private Vector3 effectPos = new Vector3(0f, 0.9f, 0f);
+
     KnockBack knockback;
 
     private void OnTriggerEnter(Collider other)
@@ -33,8 +35,9 @@ public class TargetAttack : MonoBehaviour
         if(isTargetInCollider)
         {
             var vfx = ObjectPool.Instance.GetPooledObject("HitEffect");
-            vfx.transform.position = target.transform.position;
+            vfx.transform.position = target.transform.position + effectPos;
             knockback.PlayingKnockBack();
+            StartCoroutine(vfx.CoroutineRelease(0.5f));
         }
     }
 }

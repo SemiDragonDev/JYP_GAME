@@ -12,4 +12,10 @@ public class PooledObject : MonoBehaviour
     {
         pool.ReturnToPool(this);
     }
+
+    public IEnumerator CoroutineRelease(float time)
+    {
+        yield return new WaitForSeconds(time);
+        pool.ReturnToPool(this);
+    }
 }
