@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 6885709662436585126}
   - component: {fileID: 2999518695608643293}
   - component: {fileID: 4514194920238717395}
+  - component: {fileID: 1467930247188384348}
   m_Layer: 0
   m_Name: SM_Prop_Fence_Wood_Round_Pole_01
   m_TagString: Untagged
@@ -163,3 +164,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   item: {fileID: 11400000, guid: 518eac9f40c0bfe40856b80987d63b3a, type: 2}
   <amount>k__BackingField: 1
+--- !u!114 &1467930247188384348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5825372438886740145}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf3735bf71b2c814297a35c56d5acd3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectName: Resource_Wood

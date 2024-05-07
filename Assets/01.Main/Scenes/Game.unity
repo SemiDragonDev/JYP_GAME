@@ -1634,7 +1634,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   light: {fileID: 410087041}
-  timeSpeed: 30
+  timeSpeed: 1
 --- !u!1 &1107888388
 GameObject:
   m_ObjectHideFlags: 0
@@ -3088,6 +3088,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy_Skeleton
       objectReference: {fileID: 0}
+    - target: {fileID: 1264433200921298619, guid: b91f2cacb0bef7f4bac8f61b0f00b4c6,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 1564405807624549510, guid: b91f2cacb0bef7f4bac8f61b0f00b4c6,
         type: 3}
       propertyPath: player
@@ -3541,7 +3546,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.5, y: 1.5, z: 1}
+  m_Size: {x: 1, y: 1.5, z: 1}
   m_Center: {x: 0, y: 0.9, z: 0.5}
 --- !u!114 &2087145774
 MonoBehaviour:
@@ -3556,6 +3561,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 1024
   isTargetInCollider: 0
 --- !u!1 &2107910999
 GameObject:
