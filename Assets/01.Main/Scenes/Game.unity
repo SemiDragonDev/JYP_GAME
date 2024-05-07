@@ -1635,6 +1635,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   light: {fileID: 410087041}
   timeSpeed: 1
+  isNight: 0
+  timeStacked: 0
 --- !u!1 &1107888388
 GameObject:
   m_ObjectHideFlags: 0
@@ -3560,11 +3562,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02e062e449731b24a885b7d318a21b9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
   layerMask:
     serializedVersion: 2
     m_Bits: 1024
-  isTargetInCollider: 0
 --- !u!1 &2107910999
 GameObject:
   m_ObjectHideFlags: 0
