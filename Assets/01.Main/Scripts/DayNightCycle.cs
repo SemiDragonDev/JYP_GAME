@@ -24,7 +24,7 @@ public class DayNightCycle : MonoBehaviour
         timeStacked += Time.deltaTime;
         float xRotation = timeStacked * timeSpeed;
         if (xRotation >= 360) timeStacked = 0;
-        if (xRotation >= 200 && xRotation <360) isNight = true;
+        if (xRotation >= 200 && xRotation <350) isNight = true;
         else isNight = false;
         light.transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
     }
