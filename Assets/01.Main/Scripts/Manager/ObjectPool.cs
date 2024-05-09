@@ -84,7 +84,8 @@ public class ObjectPool : Singleton<ObjectPool>
     // 스택에 다시 오브젝트를 넣을 때 Release 메서드를 사용해 이 함수를 호출한다
     public void ReturnToPool(PooledObject pooledObject)
     {
-        stack.Push(pooledObject);
+        poolsDict.TryGetValue(pooledObject.name.Split('(')[0], out var poolStack);
+        poolStack.Push(pooledObject);
         pooledObject.gameObject.SetActive(false);
     }
 }
