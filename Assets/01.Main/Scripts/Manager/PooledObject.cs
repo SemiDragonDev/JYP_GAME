@@ -5,6 +5,7 @@ using UnityEngine;
 public class PooledObject : MonoBehaviour
 {
     public string objectName;
+    public int defSize;
     private ObjectPool pool;
     public ObjectPool Pool { get => pool; set => pool = value; }
 

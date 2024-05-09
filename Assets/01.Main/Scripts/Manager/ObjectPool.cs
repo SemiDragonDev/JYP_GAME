@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class ObjectPool : Singleton<ObjectPool>
 {
-    [SerializeField] private int defPoolSize;
-
     // 여러개의 풀을 리스트로 관리
     [SerializeField] private List<PooledObject> pooledObjectsList;
     // 풀이 여러개일 경우 Dict 통해 어느 풀을 찾는 지 알아야함
@@ -33,7 +31,7 @@ public class ObjectPool : Singleton<ObjectPool>
             stack = new Stack<PooledObject>();
 
             // Default 크기만큼 GameObject를 Instantiate 후 각 스택에 Push함
-            for (int j=0; j<defPoolSize; j++)
+            for (int j=0; j<pooledObjectsList[i].defSize; j++)
             {
                 instance = Instantiate(pooledObjectsList[i]);
                 instance.Pool = this;
