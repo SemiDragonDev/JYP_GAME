@@ -13,8 +13,6 @@ public class FieldEnemy : Enemy
         // 플레이어 중심 10유닛 보다는 멀리, 20유닛보다는 가까운 지역에 리스폰 되기로 지정
         // 5~10초 마다 거리 체크 후 30유닛보다 멀다면 풀에 return
         // return한 만큼 다시 지정된 지역에 랜덤 리스폰
-
-
     }
 
     public void BurnAtDay()
