@@ -6,7 +6,7 @@ public class Chase : FSMSingleton<Chase>, IFSMState<EnemyStateManager>
 {
     public void OnEnter(EnemyStateManager e)
     {
-        Debug.Log("Enter Chase");
+        //Debug.Log("Enter Chase");
         e.SetTargetToPlayer();
         e.PlayAnimBool("Move");
     }
@@ -29,7 +29,7 @@ public class Chase : FSMSingleton<Chase>, IFSMState<EnemyStateManager>
 
     public void OnExit(EnemyStateManager e)
     {
-        Debug.Log("Stop Chasing");
+        //Debug.Log("Stop Chasing");
         e.MakeTargetNull();
     }
 }

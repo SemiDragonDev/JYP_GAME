@@ -11,20 +11,8 @@ public class FieldEnemy : Enemy
         Name = name;
     }
 
-    private float minDistToSpawn = 10f;
-    private float maxDistToSpawn = 20f;
-    private string playerTag = "Player";
-    private string layerName = "Ground";
-
-    public virtual void SpawnAtNight(int spawnNum, string name)
-    {
-        // 적은 밤에만 스폰된다.
-        // 플레이어 중심 10유닛 보다는 멀리, 20유닛보다는 가까운 지역에 리스폰 되기로 지정
-        // 5~10초 마다 거리 체크 후 30유닛보다 멀다면 풀에 return
-        // return한 만큼 다시 지정된 지역에 랜덤 리스폰
-        var playerPos = GameObject.FindGameObjectWithTag(playerTag).transform.position;
-        NavMesh.SamplePosition(playerPos, out NavMeshHit hit, maxDistToSpawn, LayerMask.NameToLayer(layerName));
-    }
+    // 적 스폰 메서드를 에너미 클래스 쪽에서 호출시, 적이 스폰될때 다시 메서드를 호출하는 꼴이라 적이 무한으로 스폰되는 일이 생김.
+    // 스폰 매니저로 관리하자.
 
     public void BurnAtDay()
     {

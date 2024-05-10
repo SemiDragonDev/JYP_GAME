@@ -7,7 +7,7 @@ public class Attack : FSMSingleton<Attack>, IFSMState<EnemyStateManager>
     public void OnEnter(EnemyStateManager e)
     {
         e.SetTargetToPlayer();
-        Debug.Log("Enter Attack");
+        //Debug.Log("Enter Attack");
         e.StopAnimBool("Move");
         e.PlayAnimTrigger("Attack");
     }
@@ -39,7 +39,7 @@ public class Attack : FSMSingleton<Attack>, IFSMState<EnemyStateManager>
 
     public void OnExit(EnemyStateManager e)
     {
-        Debug.Log("Stop Attacking");
+        //Debug.Log("Stop Attacking");
         e.MakeTargetNull();
     }
 }

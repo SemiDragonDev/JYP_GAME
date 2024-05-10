@@ -6,7 +6,7 @@ public class Patrol : FSMSingleton<Patrol>, IFSMState<EnemyStateManager>
 {
     public void OnEnter(EnemyStateManager e)
     {
-        Debug.Log("Enter Patrol");
+        //Debug.Log("Enter Patrol");
         e.InitPatrolDestination();
         e.SetTargetToPlayer();
     }
@@ -25,6 +25,6 @@ public class Patrol : FSMSingleton<Patrol>, IFSMState<EnemyStateManager>
 
     public void OnExit(EnemyStateManager e)
     {
-        Debug.Log("Stop Patrolling");
+        //Debug.Log("Stop Patrolling");
     }
 }
