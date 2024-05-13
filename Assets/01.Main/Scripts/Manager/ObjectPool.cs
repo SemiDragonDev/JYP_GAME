@@ -86,4 +86,11 @@ public class ObjectPool : Singleton<ObjectPool>
         poolStack.Push(pooledObject);
         pooledObject.gameObject.SetActive(false);
     }
+
+    public int GetDefSize(string objName)
+    {
+        poolsDict.TryGetValue(objName, out var poolStack);
+        objectsDict.TryGetValue(poolStack, out var pooledObject);
+        return pooledObject.defSize;
+    }
 }

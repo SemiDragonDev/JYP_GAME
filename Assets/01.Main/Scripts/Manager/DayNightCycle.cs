@@ -7,8 +7,9 @@ public class DayNightCycle : MonoBehaviour
     [SerializeField] private Transform light;
     //  timeScale = 1일 경우 하루는 360초
     [SerializeField] private float timeSpeed;
-    [SerializeField] private bool isNight;
     [SerializeField] private float timeStacked;
+
+    public bool isNight;
 
     private void Start()
     {

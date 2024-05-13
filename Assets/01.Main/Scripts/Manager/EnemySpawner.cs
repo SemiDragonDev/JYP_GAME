@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,6 +15,8 @@ public class EnemySpawner : MonoBehaviour
     private float maxDistFromPlayer = 50f;
     private float heightOfTheRay = 200f;
     private float distBtwPlayerAndPoint;
+
+    private List<Vector3> pointList = new List<Vector3>();
 
     private DayNightCycle dayNightCycle;
 
@@ -36,30 +39,27 @@ public class EnemySpawner : MonoBehaviour
 
     public void SpawnEnemy(string name)
     {
-        var gameObj = ObjectPool.Instance.GetPooledObject(name);
+        int repeatCount = ObjectPool.Instance.GetDefSize(name);
         playerPos = GameObject.FindGameObjectWithTag(playerTag).transform.position;
         Vector2 playerXZ = new Vector2(playerPos.x, playerPos.z);
-
-        //for (int i = 0; i < gameObj.defSize; i++) ;
-        //{
-
-        //}
-        var randomPos = playerXZ + Random.insideUnitCircle * maxDistFromPlayer;
+        var randomPos = playerXZ + UnityEngine.Random.insideUnitCircle * maxDistFromPlayer;
         distBtwPlayerAndPoint = (playerXZ - randomPos).magnitude;
-        do
+        for(int i = 0; i < repeatCount; i++)
         {
-            if (distBtwPlayerAndPoint < minDistFromPlayer)
+            var gameObj = ObjectPool.Instance.GetPooledObject(name);
+            do
             {
-                randomPos = playerXZ + Random.insideUnitCircle * maxDistFromPlayer;
+                if (distBtwPlayerAndPoint < minDistFromPlayer)
+                {
+                    randomPos = playerXZ + UnityEngine.Random.insideUnitCircle * maxDistFromPlayer;
+                }
+                distBtwPlayerAndPoint = (playerXZ - randomPos).magnitude;
+            } while (distBtwPlayerAndPoint < minDistFromPlayer);
+            var rayPos = new Vector3(randomPos.x, heightOfTheRay, randomPos.y);
+            if (Physics.Raycast(rayPos, Vector3.down, out RaycastHit hit, 500f, NavMesh.AllAreas))
+            {
+                gameObj.transform.position = hit.point;
             }
-            distBtwPlayerAndPoint = (playerXZ - randomPos).magnitude;
-        } while (distBtwPlayerAndPoint < minDistFromPlayer);
-        var rayPos = new Vector3(randomPos.x, heightOfTheRay, randomPos.y);
-        if(Physics.Raycast(rayPos, Vector3.down, out RaycastHit hit, 300f, NavMesh.AllAreas))
-        {
-            gameObj.transform.position = hit.point;
         }
     }
-
-
 }
