@@ -16,6 +16,8 @@ public class EnemySpawner : MonoBehaviour
     private float heightOfTheRay = 200f;
     private float distBtwPlayerAndPoint;
 
+    private List<GameObject> listOfGameObj = new List<GameObject>();
+
     private void Awake()
     {
         DayNightCycle dayNightCycle = GetComponent<DayNightCycle>();
@@ -58,4 +60,5 @@ public class EnemySpawner : MonoBehaviour
             }
         }
     }
+    // ObjectPool 에서 풀스택이 defSize만큼을 유지하고 있는 지 확인하는 메서드를 만들어보자
 }
