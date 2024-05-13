@@ -87,10 +87,18 @@ public class ObjectPool : Singleton<ObjectPool>
         pooledObject.gameObject.SetActive(false);
     }
 
+    // 알고자하는 Pool의 DefaultSize를 반환
     public int GetDefSize(string objName)
     {
         poolsDict.TryGetValue(objName, out var poolStack);
         objectsDict.TryGetValue(poolStack, out var pooledObject);
         return pooledObject.defSize;
+    }
+
+    public void CountActiveObjectsInStack(string objName)
+    {
+        poolsDict.TryGetValue(objName, out var poolStack);
+        objectsDict.TryGetValue(poolStack, out PooledObject pooledObject);
+        
     }
 }

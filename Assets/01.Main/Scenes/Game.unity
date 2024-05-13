@@ -1636,8 +1636,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   light: {fileID: 410087041}
   timeSpeed: 1
-  isNight: 0
   timeStacked: 0
+  isNight: 0
 --- !u!114 &1049108411
 MonoBehaviour:
   m_ObjectHideFlags: 0
