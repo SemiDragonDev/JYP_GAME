@@ -42,10 +42,10 @@ public class EnemySpawner : MonoBehaviour
         int repeatCount = ObjectPool.Instance.GetDefSize(name);
         playerPos = GameObject.FindGameObjectWithTag(playerTag).transform.position;
         Vector2 playerXZ = new Vector2(playerPos.x, playerPos.z);
-        var randomPos = playerXZ + UnityEngine.Random.insideUnitCircle * maxDistFromPlayer;
-        distBtwPlayerAndPoint = (playerXZ - randomPos).magnitude;
         for(int i = 0; i < repeatCount; i++)
         {
+            var randomPos = playerXZ + UnityEngine.Random.insideUnitCircle * maxDistFromPlayer;
+            distBtwPlayerAndPoint = (playerXZ - randomPos).magnitude;
             var gameObj = ObjectPool.Instance.GetPooledObject(name);
             do
             {
