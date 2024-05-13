@@ -16,13 +16,9 @@ public class EnemySpawner : MonoBehaviour
     private float heightOfTheRay = 200f;
     private float distBtwPlayerAndPoint;
 
-    private List<Vector3> pointList = new List<Vector3>();
-
-    private DayNightCycle dayNightCycle;
-
     private void Awake()
     {
-        dayNightCycle = GetComponent<DayNightCycle>();
+        DayNightCycle dayNightCycle = GetComponent<DayNightCycle>();
     }
 
     private void Update()
