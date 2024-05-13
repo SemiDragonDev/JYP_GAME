@@ -10,11 +10,12 @@ public class EnemySpawner : MonoBehaviour
     private Vector3 playerPos;
     private string playerTag = "Player";
 
-    private float minDistFromPlayer = 10f;
-    private float maxDistFromPlayer = 20f;
+    private float minDistFromPlayer = 20f;
+    private float maxDistFromPlayer = 50f;
     private float heightOfTheRay = 200f;
+    private float distBtwPlayerAndPoint;
 
-    private void Start()
+    private void Update()
     {
         if(Input.GetKeyDown(KeyCode.N))
         {
@@ -31,6 +32,15 @@ public class EnemySpawner : MonoBehaviour
         playerPos = GameObject.FindGameObjectWithTag(playerTag).transform.position;
         Vector2 playerXZ = new Vector2(playerPos.x, playerPos.z);
         var randomPos = playerXZ + Random.insideUnitCircle * maxDistFromPlayer;
+        distBtwPlayerAndPoint = (playerXZ - randomPos).magnitude;
+        do
+        {
+            if (distBtwPlayerAndPoint < minDistFromPlayer)
+            {
+                randomPos = playerXZ + Random.insideUnitCircle * maxDistFromPlayer;
+            }
+            distBtwPlayerAndPoint = (playerXZ - randomPos).magnitude;
+        } while (distBtwPlayerAndPoint < minDistFromPlayer);
         var rayPos = new Vector3(randomPos.x, heightOfTheRay, randomPos.y);
         if(Physics.Raycast(rayPos, Vector3.down, out RaycastHit hit, 300f, NavMesh.AllAreas))
         {
