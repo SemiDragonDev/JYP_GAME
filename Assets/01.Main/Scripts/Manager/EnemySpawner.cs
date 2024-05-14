@@ -38,11 +38,11 @@ public class EnemySpawner : MonoBehaviour
     public void SpawnEnemy(string name)
     {
         ObjectPool.Instance.CountActiveObjectsInList(name, out int count);
-        
-
         int defaultSize = ObjectPool.Instance.GetDefSize(name);
+
         playerPos = GameObject.FindGameObjectWithTag(playerTag).transform.position;
         Vector2 playerXZ = new Vector2(playerPos.x, playerPos.z);
+
         for(int i = 0; i < defaultSize; i++)
         {
             var randomPos = playerXZ + UnityEngine.Random.insideUnitCircle * maxDistFromPlayer;
