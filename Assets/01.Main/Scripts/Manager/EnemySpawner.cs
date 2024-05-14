@@ -72,5 +72,10 @@ public class EnemySpawner : MonoBehaviour
             }
         }
     }
+
+    // 낮이 되면 태우는 메서드
+    public void BurnEnemy(string name)
+    {
     
+    }
 }
