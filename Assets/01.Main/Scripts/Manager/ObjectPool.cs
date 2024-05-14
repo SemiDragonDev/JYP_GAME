@@ -73,7 +73,7 @@ public class ObjectPool : Singleton<ObjectPool>
         return newInstance;
     }
 
-    // 스택에 다시 오브젝트를 넣을 때 Release 메서드를 사용해 이 함수를 호출한다
+    // 사용한 Object는 반환
     public void ReturnToPool(PooledObject pooledObject)
     {
         pooledObject.gameObject.SetActive(false);
