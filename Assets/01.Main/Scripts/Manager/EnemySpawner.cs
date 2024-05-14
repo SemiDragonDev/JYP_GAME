@@ -37,10 +37,13 @@ public class EnemySpawner : MonoBehaviour
 
     public void SpawnEnemy(string name)
     {
-        int repeatCount = ObjectPool.Instance.GetDefSize(name);
+        ObjectPool.Instance.CountActiveObjectsInList(name, out int count);
+        
+
+        int defaultSize = ObjectPool.Instance.GetDefSize(name);
         playerPos = GameObject.FindGameObjectWithTag(playerTag).transform.position;
         Vector2 playerXZ = new Vector2(playerPos.x, playerPos.z);
-        for(int i = 0; i < repeatCount; i++)
+        for(int i = 0; i < defaultSize; i++)
         {
             var randomPos = playerXZ + UnityEngine.Random.insideUnitCircle * maxDistFromPlayer;
             distBtwPlayerAndPoint = (playerXZ - randomPos).magnitude;
@@ -60,5 +63,5 @@ public class EnemySpawner : MonoBehaviour
             }
         }
     }
-    // ObjectPool 에서 풀스택이 defSize만큼을 유지하고 있는 지 확인하는 메서드를 만들어보자
+    
 }

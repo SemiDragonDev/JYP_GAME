@@ -87,8 +87,13 @@ public class ObjectPool : Singleton<ObjectPool>
         return pooledObject.defSize;
     }
 
-    public void CountActiveObjectsInList(string objName)
+    public void CountActiveObjectsInList(string objName, out int count)
     {
-        
+        count = 0;
+        poolsDict.TryGetValue(objName, out var pooledObjectsList);
+        for (int i = 0; i < pooledObjectsList.Count; i++)
+        {
+            if (pooledObjectsList[i].gameObject.activeSelf) count++;
+        }
     }
 }
