@@ -23,7 +23,7 @@ public class EnemySpawner : MonoBehaviour
 
     void Start()
     {
-        
+        dayNightCycle = GetComponent<DayNightCycle>();
     }
 
     private void Update()
@@ -34,21 +34,21 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-    // ÇÃ·¹ÀÌ¾î ¹İ°æ 30unit~50unit »çÀÌ Point¸¦ randomÀ¸·Î ¹Ş¾Æ¿ÀÀÚ.
-    // ±× À§Ä¡ÀÇ x,z °ªÀ» ¹Ş°í y°ª 200 Á¤µµ À§¿¡¼­ ¾Æ·¡ ¹æÇâ Ray¸¦ ½÷ hit point¸¦ ¹Ş¾Æ¿Â´Ù.
-    // ±× À§Ä¡¿¡ Àû ½ºÆù½ÃÅ°±â
+    // í”Œë ˆì´ì–´ ë°˜ê²½ 30unit~50unit ì‚¬ì´ Pointë¥¼ randomìœ¼ë¡œ ë°›ì•„ì˜¤ì.
+    // ê·¸ ìœ„ì¹˜ì˜ x,z ê°’ì„ ë°›ê³  yê°’ 200 ì •ë„ ìœ„ì—ì„œ ì•„ë˜ ë°©í–¥ Rayë¥¼ ì´ hit pointë¥¼ ë°›ì•„ì˜¨ë‹¤.
+    // ê·¸ ìœ„ì¹˜ì— ì  ìŠ¤í°ì‹œí‚¤ê¸°
 
     public void SpawnEnemy(string name)
     {
-        // ÇöÀç Active »óÅÂÀÎ Ç®ÀÇ ObjectÀÇ Count¿Í
-        // ±× ObjectÀÇ Ç®ÀÇ Default Size¸¦ ¹Ş¾Æ¿Â´Ù
+        // í˜„ì¬ Active ìƒíƒœì¸ í’€ì˜ Objectì˜ Countì™€
+        // ê·¸ Objectì˜ í’€ì˜ Default Sizeë¥¼ ë°›ì•„ì˜¨ë‹¤
         ObjectPool.Instance.CountActiveObjectsInList(name, out int count);
         int defaultSize = ObjectPool.Instance.GetDefSize(name);
 
         playerPos = GameObject.FindGameObjectWithTag(playerTag).transform.position;
         Vector2 playerXZ = new Vector2(playerPos.x, playerPos.z);
 
-        // ¸¸¾à Active µÇ¾î ÀÖ´Â ¼ö°¡ Default Sizeº¸´Ù ÀûÀº °æ¿ì ±× ¼ö¸¸Å­ Pool¿¡¼­ ºÒ·¯¿Í ½ºÆù½ÃÅ²´Ù.
+        // ë§Œì•½ Active ë˜ì–´ ìˆëŠ” ìˆ˜ê°€ Default Sizeë³´ë‹¤ ì ì€ ê²½ìš° ê·¸ ìˆ˜ë§Œí¼ Poolì—ì„œ ë¶ˆëŸ¬ì™€ ìŠ¤í°ì‹œí‚¨ë‹¤.
         if (count < defaultSize)
         {
             for (int i = 0; i < defaultSize - count; i++)
