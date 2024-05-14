@@ -11,6 +11,7 @@ public class EnemySpawner : MonoBehaviour
     private Vector3 playerPos;
     private string playerTag = "Player";
     private string skeletonTag = "Skeleton";
+    private string burnEffectTag = "BurnEffect";
 
     private float minDistFromPlayer = 30f;
     private float maxDistFromPlayer = 50f;
@@ -31,6 +32,10 @@ public class EnemySpawner : MonoBehaviour
         if (dayNightCycle.isNight)
         {
             SpawnEnemy(skeletonTag);
+        }
+        else
+        {
+            BurnEnemy(skeletonTag);
         }
     }
 
@@ -76,6 +81,12 @@ public class EnemySpawner : MonoBehaviour
     // 낮이 되면 태우는 메서드
     public void BurnEnemy(string name)
     {
-    
+        int size = ObjectPool.Instance.GetDefSize(name);
+        List<PooledObject> list = ObjectPool.Instance.GetListOfPool(name);
+        for (int i = 0; i < size; i++)
+        {
+            var gameObj = ObjectPool.Instance.GetPooledObject(burnEffectTag);
+            gameObj.transform.position = list[i].transform.position;
+        }
     }
 }

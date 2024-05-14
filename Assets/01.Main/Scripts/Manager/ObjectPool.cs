@@ -96,4 +96,10 @@ public class ObjectPool : Singleton<ObjectPool>
             if (pooledObjectsList[i].gameObject.activeSelf) count++;
         }
     }
+
+    public List<PooledObject> GetListOfPool(string objName)
+    {
+        poolsDict.TryGetValue(objName, out var pooledObjectsList);
+        return pooledObjectsList;
+    }
 }
