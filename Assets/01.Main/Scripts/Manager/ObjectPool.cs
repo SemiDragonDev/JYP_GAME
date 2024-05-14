@@ -8,9 +8,9 @@ public class ObjectPool : Singleton<ObjectPool>
     // 여러개의 풀을 리스트로 관리
     [SerializeField] private List<PooledObject> pooledObjectsList;
     // 풀이 여러개일 경우 Dict 통해 어느 풀을 찾는 지 알아야함
-    private Dictionary<string, List<PooledObject>> poolsDictionary = new Dictionary<string, List<PooledObject>>();
+    private Dictionary<string, List<PooledObject>> poolsDict = new Dictionary<string, List<PooledObject>>();
     // 풀을 찾았을 때 그 안의 오브젝트를 찾을 Dict
-    private Dictionary<List<PooledObject>, PooledObject> objectsDictionary = new Dictionary<List<PooledObject>, PooledObject>();
+    private Dictionary<List<PooledObject>, PooledObject> objectsDict = new Dictionary<List<PooledObject>, PooledObject>();
 
     // 각각의 풀은 스택으로 형성;
     private List<PooledObject> list;
@@ -40,8 +40,8 @@ public class ObjectPool : Singleton<ObjectPool>
             }
 
             //Dict 에 풀을 저장 (objectName을 Key로 사용해 원하는 풀을 찾는다)
-            poolsDictionary.Add(pooledObjectsList[i].objectName, list);
-            objectsDictionary.Add(list, instance);
+            poolsDict.Add(pooledObjectsList[i].objectName, list);
+            objectsDict.Add(list, instance);
         }
 
         //for(int i = 0; i<defPoolSize; i++)
@@ -56,7 +56,7 @@ public class ObjectPool : Singleton<ObjectPool>
     // 오브젝트 이름으로 Pool을 찾아 List에서 꺼내오기
     public PooledObject GetPooledObject(string objName)
     {
-        poolsDictionary.TryGetValue(objName, out var poolList);
+        poolsDict.TryGetValue(objName, out var poolList);
 
         for (int i = 0; i < poolList.Count; i++)
         {
@@ -67,7 +67,7 @@ public class ObjectPool : Singleton<ObjectPool>
                 return nextInstance;
             }
         }
-        objectsDictionary.TryGetValue(poolList, out var pooledObject);
+        objectsDict.TryGetValue(poolList, out var pooledObject);
         PooledObject newInstance = Instantiate(pooledObject);
         newInstance.Pool = this;
         return newInstance;
@@ -82,8 +82,8 @@ public class ObjectPool : Singleton<ObjectPool>
     // 알고자하는 Pool의 DefaultSize를 반환
     public int GetDefSize(string objName)
     {
-        poolsDictionary.TryGetValue(objName, out var poolList);
-        objectsDictionary.TryGetValue(poolList, out var pooledObject);
+        poolsDict.TryGetValue(objName, out var poolList);
+        objectsDict.TryGetValue(poolList, out var pooledObject);
         return pooledObject.defSize;
     }
 
