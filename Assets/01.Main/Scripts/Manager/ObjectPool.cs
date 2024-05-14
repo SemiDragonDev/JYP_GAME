@@ -8,12 +8,12 @@ public class ObjectPool : Singleton<ObjectPool>
     // 여러개의 풀을 리스트로 관리
     [SerializeField] private List<PooledObject> pooledObjectsList;
     // 풀이 여러개일 경우 Dict 통해 어느 풀을 찾는 지 알아야함
-    private Dictionary<string, Stack<PooledObject>> poolsDict = new Dictionary<string, Stack<PooledObject>>();
+    private Dictionary<string, List<PooledObject>> poolsDictionary = new Dictionary<string, List<PooledObject>>();
     // 풀을 찾았을 때 그 안의 오브젝트를 찾을 Dict
-    private Dictionary<Stack<PooledObject>, PooledObject> objectsDict = new Dictionary<Stack<PooledObject>, PooledObject>();
+    private Dictionary<List<PooledObject>, PooledObject> objectsDictionary = new Dictionary<List<PooledObject>, PooledObject>();
 
     // 각각의 풀은 스택으로 형성;
-    private Stack<PooledObject> stack;
+    private List<PooledObject> list;
 
     private void Start()
     {
@@ -28,7 +28,7 @@ public class ObjectPool : Singleton<ObjectPool>
         for(int i=0; i<pooledObjectsList.Count; i++)
         {
             // 스택 생성, 메모리 확보
-            stack = new Stack<PooledObject>();
+            list = new List<PooledObject>();
 
             // Default 크기만큼 GameObject를 Instantiate 후 각 스택에 Push함
             for (int j=0; j<pooledObjectsList[i].defSize; j++)
@@ -36,12 +36,12 @@ public class ObjectPool : Singleton<ObjectPool>
                 instance = Instantiate(pooledObjectsList[i]);
                 instance.Pool = this;
                 instance.gameObject.SetActive(false);
-                stack.Push(instance);
+                list.Add(instance);
             }
 
             //Dict 에 풀을 저장 (objectName을 Key로 사용해 원하는 풀을 찾는다)
-            poolsDict.Add(pooledObjectsList[i].objectName, stack);
-            objectsDict.Add(stack, instance);
+            poolsDictionary.Add(pooledObjectsList[i].objectName, list);
+            objectsDictionary.Add(list, instance);
         }
 
         //for(int i = 0; i<defPoolSize; i++)
@@ -53,52 +53,42 @@ public class ObjectPool : Singleton<ObjectPool>
         //}
     }
 
-    // 스택에서 오브젝트를 꺼내올 때 이 메서드를 쓴다
+    // 오브젝트 이름으로 Pool을 찾아 List에서 꺼내오기
     public PooledObject GetPooledObject(string objName)
     {
-        //// pool이 작아서 stack이 비어있게 되면, 새 object를 instantiate 해줌
-        //if (stack.Count == 0)
-        //{
-        //    PooledObject newInstance = Instantiate(objectToPool);
-        //    newInstance.Pool = this;
-        //    return newInstance;
-        //}
-        poolsDict.TryGetValue(objName, out var poolStack);
-        if(poolStack.Count == 0)
+        poolsDictionary.TryGetValue(objName, out var poolList);
+
+        for (int i = 0; i < poolList.Count; i++)
         {
-            objectsDict.TryGetValue(poolStack, out var pooledObject);
-            PooledObject newInstance = Instantiate(pooledObject);
-            newInstance.Pool = this;
-            return newInstance;
+            if (!poolList[i].gameObject.activeSelf)
+            {
+                PooledObject nextInstance = poolList[i];
+                nextInstance.gameObject.SetActive(true);
+                return nextInstance;
+            }
         }
-
-
-        // 그렇지 않으면, 그냥 스택에서 하나 꺼내온다.
-        PooledObject nextInstance = poolStack.Pop();
-        nextInstance.gameObject.SetActive(true);
-        return nextInstance;
+        objectsDictionary.TryGetValue(poolList, out var pooledObject);
+        PooledObject newInstance = Instantiate(pooledObject);
+        newInstance.Pool = this;
+        return newInstance;
     }
 
     // 스택에 다시 오브젝트를 넣을 때 Release 메서드를 사용해 이 함수를 호출한다
     public void ReturnToPool(PooledObject pooledObject)
     {
-        poolsDict.TryGetValue(pooledObject.name.Split('(')[0], out var poolStack);
-        poolStack.Push(pooledObject);
         pooledObject.gameObject.SetActive(false);
     }
 
     // 알고자하는 Pool의 DefaultSize를 반환
     public int GetDefSize(string objName)
     {
-        poolsDict.TryGetValue(objName, out var poolStack);
-        objectsDict.TryGetValue(poolStack, out var pooledObject);
+        poolsDictionary.TryGetValue(objName, out var poolList);
+        objectsDictionary.TryGetValue(poolList, out var pooledObject);
         return pooledObject.defSize;
     }
 
-    public void CountActiveObjectsInStack(string objName)
+    public void CountActiveObjectsInList(string objName)
     {
-        poolsDict.TryGetValue(objName, out var poolStack);
-        objectsDict.TryGetValue(poolStack, out PooledObject pooledObject);
         
     }
 }
