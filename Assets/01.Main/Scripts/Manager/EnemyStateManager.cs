@@ -28,6 +28,7 @@ public class EnemyStateManager : FSM<EnemyStateManager>
     private float passedTime = 0;
     public bool canMove;
 
+    private FieldEnemy enemyInfo;
     private NavMeshAgent agent;
     public Animator animator;
     public KnockBack knockBack;
@@ -39,6 +40,7 @@ public class EnemyStateManager : FSM<EnemyStateManager>
         animator = GetComponent<Animator>();
         knockBack = GetComponent<KnockBack>();
         InitState(this, Patrol.Instance);
+        enemyInfo = GetComponent<FieldEnemy>();
     }
 
     private void Update()
@@ -188,4 +190,11 @@ public class EnemyStateManager : FSM<EnemyStateManager>
     }
     
     // 체력을 확인하는 메서드를 만들자 => Die State를 만들어야 함
+    public void ManageHealth()
+    {
+        if (enemyInfo.Hp < 0)
+        {
+
+        }
+    }
 }
