@@ -18,8 +18,6 @@ public class EnemySpawner : MonoBehaviour
     private float heightOfTheRay = 200f;
     private float distBtwPlayerAndPoint;
 
-    private List<GameObject> listOfGameObj = new List<GameObject>();
-
     private DayNightCycle dayNightCycle;
 
     void Start()
@@ -79,14 +77,23 @@ public class EnemySpawner : MonoBehaviour
     }
 
     // 낮이 되면 태우는 메서드
+    // 현재 리스트에서 Active한 적의 수를 받아온 후, 그 수만큼만 BurnEffect를 생성하여 자식 오브젝트로 만듦
     public void BurnEnemy(string name)
     {
-        int size = ObjectPool.Instance.GetDefSize(name);
-        List<PooledObject> list = ObjectPool.Instance.GetListOfPool(name);
-        for (int i = 0; i < size; i++)
+        // burnEffect가 필요한 수
+        ObjectPool.Instance.CountActiveObjectsInList(name, out int size);
+        // 실제 active한 burnEffect의 수
+        ObjectPool.Instance.CountActiveObjectsInList(burnEffectTag, out int count);
+
+        if (count < size)
         {
-            var gameObj = ObjectPool.Instance.GetPooledObject(burnEffectTag);
-            gameObj.transform.position = list[i].transform.position;
+            List<PooledObject> list = ObjectPool.Instance.GetListOfPool(name);
+            for (int i = 0; i < size - count; i++)
+            {
+                var gameObj = ObjectPool.Instance.GetPooledObject(burnEffectTag);
+                gameObj.transform.SetParent(list[i].transform);
+                gameObj.transform.position = list[i].transform.position;
+            }
         }
     }
 }

@@ -7,7 +7,7 @@ public class DayNightCycle : MonoBehaviour
     [SerializeField] private Transform light;
     //  timeScale = 1일 경우 하루는 360초
     [SerializeField] private float timeSpeed;
-    [SerializeField] private float timeStacked;
+    [SerializeField] [Range(0f,360f)] [Tooltip("200이상 350미만이 밤입니다.")] private float timeStacked;
 
     public bool isNight;
 
