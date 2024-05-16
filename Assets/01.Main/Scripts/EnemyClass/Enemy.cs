@@ -5,6 +5,6 @@ using UnityEngine.Rendering;
 
 public class Enemy : MonoBehaviour
 {
-    public virtual float Hp {  get; }
+    public virtual float Hp { get; set; }
     public virtual float AttackDamage { get;  }
 }

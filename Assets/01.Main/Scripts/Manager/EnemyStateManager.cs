@@ -186,12 +186,6 @@ public class EnemyStateManager : FSM<EnemyStateManager>
     {
         canMove = false;
     }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, 5f);
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(transform.position, 10f);
-    }
+    
+    // 체력을 확인하는 메서드를 만들자 => Die State를 만들어야 함
 }
