@@ -11,14 +11,14 @@ public class SwitchFPandTP : MonoBehaviour
 
     public bool isFP;
 
-    private Camera camera;
+    private Camera cam;
 
     private void Awake()
     {
-        camera = Camera.main;
+        cam = Camera.main;
         fpCamera.SetActive(true);
         tpCamera.SetActive(false);
-        camera.cullingMask = -1;
+        cam.cullingMask = -1;
         PlayerToInvisible();
         isFP = true;
     }
@@ -31,14 +31,14 @@ public class SwitchFPandTP : MonoBehaviour
             isFP = false;
             fpCamera.SetActive (false);
             tpCamera.SetActive (true);
-            camera.cullingMask = -1;
+            cam.cullingMask = -1;
         }
         else if (tpCamera.activeSelf == true && Input.GetKeyDown(KeyCode.F5))
         {
             isFP = true;
             fpCamera.SetActive(true);
             tpCamera.SetActive(false);
-            camera.cullingMask = -1;
+            cam.cullingMask = -1;
 
             //Invoke("PlayerToInvisible", 0.5f);
             PlayerToInvisible();
@@ -47,6 +47,6 @@ public class SwitchFPandTP : MonoBehaviour
 
     public void PlayerToInvisible()
     {
-        camera.cullingMask = camera.cullingMask & ~(1 << LayerMask.NameToLayer("Player"));
+        GetComponent<Camera>().cullingMask = GetComponent<Camera>().cullingMask & ~(1 << LayerMask.NameToLayer("Player"));
     }
 }

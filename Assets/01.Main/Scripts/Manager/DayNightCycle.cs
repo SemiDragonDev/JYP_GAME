@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DayNightCycle : MonoBehaviour
 {
-    [SerializeField] private Transform light;
+    [SerializeField] private Transform sunLight;
     //  timeScale = 1일 경우 하루는 360초
     [SerializeField] private float timeSpeed;
     [SerializeField] [Range(0f,360f)] [Tooltip("200이상 350미만이 밤입니다.")] private float timeStacked;
@@ -13,7 +13,7 @@ public class DayNightCycle : MonoBehaviour
 
     private void Start()
     {
-        light.transform.localRotation = Quaternion.identity;
+        sunLight.transform.localRotation = Quaternion.identity;
     }
     private void Update()
     {
@@ -27,6 +27,6 @@ public class DayNightCycle : MonoBehaviour
         if (xRotation >= 360) timeStacked = 0;
         if (xRotation >= 200 && xRotation <350) isNight = true;
         else isNight = false;
-        light.transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+        sunLight.transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
     }
 }
