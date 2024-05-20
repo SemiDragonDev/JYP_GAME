@@ -4,14 +4,20 @@ using UnityEngine;
 
 public class Skeleton : Enemy
 {
-    private float hp;
-    public override float Hp {  get { return 100; } set { Hp = hp; } }
+    private float maxHp = 100f;
+    private float currentHp;
+    public override float Hp { set { Hp = currentHp; } }
     public override float AttackDamage { get { return 40f; } }
 
     public Skeleton() : base("Skeleton") { }
 
+    private void Awake()
+    {
+        this.currentHp = maxHp;
+    }
+
     public override void GetDamage(float damage)
     {
-        hp -= damage;
+        this.currentHp -= damage;
     }
 }
