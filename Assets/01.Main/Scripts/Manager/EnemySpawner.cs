@@ -6,7 +6,7 @@ using UnityEngine.AI;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [SerializeField] private List<FieldEnemy> fieldEnemiesList = new List<FieldEnemy>();
+    [SerializeField] private List<Enemy> fieldEnemiesList = new List<Enemy>();
 
     private Vector3 playerPos;
     private string playerTag = "Player";

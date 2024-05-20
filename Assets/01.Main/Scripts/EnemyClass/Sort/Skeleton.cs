@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Skeleton : FieldEnemy, IDamagable
+public class Skeleton : Enemy, IDamagable
 {
     private float hp;
     public override float Hp { get { return 100f; } set { Hp = hp; } }

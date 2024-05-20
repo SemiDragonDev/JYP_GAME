@@ -17,8 +17,17 @@ interface ILootable
     public void Loot();
 }
 
+interface IAttackable
+{
+    public void Attack();
+}
+
 public class Interactor : MonoBehaviour
 {
+    [SerializeField] private LayerMask layerMask;
+
+    private static Vector3 checkBoxSize = new Vector3(1f, 1.5f, 1f);
+    private static int maxCheckSize = 5;
     public float interactRange = 3f;
 
     public void ClickInteract()
@@ -34,6 +43,21 @@ public class Interactor : MonoBehaviour
             //{
             //    attackableObj.Attack();
             //}
+        }
+    }
+
+    public void ClickInteract2()
+    {
+        Collider[] hitColliders = new Collider[maxCheckSize];
+        int numOfCollider = Physics.OverlapBoxNonAlloc(this.transform.position, checkBoxSize, hitColliders, Quaternion.identity, layerMask);
+
+        for (int i = 0; i < numOfCollider; i++)
+        {
+            // Interact 상대가 Enemy 인 경우
+            if (hitColliders[i].GetComponent<Enemy>())
+            {
+                
+            }
         }
     }
 

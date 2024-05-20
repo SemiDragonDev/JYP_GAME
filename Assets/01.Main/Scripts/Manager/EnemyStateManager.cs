@@ -28,7 +28,7 @@ public class EnemyStateManager : FSM<EnemyStateManager>
     private float passedTime = 0;
     public bool canMove;
 
-    private FieldEnemy enemyInfo;
+    private Enemy enemyInfo;
     private NavMeshAgent agent;
     public Animator animator;
     public KnockBack knockBack;
@@ -40,7 +40,7 @@ public class EnemyStateManager : FSM<EnemyStateManager>
         animator = GetComponent<Animator>();
         knockBack = GetComponent<KnockBack>();
         InitState(this, Patrol.Instance);
-        enemyInfo = GetComponent<FieldEnemy>();
+        enemyInfo = GetComponent<Enemy>();
     }
 
     private void Update()
