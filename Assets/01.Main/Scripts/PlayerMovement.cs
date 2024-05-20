@@ -323,7 +323,6 @@ public class PlayerMovement : MonoBehaviour
     private void ClickAction()
     {
         interactor.ClickInteract();
-        targetAttack.ClickAttack();
     }
 
     private static float ClampAngle(float lfAngle, float lfMin, float lfMax)

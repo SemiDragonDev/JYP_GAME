@@ -26,27 +26,14 @@ public class Interactor : MonoBehaviour
 {
     [SerializeField] private LayerMask layerMask;
 
+    private Vector3 hitEffectPos = new Vector3(0f, 0.9f, 0f);
     private static Vector3 checkBoxSize = new Vector3(1f, 1.5f, 1f);
     private static int maxCheckSize = 5;
     public float interactRange = 3f;
 
-    public void ClickInteract()
-    {
-        Ray ray = new Ray(this.transform.position, this.transform.forward);
-        if (Physics.Raycast(ray, out RaycastHit hitInfo, interactRange))
-        {
-            if (hitInfo.collider.gameObject.TryGetComponent(out IGatherable gatherObj))
-            {
-                gatherObj.Gather();
-            }
-            //else if(hitInfo.collider.gameObject.TryGetComponent(out IAttackable attackableObj))
-            //{
-            //    attackableObj.Attack();
-            //}
-        }
-    }
+    KnockBack knockback;
 
-    public void ClickInteract2()
+    public void ClickInteract()
     {
         Collider[] hitColliders = new Collider[maxCheckSize];
         int numOfCollider = Physics.OverlapBoxNonAlloc(this.transform.position, checkBoxSize, hitColliders, Quaternion.identity, layerMask);
@@ -54,10 +41,20 @@ public class Interactor : MonoBehaviour
         for (int i = 0; i < numOfCollider; i++)
         {
             // Interact 상대가 Enemy 인 경우
-            if (hitColliders[i].GetComponent<Enemy>())
+            if (hitColliders[i].TryGetComponent<Enemy>(out Enemy enemy))
             {
-                Enemy enemy = hitColliders[i].GetComponent<Enemy>();
                 enemy.GetDamage(10f);
+                Debug.Log(enemy.Hp);
+                var vfx = ObjectPool.Instance.GetPooledObject("HitEffect");
+                vfx.transform.position = hitColliders[i].transform.position + hitEffectPos;
+                knockback = hitColliders[i].GetComponentInChildren<KnockBack>();
+                knockback.PlayingKnockBack();
+                StartCoroutine(vfx.CoroutineRelease(0.5f));
+            }
+            //  Interact 상대가 Gatherable 자원인 경우
+            if (hitColliders[i].TryGetComponent<Gatherable>(out Gatherable gatherable))
+            {
+                gatherable.Gather();
             }
         }
     }

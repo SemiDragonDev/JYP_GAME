@@ -38,7 +38,7 @@ public class Attack : FSMSingleton<Attack>, IFSMState<EnemyStateManager>
 
         if(e.IsDead())
         {
-
+            e.ChangeState(Die.Instance);
         }
     }
 

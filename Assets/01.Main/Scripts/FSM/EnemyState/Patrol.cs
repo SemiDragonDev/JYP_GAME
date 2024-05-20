@@ -21,6 +21,11 @@ public class Patrol : FSMSingleton<Patrol>, IFSMState<EnemyStateManager>
                 e.ChangeState(Chase.Instance);
             }
         }
+
+        if (e.IsDead())
+        {
+            e.ChangeState(Die.Instance);
+        }
     }
 
     public void OnExit(EnemyStateManager e)

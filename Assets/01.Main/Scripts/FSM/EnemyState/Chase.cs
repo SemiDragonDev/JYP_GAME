@@ -25,6 +25,11 @@ public class Chase : FSMSingleton<Chase>, IFSMState<EnemyStateManager>
             Debug.Log("Lost Player. Patrol Again.");
             e.ChangeState(Patrol.Instance);
         }
+
+        if (e.IsDead())
+        {
+            e.ChangeState(Die.Instance);
+        }
     }
 
     public void OnExit(EnemyStateManager e)
