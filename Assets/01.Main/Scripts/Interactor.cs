@@ -43,7 +43,7 @@ public class Interactor : MonoBehaviour
             // Interact 상대가 Enemy 인 경우
             if (hitColliders[i].TryGetComponent<Enemy>(out Enemy enemy))
             {
-                enemy.GetDamage(10f);
+                enemy.GetDamage(50f);
                 Debug.Log(enemy.Hp);
                 var vfx = ObjectPool.Instance.GetPooledObject("HitEffect");
                 vfx.transform.position = hitColliders[i].transform.position + hitEffectPos;
