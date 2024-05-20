@@ -56,7 +56,8 @@ public class Interactor : MonoBehaviour
             // Interact 상대가 Enemy 인 경우
             if (hitColliders[i].GetComponent<Enemy>())
             {
-                
+                Enemy enemy = hitColliders[i].GetComponent<Enemy>();
+                enemy.GetDamage(10f);
             }
         }
     }

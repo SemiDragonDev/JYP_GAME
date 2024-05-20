@@ -35,6 +35,11 @@ public class Attack : FSMSingleton<Attack>, IFSMState<EnemyStateManager>
         {
             e.canMove = true;
         }
+
+        if(e.IsDead())
+        {
+
+        }
     }
 
     public void OnExit(EnemyStateManager e)

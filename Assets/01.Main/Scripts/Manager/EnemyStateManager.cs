@@ -190,11 +190,12 @@ public class EnemyStateManager : FSM<EnemyStateManager>
     }
     
     // 체력을 확인하는 메서드를 만들자 => Die State를 만들어야 함
-    public void ManageHealth()
+    public bool IsDead()
     {
         if (enemyInfo.Hp < 0)
         {
-
+            return true;
         }
+        return false;
     }
 }
