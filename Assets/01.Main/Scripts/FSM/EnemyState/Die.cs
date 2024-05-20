@@ -6,7 +6,7 @@ public class Die : FSMSingleton<Die>, IFSMState<EnemyStateManager>
 {
     public void OnEnter(EnemyStateManager e)
     {
-        e.PlayAnimBool("IsDead");
+        e.animator.SetBool("IsDead", true);
     }
 
     public void OnUpdate(EnemyStateManager e)
