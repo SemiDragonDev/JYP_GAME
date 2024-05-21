@@ -12,6 +12,7 @@ public class Die : FSMSingleton<Die>, IFSMState<EnemyStateManager>
 
     public void OnUpdate(EnemyStateManager e)
     {
+        
     }
 
     public void OnExit(EnemyStateManager e)

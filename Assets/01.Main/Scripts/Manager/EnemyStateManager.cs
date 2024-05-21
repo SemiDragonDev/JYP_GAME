@@ -1,3 +1,4 @@
+using Newtonsoft.Json.Bson;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -31,16 +32,16 @@ public class EnemyStateManager : FSM<EnemyStateManager>
     private Enemy enemyInfo;
     private NavMeshAgent agent;
     public Animator animator;
-    public KnockBack knockBack;
+    private PooledObject pooledObject;
     public PlayerHealth playerHealth;
 
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
-        knockBack = GetComponent<KnockBack>();
         InitState(this, Patrol.Instance);
         enemyInfo = GetComponent<Enemy>();
+        pooledObject = GetComponent<PooledObject>();
     }
 
     private void Update()
@@ -197,5 +198,12 @@ public class EnemyStateManager : FSM<EnemyStateManager>
             return true;
         }
         return false;
+    }
+
+    // 죽은 이후 처리하는 메서드
+
+    public void DeadEnemyElimination()
+    {
+        pooledObject.CoroutineRelease(3f);
     }
 }
