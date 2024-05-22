@@ -29,10 +29,12 @@ public class EnemySpawner : MonoBehaviour
     {
         if (dayNightCycle.isNight)
         {
-            SpawnEnemy(skeletonTag);
+            //SpawnEnemy(skeletonTag);
+            StartCoroutine(CoroutineManageEnemyAtNight());
         }
-        else
+        else if(dayNightCycle.isDay)
         {
+            StopCoroutine(CoroutineManageEnemyAtNight() );
             BurnEnemy(skeletonTag);
         }
     }
@@ -73,6 +75,16 @@ public class EnemySpawner : MonoBehaviour
                     gameObj.transform.position = hit.point;
                 }
             }
+        }
+    }
+
+    public IEnumerator CoroutineManageEnemyAtNight()
+    {
+        SpawnEnemy(skeletonTag);
+        while (!dayNightCycle.isDay)
+        {
+            yield return new WaitForSeconds(40f);
+            SpawnEnemy(skeletonTag);
         }
     }
 

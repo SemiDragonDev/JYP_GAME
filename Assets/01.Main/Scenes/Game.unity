@@ -1582,7 +1582,9 @@ MonoBehaviour:
   sunLight: {fileID: 410087041}
   timeSpeed: 1
   timeStacked: 0
+  xRotation: 0
   isNight: 0
+  isDay: 0
 --- !u!114 &1049108411
 MonoBehaviour:
   m_ObjectHideFlags: 0

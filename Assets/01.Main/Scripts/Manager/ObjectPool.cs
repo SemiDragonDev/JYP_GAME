@@ -12,7 +12,6 @@ public class ObjectPool : Singleton<ObjectPool>
     // 풀을 찾았을 때 그 안의 오브젝트를 찾을 Dict
     private Dictionary<List<PooledObject>, PooledObject> objectsDict = new Dictionary<List<PooledObject>, PooledObject>();
 
-    // 각각의 풀은 스택으로 형성;
     private List<PooledObject> list;
 
     private void Start()

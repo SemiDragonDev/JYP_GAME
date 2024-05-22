@@ -32,7 +32,7 @@ public class EnemyStateManager : FSM<EnemyStateManager>
     private Enemy enemyInfo;
     private NavMeshAgent agent;
     public Animator animator;
-    private PooledObject pooledObject;
+    public PooledObject pooledObject;
     public PlayerHealth playerHealth;
 
     private void Awake()
@@ -198,12 +198,5 @@ public class EnemyStateManager : FSM<EnemyStateManager>
             return true;
         }
         return false;
-    }
-
-    // 죽은 이후 처리하는 메서드
-
-    public void DeadEnemyElimination()
-    {
-        pooledObject.CoroutineRelease(3f);
     }
 }
