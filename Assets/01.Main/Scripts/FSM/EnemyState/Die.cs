@@ -15,7 +15,7 @@ public class Die : FSMSingleton<Die>, IFSMState<EnemyStateManager>
     public void OnUpdate(EnemyStateManager e)
     {
         passedTime += Time.deltaTime;
-        if (passedTime > 4f) e.ChangeState(Patrol.Instance);
+        if (passedTime > 4f) e.ChangeState(Idle.Instance);
     }
 
     public void OnExit(EnemyStateManager e)
