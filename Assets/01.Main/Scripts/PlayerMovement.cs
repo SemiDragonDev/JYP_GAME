@@ -85,8 +85,6 @@ public class PlayerMovement : MonoBehaviour
     [Header("Interactor")]
     [SerializeField]
     private Interactor interactor;
-    [SerializeField]
-    private TargetAttack targetAttack;
 
     private const float threshold = 0.01f;
 
