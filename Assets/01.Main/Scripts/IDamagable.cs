@@ -5,5 +5,5 @@ using UnityEngine;
 public interface IDamagable
 {
     void GetDamage(float damage);
-    IEnumerator GetDotDamage(float damage, float interval, float lastingTime);
+    IEnumerator GetDamageOverTime(float damage, float interval, float lastingTime);
 }
