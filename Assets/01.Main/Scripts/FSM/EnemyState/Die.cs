@@ -24,5 +24,6 @@ public class Die : FSMSingleton<Die>, IFSMState<EnemyStateManager>
         passedTime = 0f;
         e.animator.SetBool("IsDead", false);
         ObjectPool.Instance.ReturnToPool(e.pooledObject);
+        e.ResetHp();
     }
 }

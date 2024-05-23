@@ -6,6 +6,7 @@ public class Skeleton : Enemy
 {
     private float maxHp = 100f;
     private float currentHp;
+    public override float MaxHp { get { return maxHp; } }
     public override float Hp { get { return currentHp; } set { currentHp = value; } }
     public override float AttackDamage { get { return 40f; } }
 

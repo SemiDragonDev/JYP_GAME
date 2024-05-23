@@ -199,4 +199,9 @@ public class EnemyStateManager : FSM<EnemyStateManager>
         }
         return false;
     }
+
+    public void ResetHp()
+    {
+        enemyInfo.Hp = enemyInfo.MaxHp;
+    }
 }
