@@ -23,7 +23,7 @@ public class Enemy : MonoBehaviour, IDamagable
 
 
     // 여기 수정중
-    public virtual IEnumerator GetDotDamage(float damage, float interval, float lastingTime)
+    public virtual IEnumerator GetDamageOverTime(float damage, float interval, float lastingTime)
     {
         waitForSeconds = new WaitForSeconds(interval);
         float timeStacked = 0f;
