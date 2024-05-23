@@ -1164,7 +1164,7 @@ MonoBehaviour:
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
-  m_ScreenMatchMode: 0
+  m_ScreenMatchMode: 1
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
@@ -5172,7 +5172,6 @@ MonoBehaviour:
   startPos: {x: 0, y: 0, z: 0}
   endPos: {x: 0, y: 0, z: 0}
   interactor: {fileID: 1221837166}
-  targetAttack: {fileID: 0}
 --- !u!114 &1951823325931173802
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5589,8 +5588,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 928a8777f2425954dab82e3653bdcf81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fixedWidth: 1920
-  fixedHeight: 1080
 --- !u!1 &6761078346730846727
 GameObject:
   m_ObjectHideFlags: 0
@@ -5644,7 +5641,7 @@ Camera:
     x: 0
     y: 0
     width: 1
-    height: 1
+    height: 1.84
   near clip plane: 0.2
   far clip plane: 500
   field of view: 60.000004
