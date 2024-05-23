@@ -21,6 +21,8 @@ public class Enemy : MonoBehaviour, IDamagable
         Hp -= damage;
     }
 
+
+    // 여기 수정중
     public virtual IEnumerator GetDotDamage(float damage, float interval, float lastingTime)
     {
         waitForSeconds = new WaitForSeconds(interval);
