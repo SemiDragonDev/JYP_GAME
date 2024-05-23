@@ -5,6 +5,8 @@ using UnityEngine.Rendering;
 
 public class Enemy : MonoBehaviour, IDamagable
 {
+    private WaitForSeconds waitForSeconds;
+
     public virtual float MaxHp { get; private set; }
     public virtual float Hp { get; set; }
     public virtual float AttackDamage { get;  }
@@ -19,8 +21,16 @@ public class Enemy : MonoBehaviour, IDamagable
         Hp -= damage;
     }
 
-    public virtual void GetDotDamage(float damage, float interval, float lastingTime)
+    public virtual IEnumerator GetDotDamage(float damage, float interval, float lastingTime)
     {
-
+        waitForSeconds = new WaitForSeconds(interval);
+        float timeStacked = 0f;
+        timeStacked += Time.deltaTime;
+        while (timeStacked > lastingTime)
+        {
+            yield return waitForSeconds;
+            GetDamage(damage);
+        }
+        timeStacked = 0f;
     }
 }

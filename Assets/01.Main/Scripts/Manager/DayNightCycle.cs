@@ -11,7 +11,7 @@ public class DayNightCycle : MonoBehaviour
     //  timeScale = 1일 경우 하루는 360초
     [SerializeField] private float timeSpeed;
     [SerializeField] [Range(0f,360f)] [Tooltip("200이상 350미만이 밤입니다.")] private float timeStacked;
-    public float xRotation;
+    public static float xRotation;
 
     public bool isNight;
     public bool isDay;
@@ -34,6 +34,19 @@ public class DayNightCycle : MonoBehaviour
         else isNight = false;
         if (xRotation >= 349 && xRotation < 350) isDay = true;
         else isDay = false;
+        SetTimeForDebug();
         sunLight.transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+    }
+
+    private void SetTimeForDebug()
+    {
+        if (Input.GetKeyDown(KeyCode.F11))
+        {
+            timeStacked = 198f;
+        }
+        if (Input.GetKeyDown(KeyCode.F12))
+        {
+            timeStacked = 348f;
+        }
     }
 }
