@@ -16,9 +16,4 @@ public class Skeleton : Enemy
     {
         this.Hp = maxHp;
     }
-
-    public override void GetDamage(float damage)
-    {
-        this.Hp -= damage;
-    }
 }

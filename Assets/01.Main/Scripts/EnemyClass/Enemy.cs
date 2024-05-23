@@ -16,6 +16,11 @@ public class Enemy : MonoBehaviour, IDamagable
 
     public virtual void GetDamage(float damage)
     {
-        
+        Hp -= damage;
+    }
+
+    public virtual void GetDotDamage(float damage, float interval, float lastingTime)
+    {
+
     }
 }
