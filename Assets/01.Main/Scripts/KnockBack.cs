@@ -29,6 +29,7 @@ public class KnockBack : MonoBehaviour
 
     private void Awake()
     {
+        player = GameObject.FindGameObjectWithTag("Player");
         agent = GetComponentInParent<NavMeshAgent>();
         animator = GetComponentInParent<Animator>();
         makeItOne = 1f / knockBackTime;

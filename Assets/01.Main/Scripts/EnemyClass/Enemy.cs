@@ -5,8 +5,6 @@ using UnityEngine.Rendering;
 
 public class Enemy : MonoBehaviour, IDamagable
 {
-    private WaitForSeconds waitForSeconds;
-
     public virtual float MaxHp { get; private set; }
     public virtual float Hp { get; set; }
     public virtual float AttackDamage { get;  }
@@ -22,17 +20,12 @@ public class Enemy : MonoBehaviour, IDamagable
     }
 
 
-    // 여기 수정중
-    public virtual IEnumerator GetDamageOverTime(float damage, float interval, float lastingTime)
+    public virtual IEnumerator GetDamageOverTime(float damage, float interval)
     {
-        waitForSeconds = new WaitForSeconds(interval);
-        float timeStacked = 0f;
-        timeStacked += Time.deltaTime;
-        while (timeStacked > lastingTime)
+        while (Hp > 0)
         {
-            yield return waitForSeconds;
             GetDamage(damage);
+            yield return new WaitForSeconds(interval);
         }
-        timeStacked = 0f;
     }
 }

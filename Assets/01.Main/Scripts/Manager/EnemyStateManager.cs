@@ -37,6 +37,8 @@ public class EnemyStateManager : FSM<EnemyStateManager>
 
     private void Awake()
     {
+        player = GameObject.FindGameObjectWithTag("Player");
+        playerHealth = player.GetComponent<PlayerHealth>();
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         InitState(this, Patrol.Instance);
