@@ -107,9 +107,9 @@ public class EnemySpawner : MonoBehaviour
                 gameObj.transform.position = list[i].transform.position;
 
                 //  화염 지속 대미지 (Damage Over Time)
-                //var enemy = gameObj.GetComponent<Enemy>();
-                //IEnumerator coroutine = enemy.GetDamageOverTime(20, 1);
-                //StartCoroutine(coroutine);
+                var enemy = gameObj.GetComponent<Enemy>();
+                IEnumerator coroutine = enemy.GetDamageOverTime(20, 1);
+                StartCoroutine(coroutine);
             }
         }
     }
