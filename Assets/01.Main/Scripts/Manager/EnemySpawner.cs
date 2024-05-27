@@ -17,6 +17,7 @@ public class EnemySpawner : MonoBehaviour
     private float maxDistFromPlayer = 50f;
     private float heightOfTheRay = 200f;
     private float distBtwPlayerAndPoint;
+    private bool isAlreadySpawning = false;
 
     private DayNightCycle dayNightCycle;
 
@@ -27,14 +28,13 @@ public class EnemySpawner : MonoBehaviour
 
     private void Update()
     {
-        if (dayNightCycle.isNight)
+        if (dayNightCycle.isNight && !isAlreadySpawning)
         {
             //SpawnEnemy(skeletonTag);
             StartCoroutine(CoroutineManageEnemyAtNight());
         }
         else if(dayNightCycle.isDay)
         {
-            StopCoroutine(CoroutineManageEnemyAtNight() );
             BurnEnemy(skeletonTag);
         }
     }
@@ -80,41 +80,19 @@ public class EnemySpawner : MonoBehaviour
 
     public IEnumerator CoroutineManageEnemyAtNight()
     {
+        isAlreadySpawning = true;
         SpawnEnemy(skeletonTag);
-        while (!dayNightCycle.isDay)
+        while (dayNightCycle.isNight)
         {
             yield return new WaitForSeconds(40f);
             SpawnEnemy(skeletonTag);
         }
+        isAlreadySpawning = false;
     }
 
     // 낮이 되면 태우는 메서드
-    // 현재 리스트에서 Active한 적의 수를 받아온 후, 그 수만큼만 BurnEffect를 생성하여 자식 오브젝트로 만듦
     public void BurnEnemy(string name)
     {
-        //현재는 pool 안에 burnEffect를 넣고 쓰는 중인데, burnEffect를 아예 적의 자식 오브젝트로 넣어서 active만 바꿔주는 걸로 바꿔보자
-
-        // burnEffect가 필요한 수
-        //ObjectPool.Instance.CountActiveObjectsInList(name, out int size);
-        //// 실제 active한 burnEffect의 수
-        //ObjectPool.Instance.CountActiveObjectsInList(burnEffectTag, out int count);
-
-        //if (count < size)
-        //{
-        //    List<PooledObject> list = ObjectPool.Instance.GetListOfPool(name);
-        //    for (int i = 0; i < size - count; i++)
-        //    {
-        //        var gameObj = ObjectPool.Instance.GetPooledObject(burnEffectTag);
-        //        gameObj.transform.SetParent(list[i].transform);
-        //        gameObj.transform.position = list[i].transform.position;
-
-        //        //  화염 지속 대미지 (Damage Over Time)
-        //        var enemy = gameObj.GetComponentInParent<Enemy>();
-        //        IEnumerator coroutine = enemy.GetDamageOverTime(10, 1f);
-        //        StartCoroutine(coroutine);
-        //    }
-        //}
-
         var listOfSkeleton = ObjectPool.Instance.GetListOfPool(skeletonTag);
         foreach (var skeleton in listOfSkeleton)
         {

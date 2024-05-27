@@ -30,9 +30,9 @@ public class DayNightCycle : MonoBehaviour
         timeStacked += Time.deltaTime;
         xRotation = timeStacked * timeSpeed;
         if (xRotation >= 360) timeStacked = 0;
-        if (xRotation >= 199 && xRotation <200) isNight = true;
+        if (xRotation >= 190 && xRotation <350) isNight = true;
         else isNight = false;
-        if (xRotation >= 349 && xRotation < 350) isDay = true;
+        if (xRotation >= 350 && xRotation < 190) isDay = true;
         else isDay = false;
         SetTimeForDebug();
         sunLight.transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
@@ -42,11 +42,11 @@ public class DayNightCycle : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F11))
         {
-            timeStacked = 198f;
+            timeStacked = 189f;
         }
         if (Input.GetKeyDown(KeyCode.F12))
         {
-            timeStacked = 348f;
+            timeStacked = 349f;
         }
     }
 }
