@@ -202,6 +202,7 @@ public class EnemyStateManager : FSM<EnemyStateManager>
         return false;
     }
 
+    // 죽은 이후 다음 리스폰을 위해 HP를 다시 Max로 만들어주고, 낮에 활성화된 BurnEffect도 비활성화 시켜준다
     public void ResetStatesForRespawn()
     {
         enemyInfo.Hp = enemyInfo.MaxHp;
