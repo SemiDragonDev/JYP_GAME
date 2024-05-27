@@ -202,8 +202,9 @@ public class EnemyStateManager : FSM<EnemyStateManager>
         return false;
     }
 
-    public void ResetHp()
+    public void ResetStatesForRespawn()
     {
         enemyInfo.Hp = enemyInfo.MaxHp;
+        this.transform.Find("BurnEffect").gameObject.SetActive(false);
     }
 }

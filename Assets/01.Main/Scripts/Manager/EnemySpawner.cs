@@ -95,21 +95,33 @@ public class EnemySpawner : MonoBehaviour
         //현재는 pool 안에 burnEffect를 넣고 쓰는 중인데, burnEffect를 아예 적의 자식 오브젝트로 넣어서 active만 바꿔주는 걸로 바꿔보자
 
         // burnEffect가 필요한 수
-        ObjectPool.Instance.CountActiveObjectsInList(name, out int size);
-        // 실제 active한 burnEffect의 수
-        ObjectPool.Instance.CountActiveObjectsInList(burnEffectTag, out int count);
+        //ObjectPool.Instance.CountActiveObjectsInList(name, out int size);
+        //// 실제 active한 burnEffect의 수
+        //ObjectPool.Instance.CountActiveObjectsInList(burnEffectTag, out int count);
 
-        if (count < size)
+        //if (count < size)
+        //{
+        //    List<PooledObject> list = ObjectPool.Instance.GetListOfPool(name);
+        //    for (int i = 0; i < size - count; i++)
+        //    {
+        //        var gameObj = ObjectPool.Instance.GetPooledObject(burnEffectTag);
+        //        gameObj.transform.SetParent(list[i].transform);
+        //        gameObj.transform.position = list[i].transform.position;
+
+        //        //  화염 지속 대미지 (Damage Over Time)
+        //        var enemy = gameObj.GetComponentInParent<Enemy>();
+        //        IEnumerator coroutine = enemy.GetDamageOverTime(10, 1f);
+        //        StartCoroutine(coroutine);
+        //    }
+        //}
+
+        var listOfSkeleton = ObjectPool.Instance.GetListOfPool(skeletonTag);
+        foreach (var skeleton in listOfSkeleton)
         {
-            List<PooledObject> list = ObjectPool.Instance.GetListOfPool(name);
-            for (int i = 0; i < size - count; i++)
+            var enemy = skeleton.gameObject.GetComponent<Enemy>();
+            if (skeleton.gameObject.activeSelf && !enemy.isTakingDamage)
             {
-                var gameObj = ObjectPool.Instance.GetPooledObject(burnEffectTag);
-                gameObj.transform.SetParent(list[i].transform);
-                gameObj.transform.position = list[i].transform.position;
-
-                //  화염 지속 대미지 (Damage Over Time)
-                var enemy = gameObj.GetComponentInParent<Enemy>();
+                skeleton.gameObject.transform.Find(burnEffectTag).gameObject.SetActive(true);
                 IEnumerator coroutine = enemy.GetDamageOverTime(10, 1f);
                 StartCoroutine(coroutine);
             }

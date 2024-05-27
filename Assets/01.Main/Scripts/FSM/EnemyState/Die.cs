@@ -28,6 +28,6 @@ public class Die : FSMSingleton<Die>, IFSMState<EnemyStateManager>
         //var vfxObj = transform.Find("BurnEffect(Clone)");
         //var vfxPooledObj = vfxObj.GetComponent<PooledObject>();
         //ObjectPool.Instance.ReturnToPool(vfxPooledObj);
-        e.ResetHp();
+        e.ResetStatesForRespawn();
     }
 }

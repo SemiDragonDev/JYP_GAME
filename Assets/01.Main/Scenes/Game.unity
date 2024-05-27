@@ -1873,7 +1873,6 @@ MonoBehaviour:
   pooledObjectsList:
   - {fileID: -7487413339248847875, guid: 09035bfb2692c8b4ead5781338eb6612, type: 3}
   - {fileID: 2990468251467826109, guid: 13e24c44c0ae206478cc9a53137c33b2, type: 3}
-  - {fileID: 1206317981428888061, guid: 82cc4eb09649dd940ae1325f648463d9, type: 3}
 --- !u!4 &1166839638
 Transform:
   m_ObjectHideFlags: 0
