@@ -92,6 +92,8 @@ public class EnemySpawner : MonoBehaviour
     // 현재 리스트에서 Active한 적의 수를 받아온 후, 그 수만큼만 BurnEffect를 생성하여 자식 오브젝트로 만듦
     public void BurnEnemy(string name)
     {
+        //현재는 pool 안에 burnEffect를 넣고 쓰는 중인데, burnEffect를 아예 적의 자식 오브젝트로 넣어서 active만 바꿔주는 걸로 바꿔보자
+
         // burnEffect가 필요한 수
         ObjectPool.Instance.CountActiveObjectsInList(name, out int size);
         // 실제 active한 burnEffect의 수
