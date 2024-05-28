@@ -15,21 +15,13 @@ public class Enemy : MonoBehaviour, IDamagable
         Name = name;
     }
 
-    public Color hitColor = Color.red;
-    public float hitDuration = 0.1f;
-
     DayNightCycle dayNightCycle;
     IEnumerator coroutine;
-    Color originalColor;
-    Renderer enemyRenderer;
-
 
     private void OnEnable()
     {
         dayNightCycle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<DayNightCycle>();
         coroutine = GetDamageOverTime(10f, 1f);
-        enemyRenderer = GetComponent<Renderer>();
-        originalColor = enemyRenderer.material.color;
     }
 
     private void OnDisable()
@@ -65,12 +57,5 @@ public class Enemy : MonoBehaviour, IDamagable
     public virtual void PlayBurnEffect()
     {
         this.gameObject.transform.Find("BurnEffect").gameObject.SetActive(true);
-    }
-
-    public IEnumerator ChangeColorOnHit()
-    {
-        enemyRenderer.material.color = hitColor;
-        yield return new WaitForSeconds(hitDuration);
-        enemyRenderer.material.color = originalColor;
     }
 }
