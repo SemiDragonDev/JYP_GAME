@@ -20,6 +20,7 @@ public class EnemySpawner : MonoBehaviour
     private bool isAlreadySpawning = false;
 
     private DayNightCycle dayNightCycle;
+    private IEnumerator myCoroutine;
 
     void Start()
     {
@@ -30,11 +31,13 @@ public class EnemySpawner : MonoBehaviour
     {
         if (dayNightCycle.isNight && !isAlreadySpawning)
         {
-            StartCoroutine(CoroutineManageEnemyAtNight());
+            myCoroutine = CoroutineManageEnemyAtNight();
+            StartCoroutine(myCoroutine);
         }
         if(dayNightCycle.isDay)
         {
-            StopCoroutine(CoroutineManageEnemyAtNight());
+            isAlreadySpawning = false;
+            StopMyCoroutine();
         }
     }
 
@@ -87,5 +90,14 @@ public class EnemySpawner : MonoBehaviour
             SpawnEnemy(skeletonTag);
         }
         isAlreadySpawning = false;
+    }
+
+    public void StopMyCoroutine()
+    {
+        if (myCoroutine != null)
+        {
+            StopCoroutine(myCoroutine);
+            myCoroutine = null;
+        }
     }
 }
