@@ -30,12 +30,11 @@ public class EnemySpawner : MonoBehaviour
     {
         if (dayNightCycle.isNight && !isAlreadySpawning)
         {
-            //SpawnEnemy(skeletonTag);
             StartCoroutine(CoroutineManageEnemyAtNight());
         }
-        else if(dayNightCycle.isDay)
+        if(dayNightCycle.isDay)
         {
-            BurnEnemy(skeletonTag);
+            StopCoroutine(CoroutineManageEnemyAtNight());
         }
     }
 
@@ -88,21 +87,5 @@ public class EnemySpawner : MonoBehaviour
             SpawnEnemy(skeletonTag);
         }
         isAlreadySpawning = false;
-    }
-
-    // 낮이 되면 태우는 메서드
-    public void BurnEnemy(string name)
-    {
-        var listOfSkeleton = ObjectPool.Instance.GetListOfPool(skeletonTag);
-        foreach (var skeleton in listOfSkeleton)
-        {
-            var enemy = skeleton.gameObject.GetComponent<Enemy>();
-            if (skeleton.gameObject.activeSelf && !enemy.isTakingDamage)
-            {
-                skeleton.gameObject.transform.Find(burnEffectTag).gameObject.SetActive(true);
-                IEnumerator coroutine = enemy.GetDamageOverTime(10, 1f);
-                StartCoroutine(coroutine);
-            }
-        }
     }
 }

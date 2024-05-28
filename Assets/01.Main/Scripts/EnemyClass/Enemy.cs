@@ -15,11 +15,34 @@ public class Enemy : MonoBehaviour, IDamagable
         Name = name;
     }
 
+    DayNightCycle dayNightCycle;
+    IEnumerator coroutine;
+
+
+    private void OnEnable()
+    {
+        dayNightCycle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<DayNightCycle>();
+        coroutine = GetDamageOverTime(10f, 1f);
+    }
+
+    private void OnDisable()
+    {
+        StopCoroutine(coroutine);
+    }
+
+    private void Update()
+    {
+        if (dayNightCycle.isDay && !isTakingDamage)
+        {
+            StartCoroutine(coroutine);
+            PlayBurnEffect();
+        }
+    }
+
     public virtual void GetDamage(float damage)
     {
         Hp -= damage;
     }
-
 
     public virtual IEnumerator GetDamageOverTime(float damage, float interval)
     {
@@ -30,5 +53,10 @@ public class Enemy : MonoBehaviour, IDamagable
             yield return new WaitForSeconds(interval);
         }
         isTakingDamage = false;
+    }
+
+    public virtual void PlayBurnEffect()
+    {
+        this.gameObject.transform.Find("BurnEffect").gameObject.SetActive(true);
     }
 }
