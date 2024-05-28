@@ -7,46 +7,49 @@ using UnityEngine.Events;
 
 public class DayNightCycle : MonoBehaviour
 {
-    [SerializeField] private Transform sunLight;
-    //  timeScale = 1일 경우 하루는 360초
-    [SerializeField] private float timeSpeed;
-    [SerializeField] [Range(0f,360f)] [Tooltip("200이상 350미만이 밤입니다.")] private float timeStacked;
-    public static float xRotation;
+    [SerializeField] private Light directionalLight;
+
+    [Tooltip("하루 시간에 대해 초 단위로 입력")]
+    public float dayLength = 120f;
+
+    private float currentTime = 0f;
+    private float timeMultiplier;
 
     public bool isNight;
     public bool isDay;
 
     private void Start()
     {
-        sunLight.transform.localRotation = Quaternion.identity;
+        timeMultiplier = 360f / dayLength;
     }
+
     private void Update()
     {
-        LightRotation();
+        currentTime += Time.deltaTime * timeMultiplier;
+        if (currentTime >= 360f) currentTime -= 360f;
+
+        UpdateLighting(currentTime);
     }
 
-    private void LightRotation()
+    void UpdateLighting(float time)
     {
-        timeStacked += Time.deltaTime;
-        xRotation = timeStacked * timeSpeed;
-        if (xRotation >= 360) timeStacked = 0;
-        if (xRotation >= 190 && xRotation <350) isNight = true;
-        else isNight = false;
-        if (xRotation >= 350 && xRotation < 190) isDay = true;
-        else isDay = false;
-        SetTimeForDebug();
-        sunLight.transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
-    }
+        directionalLight.transform.localRotation = Quaternion.Euler(new Vector3(time, 170, 0));
 
-    private void SetTimeForDebug()
-    {
-        if (Input.GetKeyDown(KeyCode.F11))
+        // Night Time
+        if (time > 180)
         {
-            timeStacked = 189f;
+            directionalLight.intensity = Mathf.Lerp(1, 0, (time - 180) / 180);
+            directionalLight.color = Color.Lerp(Color.yellow, Color.blue, (time - 180) / 180);
+            isNight = true;
+            isDay = false;
         }
-        if (Input.GetKeyDown(KeyCode.F12))
+        // Day Time
+        else
         {
-            timeStacked = 349f;
+            directionalLight.intensity = Mathf.Lerp(0, 1, time / 180);
+            directionalLight.color = Color.Lerp(Color.blue, Color.yellow, time / 180);
+            isNight = false;
+            isDay=true;
         }
     }
 }

@@ -1715,9 +1715,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20cc5d7f30e3dd94c843145d2128d0b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sunLight: {fileID: 410087041}
-  timeSpeed: 1
-  timeStacked: 0
+  directionalLight: {fileID: 410087040}
+  dayLength: 120
   isNight: 0
   isDay: 0
 --- !u!114 &1049108411
