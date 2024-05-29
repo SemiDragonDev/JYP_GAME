@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TestForMaterial : MonoBehaviour
+public class TestForColorChange : MonoBehaviour
 {
     Renderer charRenderer;
 
     private void Start()
     {
         charRenderer = GetComponent<Renderer>();
-        charRenderer.material.color = Color.blue;
+        charRenderer.material.color = Color.red;
     }
 }

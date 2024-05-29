@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 interface IInteractable
@@ -27,7 +28,8 @@ public class Interactor : MonoBehaviour
     [SerializeField] private LayerMask layerMask;
 
     private Vector3 hitEffectPos = new Vector3(0f, 0.9f, 0f);
-    private static Vector3 checkBoxSize = new Vector3(1f, 1.5f, 1f);
+    private static Vector3 attackBoxCenter = new Vector3(0f, -0.5f, 0.5f);
+    private static Vector3 attackBoxSize = new Vector3(0.4f, 0.9f, 0.5f);
     private static int maxCheckSize = 5;
     public float interactRange = 3f;
 
@@ -36,7 +38,7 @@ public class Interactor : MonoBehaviour
     public void ClickInteract()
     {
         Collider[] hitColliders = new Collider[maxCheckSize];
-        int numOfCollider = Physics.OverlapBoxNonAlloc(this.transform.position, checkBoxSize, hitColliders, Quaternion.identity, layerMask);
+        int numOfCollider = Physics.OverlapBoxNonAlloc(this.transform.position + attackBoxCenter, attackBoxSize, hitColliders, Quaternion.identity, layerMask);
 
         for (int i = 0; i < numOfCollider; i++)
         {
@@ -77,5 +79,12 @@ public class Interactor : MonoBehaviour
                 }
             }
         }
+    }
+
+    void OnDrawGizmos()
+    {
+        // Visualize the box using Gizmos
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireCube(this.transform.position + attackBoxCenter, attackBoxSize * 2);
     }
 }
