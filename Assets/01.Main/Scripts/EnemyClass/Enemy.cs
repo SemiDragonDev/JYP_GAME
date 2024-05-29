@@ -15,6 +15,9 @@ public class Enemy : MonoBehaviour, IDamagable
         Name = name;
     }
 
+    Renderer[] renderers;
+    Color[] originalColors;
+
     DayNightCycle dayNightCycle;
     IEnumerator coroutine;
 

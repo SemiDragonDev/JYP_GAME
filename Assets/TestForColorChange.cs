@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class TestForColorChange : MonoBehaviour
 {
-    Renderer charRenderer;
+    Renderer[] charRenderer;
 
     private void Start()
     {
-        charRenderer = GetComponent<Renderer>();
-        charRenderer.material.color = Color.red;
+        charRenderer = GetComponentsInChildren<Renderer>();
+        foreach (Renderer r in charRenderer)
+        {
+            r.material.color = Color.red;
+        }
     }
 }
