@@ -54,10 +54,10 @@ public class Interactor : MonoBehaviour
                 StartCoroutine(vfx.CoroutineRelease(0.5f));
             }
             //  Interact 상대가 Gatherable 자원인 경우
-            if (hitColliders[i].TryGetComponent<Gatherable>(out Gatherable gatherable))
-            {
-                gatherable.Gather();
-            }
+            //if (hitColliders[i].TryGetComponent<Gatherable>(out Gatherable gatherable))
+            //{
+            //    gatherable.Gather();
+            //}
         }
     }
 

@@ -13,8 +13,6 @@ GameObject:
   - component: {fileID: 4107175891092575866}
   - component: {fileID: 1034162538873780951}
   - component: {fileID: 6149749395221818474}
-  - component: {fileID: 2445628410753587262}
-  - component: {fileID: 3569707361664632145}
   m_Layer: 0
   m_Name: Rock_Item
   m_TagString: Untagged
@@ -135,29 +133,3 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &2445628410753587262
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7500020703973050037}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3bd51a18dd7d104cb8508ffdc7440cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  item: {fileID: 11400000, guid: 86ad3863b44866b43bbbbd192f1a778f, type: 2}
---- !u!114 &3569707361664632145
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7500020703973050037}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6258ac2b978ed342a9864407e57db92, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inventory: {fileID: 11400000, guid: 55bc1a63a52eb1e4381615de27b8e5ec, type: 2}
