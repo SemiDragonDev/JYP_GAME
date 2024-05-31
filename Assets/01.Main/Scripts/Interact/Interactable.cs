@@ -8,9 +8,4 @@ public class Interactable : MonoBehaviour, IInteractable
         Debug.Log("Interacted with: " + gameObject.name);
         // You can add your interaction logic here, such as triggering events, opening doors, etc.
     }
-
-    public string GetInteractType()
-    {
-        return "Interactable";
-    }
 }

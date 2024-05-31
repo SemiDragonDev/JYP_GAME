@@ -16,3 +16,7 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: ca6a70978fc0d4242928f05a6cc74d2c, type: 3}
   isStackable: 1
   maxStackSize: 99
+  isConsumable: 0
+  isEquipable: 0
+  itemPrefab: {fileID: 7500020703973050037, guid: 9b0a588a019b09143bae28b9e4246acc,
+    type: 3}

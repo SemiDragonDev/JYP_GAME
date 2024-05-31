@@ -8,9 +8,4 @@ public class Attackable : MonoBehaviour, IInteractable
         Debug.Log("Attacked: " + gameObject.name);
         // You can add your attack logic here, such as reducing health, playing animations, etc.
     }
-
-    public string GetInteractType()
-    {
-        return "Attackable";
-    }
 }

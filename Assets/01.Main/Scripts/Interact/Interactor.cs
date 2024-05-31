@@ -2,88 +2,32 @@ using UnityEngine;
 
 public class Interactor : MonoBehaviour
 {
-    public float interactionRange = 2f;
+    public float interactionRange = 3f;
+    public Vector3 interactionBoxSize = new Vector3(2f, 2f, 2f);
     public LayerMask interactableLayer;
-    private IInteractable currentInteractable;
-    private BoxCollider interactorCollider;
 
-    void Start()
+    private Collider[] interactables = new Collider[10];
+
+    public void Interact()
     {
-        interactorCollider = GetComponent<BoxCollider>();
-        if (interactorCollider != null)
-        {
-            // Adjust the size and position of the BoxCollider
-            interactorCollider.size = new Vector3(1, 1, interactionRange);
-            interactorCollider.center = new Vector3(0, 0, interactionRange / 2);
-        }
-        else
-        {
-            Debug.LogError("BoxCollider component not found on Interactor GameObject");
-        }
-    }
+        Vector3 interactionCenter = transform.position + transform.forward * interactionRange / 2 + transform.up * interactionRange / 2;
+        int numInteractables = Physics.OverlapBoxNonAlloc(interactionCenter, interactionBoxSize / 2, interactables, Quaternion.identity, interactableLayer);
 
-    void Update()
-    {
-        DetectInteractable();
-
-        if (currentInteractable != null)
+        for (int i = 0; i < numInteractables; i++)
         {
-            if (Input.GetKeyDown(KeyCode.E))
+            IInteractable interactable = interactables[i].GetComponent<IInteractable>();
+            if (interactable != null)
             {
-                if (currentInteractable.GetInteractType() == "Lootable" || currentInteractable.GetInteractType() == "Interactable")
-                {
-                    currentInteractable.Interact();
-                }
-            }
-
-            if (Input.GetMouseButtonDown(0))
-            {
-                if (currentInteractable.GetInteractType() == "Gatherable" || currentInteractable.GetInteractType() == "Attackable")
-                {
-                    currentInteractable.Interact();
-                }
+                interactable.Interact();
+                break; // Interact with the first found interactable object and then exit the loop
             }
         }
     }
 
-    void DetectInteractable()
+    private void OnDrawGizmosSelected()
     {
-        Collider[] hits = Physics.OverlapBox(transform.position + transform.forward * interactionRange / 2, interactorCollider.size / 2, transform.rotation, interactableLayer);
-
-        if (hits.Length > 0)
-        {
-            foreach (var hit in hits)
-            {
-                IInteractable interactable = hit.GetComponent<IInteractable>();
-                if (interactable != null)
-                {
-                    currentInteractable = interactable;
-                    Debug.Log("Detected interactable: " + currentInteractable.GetInteractType());
-                    return;
-                }
-            }
-        }
-
-        currentInteractable = null;
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        IInteractable interactable = other.GetComponent<IInteractable>();
-        if (interactable != null)
-        {
-            currentInteractable = interactable;
-            Debug.Log("Entered interactable: " + currentInteractable.GetInteractType());
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        IInteractable interactable = other.GetComponent<IInteractable>();
-        if (interactable == currentInteractable)
-        {
-            currentInteractable = null;
-            Debug.Log("Exited interactable: " + interactable.GetInteractType());
-        }
+        Gizmos.color = Color.red;
+        Vector3 interactionCenter = transform.position + transform.forward * interactionRange / 2 + transform.up * interactionRange / 2;
+        Gizmos.DrawWireCube(interactionCenter, interactionBoxSize);
     }
 }

@@ -81,9 +81,6 @@ public class PlayerMovement : MonoBehaviour
     private GameObject mainCamera;
     private SwitchFPandTP switchFPandTP;
 
-    [Space(10)]
-    [Header("Interactor")]
-    [SerializeField]
     private Interactor interactor;
 
     private const float threshold = 0.01f;
@@ -96,6 +93,7 @@ public class PlayerMovement : MonoBehaviour
         {
             mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
             switchFPandTP = mainCamera.GetComponent<SwitchFPandTP>();
+            interactor = GetComponentInChildren<Interactor>();
         }
     }
 
@@ -320,7 +318,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void ClickAction()
     {
-        //interactor.ClickInteract();
+        interactor.Interact();
     }
 
     private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
@@ -328,16 +326,5 @@ public class PlayerMovement : MonoBehaviour
         if (lfAngle < -360f) lfAngle += 360f;
         if (lfAngle > 360f) lfAngle -= 360f;
         return Mathf.Clamp(lfAngle, lfMin, lfMax);
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        Color transparentGreen = new Color(0f, 1f, 0f, 0.35f);
-        Color transparentRed = new Color(1f, 0f, 0f, 0.35f);
-
-        if(isGrounded) { Gizmos.color = transparentGreen;}
-        else Gizmos.color = transparentRed;
-
-        Gizmos.DrawSphere(new Vector3(transform.position.x, transform.position.y - groundedOffset, transform.position.z), groundedRadius);
     }
 }

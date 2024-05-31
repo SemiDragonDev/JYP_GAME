@@ -2,16 +2,19 @@ using UnityEngine;
 
 public class Gatherable : MonoBehaviour, IInteractable
 {
+    public GameObject[] drops; // Objects to drop when this is gathered
+
     public void Interact()
     {
-        // Logic for gathering the item
-        Debug.Log("Gathered item: " + gameObject.name);
-        // You can add your gathering logic here, such as adding resources to inventory, playing animations, etc.
+        DropItems();
         Destroy(gameObject);
     }
 
-    public string GetInteractType()
+    private void DropItems()
     {
-        return "Gatherable";
+        foreach (GameObject drop in drops)
+        {
+            Instantiate(drop, transform.position, Quaternion.identity);
+        }
     }
 }
