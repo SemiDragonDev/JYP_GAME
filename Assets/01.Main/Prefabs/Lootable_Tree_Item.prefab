@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3416476682825383721}
   - component: {fileID: 8115224202194800624}
   - component: {fileID: 891277804706548802}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Lootable_Tree_Item
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -149,4 +149,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 11400000, guid: c5e6f06fb5648d14080f0d335342b4a9, type: 2}
-  count: 1
