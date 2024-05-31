@@ -6,7 +6,7 @@ public class Attackable : MonoBehaviour, IInteractable
     KnockBack knockback;
     Vector3 vfxPosition = new Vector3(0f, 0.9f, 0f);
     Enemy enemy;
-    Renderer objRenderer;
+    Renderer[] objRenderer;
     Color originColor;
 
     public void Interact()
@@ -19,16 +19,20 @@ public class Attackable : MonoBehaviour, IInteractable
         var vfxObj = ObjectPool.Instance.GetPooledObject("HitEffect").gameObject;
         vfxObj.transform.position = this.transform.position + vfxPosition;
         enemy.TakeDamage(50f);
-        //StartCoroutine(HitColorChange());
+        StartCoroutine(HitColorChange());
     }
 
     public IEnumerator HitColorChange()
     {
-        objRenderer = GetComponent<Renderer>();
-        originColor = objRenderer.material.color;
+        objRenderer = GetComponentsInChildren<Renderer>();
 
-        objRenderer.material.color = Color.red;
-        yield return new WaitForSeconds(0.1f);
-        objRenderer.material.color = originColor;
+        foreach (Renderer renderer in objRenderer)
+        {
+            originColor = renderer.material.color;
+
+            renderer.material.color = Color.red;
+            yield return new WaitForSeconds(0.1f);
+            renderer.material.color = originColor;
+        }
     }
 }
