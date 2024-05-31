@@ -24,6 +24,7 @@ public class Interactor : MonoBehaviour
             if (interactable != null)
             {
                 interactable.Interact();
+                break;
             }
         }
     }
@@ -41,6 +42,7 @@ public class Interactor : MonoBehaviour
                 if (interactable != null && interactable is Lootable lootable)
                 {
                     lootable.Interact();
+                    break;
                 }
             }
         }

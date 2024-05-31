@@ -2337,6 +2337,8 @@ GameObject:
   - component: {fileID: 2232029319318407744}
   - component: {fileID: 6644555465468503248}
   - component: {fileID: 257367657167826716}
+  - component: {fileID: 2803398313455450523}
+  - component: {fileID: 9174760660533788991}
   m_Layer: 10
   m_Name: Skeleton
   m_TagString: Enemy
@@ -2510,6 +2512,36 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectName: Skeleton
   defSize: 10
+--- !u!114 &2803398313455450523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7039324369278460265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40cf234b635da69439853ed145e0d9bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &9174760660533788991
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7039324369278460265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6c274989ac9218469df5b6b72ed480c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 8
+  knockBackDistance: 2
+  knockBackTime: 0.5
 --- !u!1 &7203175686899288897
 GameObject:
   m_ObjectHideFlags: 0

@@ -268,6 +268,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5310d3d8c66f8de43971a786904960ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  icon: {fileID: 0}
-  button: {fileID: 0}
+  iconImage: {fileID: 6681338981327845797}
+  button: {fileID: 4013734813861502469}
   stackSizeText: {fileID: 2042462201559677891}

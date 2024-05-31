@@ -2,10 +2,13 @@ using UnityEngine;
 
 public class Attackable : MonoBehaviour, IInteractable
 {
+    KnockBack knockback;
+
     public void Interact()
     {
-        // Logic for attacking the object
         Debug.Log("Attacked: " + gameObject.name);
-        // You can add your attack logic here, such as reducing health, playing animations, etc.
+
+        knockback = GetComponent<KnockBack>();
+        knockback.PlayingKnockBack();
     }
 }

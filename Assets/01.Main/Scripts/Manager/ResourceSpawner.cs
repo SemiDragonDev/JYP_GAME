@@ -6,7 +6,7 @@ public class ResourceSpawner : MonoBehaviour
 {
     [Header("Spawn Settings")]
     public GameObject treePrefab;
-    public GameObject stonePrefab;
+    public GameObject[] stonePrefab;
     public float spawnChance;
 
     [Header("Raycast Settings")]
@@ -53,7 +53,8 @@ public class ResourceSpawner : MonoBehaviour
                 {
                     if (spawnChance > Random.Range(0, 101))
                     {
-                        Instantiate(stonePrefab, hit.point, Quaternion.identity, transform);
+                        int i = Random.Range(0, stonePrefab.Length);
+                        Instantiate(stonePrefab[i], hit.point, Quaternion.identity, transform);
                     }
                 }
             }

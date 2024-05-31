@@ -556,7 +556,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 0}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -727,8 +727,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   treePrefab: {fileID: 1452130660160706, guid: 72c7d17d605575242a9412519c8113d3, type: 3}
-  stonePrefab: {fileID: 7088034624560197325, guid: 20a189bd173a8bb49b7f89fb639a6136,
-    type: 3}
+  stonePrefab:
+  - {fileID: 100000, guid: 0be1075d679ec8f4bb69bbadf0f14362, type: 3}
+  - {fileID: 100000, guid: 1e3996d06d7e08b4d9dd6e8024edd60b, type: 3}
+  - {fileID: 100000, guid: 73b16eacf4b59174697d944e3c0b8556, type: 3}
+  - {fileID: 100000, guid: 67600efe08256fa4bb14613634a2b89a, type: 3}
+  - {fileID: 100000, guid: a32eb1cadfeb31e4da39951319e56785, type: 3}
   spawnChance: 25
   checkGapForTrees: 7
   checkGapForStones: 11

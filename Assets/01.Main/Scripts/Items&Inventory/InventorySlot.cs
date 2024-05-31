@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class InventorySlot : MonoBehaviour
 {
-    public Sprite icon;
+    public Image iconImage;
     public Button button;
     public TextMeshProUGUI stackSizeText;
 
@@ -13,14 +13,32 @@ public class InventorySlot : MonoBehaviour
     public void AddItem(InventoryItem newInventoryItem)
     {
         inventoryItem = newInventoryItem;
-        icon = inventoryItem.item.icon;
-        stackSizeText.text = inventoryItem.item.isStackable ? inventoryItem.stackSize.ToString() : "";
+        if (iconImage != null)
+        {
+            iconImage.sprite = inventoryItem.item.icon;
+            iconImage.color = Color.white;
+            iconImage.enabled = true;
+        }
+
+        if (stackSizeText != null)
+        {
+            stackSizeText.text = inventoryItem.item.isStackable ? inventoryItem.stackSize.ToString() : "";
+        }
     }
 
     public void ClearSlot()
     {
         inventoryItem = null;
-        icon = null;
-        stackSizeText.text = "";
+        if (iconImage != null)
+        {
+            iconImage.sprite = null;
+            iconImage.color = Color.clear;
+            iconImage.enabled = false;
+        }
+
+        if (stackSizeText != null)
+        {
+            stackSizeText.text = "";
+        }
     }
 }
