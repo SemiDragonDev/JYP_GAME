@@ -31,7 +31,11 @@ public class Attackable : MonoBehaviour, IInteractable
             originColor = renderer.material.color;
 
             renderer.material.color = Color.red;
-            yield return new WaitForSeconds(0.1f);
+        }
+        yield return new WaitForSeconds(0.1f);
+
+        foreach (Renderer renderer in objRenderer)
+        {
             renderer.material.color = originColor;
         }
     }
