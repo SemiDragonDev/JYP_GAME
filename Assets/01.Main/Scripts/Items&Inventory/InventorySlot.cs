@@ -8,27 +8,27 @@ public class InventorySlot : MonoBehaviour
     public Button button;
     public TextMeshProUGUI stackSizeText;
 
-    InventoryItem inventoryItem;
+    public InventoryItem Item {  get; private set; }
 
     public void AddItem(InventoryItem newInventoryItem)
     {
-        inventoryItem = newInventoryItem;
+        Item = newInventoryItem;
         if (iconImage != null)
         {
-            iconImage.sprite = inventoryItem.item.icon;
+            iconImage.sprite = Item.item.icon;
             iconImage.color = Color.white;
             iconImage.enabled = true;
         }
 
         if (stackSizeText != null)
         {
-            stackSizeText.text = inventoryItem.item.isStackable ? inventoryItem.stackSize.ToString() : "";
+            stackSizeText.text = Item.item.isStackable ? Item.stackSize.ToString() : "";
         }
     }
 
     public void ClearSlot()
     {
-        inventoryItem = null;
+        Item = null;
         if (iconImage != null)
         {
             iconImage.sprite = null;

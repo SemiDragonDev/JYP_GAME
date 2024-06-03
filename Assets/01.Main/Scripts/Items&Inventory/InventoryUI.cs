@@ -3,26 +3,33 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class InventoryUI : MonoBehaviour
-{
+{ 
     public Transform itemsParent;  // Parent object to hold the slots
     public GameObject inventoryUI;  // Inventory UI panel
     public GameObject inventorySlotPrefab;  // Prefab for inventory slots
     public int slotCount = 27;  // Number of slots in the inventory
+    private bool isInventoryOpen = false;
 
     Inventory inventory;
-    List<InventorySlot> slots = new List<InventorySlot>();
+    InventorySlot[] slots;
+
+    private SetMouseState mouseState;
 
     void Start()
     {
+        mouseState = FindObjectOfType<SetMouseState>();
+
         inventory = Inventory.Instance;
         inventory.onInventoryChangedCallback += UpdateUI;
 
+        slots = new InventorySlot[slotCount];
+
         // Create slots dynamically based on the slotCount
-        for (int i = 0; i < slotCount; i++)
+        for (int i = 0; i < slots.Length; i++)
         {
-            GameObject slot = Instantiate(inventorySlotPrefab, itemsParent);
-            InventorySlot slotComponent = slot.GetComponent<InventorySlot>();
-            slots.Add(slotComponent);
+            GameObject slotGO = Instantiate(inventorySlotPrefab, itemsParent);
+            slotGO.AddComponent<InventorySlotDragHandler>();
+            slots[i] = slotGO.GetComponent<InventorySlot>();
         }
 
         UpdateUI();  // Initial UI update
@@ -33,13 +40,23 @@ public class InventoryUI : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            inventoryUI.SetActive(!inventoryUI.activeSelf);
+            isInventoryOpen = !isInventoryOpen;
+            inventoryUI.SetActive(isInventoryOpen);
+
+            if (isInventoryOpen)
+            {
+                mouseState.UnlockCursor();
+            }
+            else
+            {
+                mouseState.LockCursor();
+            }
         }
     }
 
     void UpdateUI()
     {
-        for (int i = 0; i < slots.Count; i++)
+        for (int i = 0; i < slots.Length; i++)
         {
             if (i < inventory.items.Count)
             {

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Interactor : MonoBehaviour
@@ -18,13 +19,16 @@ public class Interactor : MonoBehaviour
         Vector3 interactionCenter = transform.position + transform.forward * interactionRange / 2 + transform.up * interactionRange / 2;
         int numInteractables = Physics.OverlapBoxNonAlloc(interactionCenter, interactionBoxSize / 2, interactables, Quaternion.identity, interactableLayer);
 
+        //  오브젝트 하나가 여러번 입력되는 문제가 발생해서, 이미 Interact가 끝난 Object는 interactedObjects에 넣어놓는 방법
+        HashSet<IInteractable> interactedObjects = new HashSet<IInteractable>();
+
         for (int i = 0; i < numInteractables; i++)
         {
             IInteractable interactable = interactables[i].GetComponent<IInteractable>();
-            if (interactable != null)
+            if (interactable != null && !interactedObjects.Contains(interactable))
             {
                 interactable.Interact();
-                break;
+                interactedObjects.Add(interactable);
             }
         }
     }

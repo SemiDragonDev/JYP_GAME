@@ -60,31 +60,4 @@ public class Inventory : Singleton<Inventory>
             return true;
         }
     }
-
-    public void RemoveItem(Item item, int amount = 1)
-    {
-        for (int i = items.Count - 1; i >= 0; i--)
-        {
-            InventoryItem inventoryItem = items[i];
-            if (inventoryItem.item == item)
-            {
-                if (inventoryItem.stackSize > amount)
-                {
-                    inventoryItem.stackSize -= amount;
-                    onInventoryChangedCallback?.Invoke();
-                    return;
-                }
-                else
-                {
-                    amount -= inventoryItem.stackSize;
-                    items.RemoveAt(i);
-                    if (amount <= 0)
-                    {
-                        onInventoryChangedCallback?.Invoke();
-                        return;
-                    }
-                }
-            }
-        }
-    }
 }
