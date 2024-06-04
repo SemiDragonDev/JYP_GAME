@@ -24,5 +24,6 @@ public class SetMouseState : MonoBehaviour
     public void UnlockCursor()
     {
         Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 }

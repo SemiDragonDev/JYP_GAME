@@ -2,7 +2,9 @@ using UnityEngine;
 
 public class Gatherable : MonoBehaviour, IInteractable
 {
-    public GameObject[] drops; // Objects to drop when this is gathered
+    public GameObject[] drops;
+
+    private Vector3 dropPos = new Vector3(0f, 0.9f, 0f);
 
     public void Interact()
     {
@@ -14,7 +16,7 @@ public class Gatherable : MonoBehaviour, IInteractable
     {
         foreach (GameObject drop in drops)
         {
-            Instantiate(drop, transform.position, Quaternion.identity);
+            Instantiate(drop, transform.position + dropPos, Quaternion.identity);
         }
     }
 }
