@@ -8,7 +8,7 @@ public class InventoryUI : MonoBehaviour
     public GameObject inventoryUI;  // Inventory UI panel
     public GameObject inventorySlotPrefab;  // Prefab for inventory slots
     public int slotCount = 27;  // Number of slots in the inventory
-    private bool isInventoryOpen = false;
+    public bool isInventoryOpen = false;
 
     Inventory inventory;
     InventorySlot[] slots;
