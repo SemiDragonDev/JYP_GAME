@@ -1545,8 +1545,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cursorImage: {fileID: 637431972}
   inventoryUI: {fileID: 1049108412}
-  posCorrectionX: 20
-  posCorrectionY: -20
+  posCorrectionX: 10
+  posCorrectionY: -10
 --- !u!1 &1624590750
 GameObject:
   m_ObjectHideFlags: 0

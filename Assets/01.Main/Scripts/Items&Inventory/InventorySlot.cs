@@ -1,11 +1,12 @@
+using System.Runtime.CompilerServices;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class InventorySlot : MonoBehaviour
 {
     public Image iconImage;
-    public Button button;
     public TextMeshProUGUI stackSizeText;
 
     public InventoryItem Item {  get; private set; }
