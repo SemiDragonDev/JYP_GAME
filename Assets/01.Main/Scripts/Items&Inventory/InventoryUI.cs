@@ -12,8 +12,10 @@ public class InventoryUI : MonoBehaviour
 
     Inventory inventory;
     InventorySlot[] slots;
+    int[] slotIndex;
 
     private SetMouseState mouseState;
+    private Button button;
 
     void Start()
     {
@@ -29,6 +31,8 @@ public class InventoryUI : MonoBehaviour
         {
             GameObject slotGO = Instantiate(inventorySlotPrefab, itemsParent);
             slots[i] = slotGO.GetComponent<InventorySlot>();
+            // SwapSlots를 위해 각 슬롯에 인덱스를 붙여준다.
+            slotIndex[i] = slotGO.GetInstanceID();
         }
 
         UpdateUI();  // Initial UI update
