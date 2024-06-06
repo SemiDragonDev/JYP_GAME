@@ -6,14 +6,10 @@ public class CursorFollow : MonoBehaviour
 {
     [SerializeField] private RectTransform cursorImage;
     [SerializeField] InventoryUI inventoryUI;
-    Vector2 posCorrection;
-    [SerializeField] float posCorrectionX = 20f;
-    [SerializeField] float posCorrectionY = -20f;
 
     private void Start()
     {
         cursorImage.gameObject.SetActive(false);
-        posCorrection = new Vector2(posCorrectionX, posCorrectionY);
     }
 
     private void Update()
@@ -21,8 +17,10 @@ public class CursorFollow : MonoBehaviour
         if (inventoryUI.isInventoryOpen)
         {
             cursorImage.gameObject.SetActive(true);
-            Vector2 cursorPos = Input.mousePosition;
-            cursorImage.position = cursorPos + posCorrection;
+            Vector2 cursorPos;
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(cursorImage.parent as RectTransform, Input.mousePosition, null, out cursorPos);
+
+            cursorImage.localPosition = cursorPos;
         }
         else
         {

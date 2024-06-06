@@ -1,6 +1,5 @@
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class InventoryUI : MonoBehaviour
 { 
@@ -10,12 +9,10 @@ public class InventoryUI : MonoBehaviour
     public int slotCount = 27;  // Number of slots in the inventory
     public bool isInventoryOpen = false;
 
-    Inventory inventory;
-    InventorySlot[] slots;
-    int[] slotIndex;
+    private Inventory inventory;
+    private InventorySlot[] slots;
 
     private SetMouseState mouseState;
-    private Button button;
 
     void Start()
     {
@@ -31,8 +28,6 @@ public class InventoryUI : MonoBehaviour
         {
             GameObject slotGO = Instantiate(inventorySlotPrefab, itemsParent);
             slots[i] = slotGO.GetComponent<InventorySlot>();
-            // SwapSlots를 위해 각 슬롯에 인덱스를 붙여준다.
-            slotIndex[i] = slotGO.GetInstanceID();
         }
 
         UpdateUI();  // Initial UI update

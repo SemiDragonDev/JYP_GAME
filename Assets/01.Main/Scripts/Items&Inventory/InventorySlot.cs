@@ -1,15 +1,14 @@
-using System.Runtime.CompilerServices;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 
 public class InventorySlot : MonoBehaviour
 {
     public Image iconImage;
     public TextMeshProUGUI stackSizeText;
 
-    public InventoryItem Item {  get; private set; }
+    public InventoryItem Item {  get;  set; }
 
     public void AddItem(InventoryItem newInventoryItem)
     {
@@ -40,6 +39,32 @@ public class InventorySlot : MonoBehaviour
         if (stackSizeText != null)
         {
             stackSizeText.text = "";
+        }
+    }
+
+    public void SetItem(Item newItem, int count)
+    {
+        Item.item = newItem;
+        if (newItem != null)
+        {
+            iconImage.sprite = newItem.icon;
+            iconImage.enabled = true;
+
+            if (count > 1)
+            {
+                stackSizeText.text = count.ToString();
+                stackSizeText.enabled = true;
+            }
+            else
+            {
+                stackSizeText.enabled = false;
+            }
+        }
+        else
+        {
+            iconImage.sprite = null;
+            iconImage.enabled = false;
+            stackSizeText.enabled = false;
         }
     }
 }
