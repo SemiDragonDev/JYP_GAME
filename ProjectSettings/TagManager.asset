@@ -8,6 +8,7 @@ TagManager:
   - Rock
   - Enemy
   - GameManager
+  - DraggingItemIcon
   layers:
   - Default
   - TransparentFX

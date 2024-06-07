@@ -2,17 +2,16 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using static UnityEditor.Progress;
 
 public class InventorySlot : MonoBehaviour, IPointerClickHandler
 {
     public Image iconImage;
     public TextMeshProUGUI stackSizeText;
+   private Image draggingItemIcon;
 
     public InventoryItem Item {  get;  set; }
 
     private static InventorySlot pickedSlot = null;
-    private static Image draggingItemIcon;
 
     public void AddItem(InventoryItem newInventoryItem)
     {
@@ -68,10 +67,15 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
     // Function to start dragging the item icon
     private void StartDragging()
     {
+        if (draggingItemIcon == null)
+        {
+            draggingItemIcon = GameObject.FindGameObjectWithTag("DraggingItemIcon").GetComponent<Image>();
+        }
+
         if (Item != null)
         {
             // Use the existing dragging icon
-            draggingItemIcon.sprite = iconImage.sprite;
+            draggingItemIcon.sprite = pickedSlot.Item.item.icon;
             draggingItemIcon.raycastTarget = false; // Make sure the icon doesn't block raycasts
             draggingItemIcon.gameObject.SetActive(true);
         }
@@ -83,6 +87,7 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
         {
             draggingItemIcon.gameObject.SetActive(false);
             draggingItemIcon.raycastTarget = true;
+            draggingItemIcon = null;
         }
     }
 
@@ -120,22 +125,5 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
     private void Start()
     {
         UpdateSlot();
-
-        // Find the dragging icon in the cursor object
-        if (draggingItemIcon == null)
-        {
-            draggingItemIcon = GameObject.Find("DraggingItemIcon").GetComponent<Image>();
-            draggingItemIcon.gameObject.SetActive(false); // Initially inactive
-        }
     }
-
-    void Update()
-    {
-        // Update the dragging icon position every frame
-        if (draggingItemIcon != null && draggingItemIcon.gameObject.activeSelf)
-        {
-            // Position is handled by the CursorFollower script
-        }
-    }
-
 }

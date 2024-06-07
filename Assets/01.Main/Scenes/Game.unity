@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 26165030}
   m_Layer: 5
   m_Name: DraggingItemIcon
-  m_TagString: Untagged
+  m_TagString: DraggingItemIcon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1603,6 +1603,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cursorImage: {fileID: 637431972}
   inventoryUI: {fileID: 1621397957}
+  draggingItemIcon: {fileID: 26165028}
 --- !u!114 &1621397957
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1617,7 +1618,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemsParent: {fileID: 737893085}
   inventoryUI: {fileID: 1579744589}
-  inventorySlotPrefab: {fileID: 5014076053990886062, guid: c59e5eaca765e64408e680e67b045d5f,
+  inventorySlotPrefab: {fileID: 8627109406816720075, guid: c59e5eaca765e64408e680e67b045d5f,
     type: 3}
   slotCount: 27
   isInventoryOpen: 0

@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CursorFollow : MonoBehaviour
 {
     [SerializeField] private RectTransform cursorImage;
     [SerializeField] InventoryUI inventoryUI;
+    [SerializeField] GameObject draggingItemIcon;
 
     private void Start()
     {
