@@ -7,25 +7,46 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
 {
     public Image iconImage;
     public TextMeshProUGUI stackSizeText;
-   private Image draggingItemIcon;
+
+    private Canvas canvas;
+    private CanvasGroup canvasGroup; // 알파값 조정을 위한 캔버스그룹
 
     public InventoryItem Item {  get;  set; }
 
     private static InventorySlot pickedSlot = null;
+    private static RectTransform pickedSlotRect;
+    private static Vector2 originalRectInfo;
+    private static bool nowDragging = false;
 
+    private void Start()
+    {
+        canvasGroup = GetComponent<CanvasGroup>();
+        canvas = GetComponentInParent<Canvas>();
+    }
+
+    private void Update()
+    {
+        if (nowDragging)
+        {
+            SlotFollowingCursor();
+        }
+    }
+
+    //  슬롯에 아이템을 할당하고, 아이콘 이미지 등을 보이게 한다
     public void AddItem(InventoryItem newInventoryItem)
     {
         Item = newInventoryItem;
-        if (iconImage != null)
+        if (newInventoryItem != null)
         {
-            iconImage.sprite = Item.item.icon;
+            iconImage.sprite = newInventoryItem.item.icon;
             iconImage.color = Color.white;
             iconImage.enabled = true;
+            stackSizeText.text = newInventoryItem.stackSize.ToString();
+            stackSizeText.enabled = newInventoryItem.stackSize > 1; // 개수가 1보다 클 때만 표시
         }
-
-        if (stackSizeText != null)
+        else
         {
-            stackSizeText.text = Item.item.isStackable ? Item.stackSize.ToString() : "";
+            ClearSlot();
         }
     }
 
@@ -47,83 +68,62 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (pickedSlot == null)
+        if (pickedSlot == null) //  처음 클릭하는 슬롯일 경우
         {
-            // Select the current slot and start dragging
-            pickedSlot = this;
-            StartDragging();
+            pickedSlot = this;  //  클릭한 슬롯을 pickedSlot 으로
+
+            if (pickedSlot.Item != null)    //  클릭한 슬롯에 아이템이 있다면
+            {
+                pickedSlotRect = pickedSlot.gameObject.GetComponent<RectTransform>();   //  pickedSlot의 RectTransform 컴포넌트를 받아옴
+                originalRectInfo = pickedSlotRect.anchoredPosition;    //  pickedSlot의 위치를 저장해 놓음
+                nowDragging = true; //  업데이트에서 조건으로 쓰일 variable
+                pickedSlot.iconImage.raycastTarget = false;
+            }
+            else    //  클릭한 슬롯에 아이템이 없다면
+            {
+                pickedSlot = null;  //  클릭한 슬롯을 초기화 (아이템이 있는 슬롯을 클릭했을때만 진행되게 한다)
+            }
         }
-        else
+        else    //  이미 클릭한 슬롯이 있어서 아이템 아이콘을 드래깅 중일때 두번째 슬롯을 클릭한 경우
         {
             // Swap items between pickedSlot and current slot
             SwapItems(pickedSlot, this);
-            // End dragging
-            EndDragging();
-            // Deselect the slot
+
+            nowDragging = false;
+
+            pickedSlot.iconImage.raycastTarget = true;
+            pickedSlotRect.anchoredPosition = originalRectInfo;
+
             pickedSlot = null;
+            Debug.Log(pickedSlot);
+            pickedSlotRect = null;
+            Debug.Log(pickedSlotRect);
         }
     }
 
-    // Function to start dragging the item icon
-    private void StartDragging()
+    // 이미 클릭된 아이템 슬롯이 없을때(첫 클릭하는 슬롯일때) 호출된다.
+    private void SlotFollowingCursor()
     {
-        if (draggingItemIcon == null)
-        {
-            draggingItemIcon = GameObject.FindGameObjectWithTag("DraggingItemIcon").GetComponent<Image>();
-        }
+        // 아이템이 든 슬롯이라면, 슬롯의 Rect Transform 을 받아와 커서를 따라가게 만든다.
+        Vector2 movePosition;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas.transform as RectTransform, Input.mousePosition, null, out movePosition);
 
-        if (Item != null)
+        Vector3 globalMousePos;
+        if (RectTransformUtility.ScreenPointToWorldPointInRectangle(canvas.transform as RectTransform, Input.mousePosition, null, out globalMousePos))
         {
-            // Use the existing dragging icon
-            draggingItemIcon.sprite = pickedSlot.Item.item.icon;
-            draggingItemIcon.raycastTarget = false; // Make sure the icon doesn't block raycasts
-            draggingItemIcon.gameObject.SetActive(true);
-        }
-    }
-
-    private void EndDragging()
-    {
-        if (draggingItemIcon != null)
-        {
-            draggingItemIcon.gameObject.SetActive(false);
-            draggingItemIcon.raycastTarget = true;
-            draggingItemIcon = null;
+            if (pickedSlotRect != null)
+            {
+                pickedSlotRect.position = globalMousePos;
+            }
         }
     }
 
-    // Function to swap items between two slots
-    private void SwapItems(InventorySlot slot1, InventorySlot slot2)
+    private void SwapItems(InventorySlot pickedSlot, InventorySlot secondSlot)
     {
-        var tempItem = slot1.Item;
-        slot1.Item = slot2.Item;
-        slot2.Item = tempItem;
+        var tempItem = pickedSlot.Item;
 
-        // Update both slots
-        slot1.UpdateSlot();
-        slot2.UpdateSlot();
-    }
-
-    public void UpdateSlot()
-    {
-        if (Item != null)
-        {
-            iconImage.sprite = Item.item.icon;
-            // Assuming you have an Image component to display the icon in the slot
-            GetComponent<Image>().sprite = iconImage.sprite;
-            GetComponent<Image>().enabled = true;
-
-            stackSizeText.text = Item.stackSize > 1 ? Item.stackSize.ToString() : "";
-            stackSizeText.enabled = true;
-        }
-        else
-        {
-            GetComponent<Image>().enabled = false;
-            stackSizeText.enabled = false;
-        }
-    }
-
-    private void Start()
-    {
-        UpdateSlot();
+        // UI 업데이트
+        pickedSlot.AddItem(secondSlot.Item);
+        secondSlot.AddItem(tempItem);
     }
 }

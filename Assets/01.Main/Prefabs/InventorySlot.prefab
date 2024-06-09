@@ -203,7 +203,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 0}
-  m_Type: 1
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -226,7 +226,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   iconImage: {fileID: 4870851799164360551}
   stackSizeText: {fileID: 8810277026327229348}
-  draggingItemIcon: {fileID: 0}
 --- !u!225 &4121227522411027062
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -238,4 +237,4 @@ CanvasGroup:
   m_Alpha: 1
   m_Interactable: 1
   m_BlocksRaycasts: 1
-  m_IgnoreParentGroups: 0
+  m_IgnoreParentGroups: 1

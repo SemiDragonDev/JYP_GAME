@@ -1,8 +1,7 @@
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class InventoryUI : MonoBehaviour
-{ 
+{
     public Transform itemsParent;  // Parent object to hold the slots
     public GameObject inventoryUI;  // Inventory UI panel
     public GameObject inventorySlotPrefab;  // Prefab for inventory slots
@@ -52,7 +51,7 @@ public class InventoryUI : MonoBehaviour
         }
     }
 
-    void UpdateUI()
+    public void UpdateUI()
     {
         for (int i = 0; i < slots.Length; i++)
         {

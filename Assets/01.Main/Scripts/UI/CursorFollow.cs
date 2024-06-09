@@ -7,7 +7,6 @@ public class CursorFollow : MonoBehaviour
 {
     [SerializeField] private RectTransform cursorImage;
     [SerializeField] InventoryUI inventoryUI;
-    [SerializeField] GameObject draggingItemIcon;
 
     private void Start()
     {
