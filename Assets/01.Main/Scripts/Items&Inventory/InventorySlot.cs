@@ -16,6 +16,8 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
     private static InventorySlot pickedSlot = null;
     private static RectTransform pickedSlotIconRect;
     private static Vector2 originalIconRectInfo;
+    private static Vector3 originalIconScaleInfo;
+    private static GameObject parentOfDraggingIcon;
     private static bool nowDragging = false;
 
     private void Start()
@@ -79,6 +81,13 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
                 nowDragging = true; //  업데이트에서 조건으로 쓰일 variable
                 pickedSlot.iconImage.raycastTarget = false;
                 pickedSlot.canvasGroup.blocksRaycasts = false;
+
+                parentOfDraggingIcon = new GameObject("ParentOfDraggingIcon");
+                parentOfDraggingIcon.transform.SetParent(canvas.transform, false);
+                parentOfDraggingIcon.transform.SetSiblingIndex(canvas.transform.childCount - 2);
+                pickedSlot.iconImage.gameObject.transform.SetParent(parentOfDraggingIcon.transform, false);
+                originalIconScaleInfo = pickedSlot.iconImage.rectTransform.localScale;
+                pickedSlot.iconImage.rectTransform.localScale = Vector3.one;
             }
             else    //  클릭한 슬롯에 아이템이 없다면
             {
@@ -87,11 +96,13 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
         }
         else    //  이미 클릭한 슬롯이 있어서 아이템 아이콘을 드래깅 중일때 두번째 슬롯을 클릭한 경우
         {
-            // Swap items between pickedSlot and current slot
             SwapItems(pickedSlot, this);
 
             nowDragging = false;
 
+            pickedSlot.iconImage.gameObject.transform.SetParent(pickedSlot.transform, false);
+            pickedSlot.iconImage.rectTransform.localScale = originalIconScaleInfo;
+            Destroy(parentOfDraggingIcon.gameObject);
             pickedSlot.iconImage.raycastTarget = true;
             pickedSlotIconRect.anchoredPosition = originalIconRectInfo;
             pickedSlot.canvasGroup.blocksRaycasts = true;
