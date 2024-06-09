@@ -14,13 +14,13 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
     public InventoryItem Item {  get;  set; }
 
     private static InventorySlot pickedSlot = null;
-    private static RectTransform pickedSlotRect;
-    private static Vector2 originalRectInfo;
+    private static RectTransform pickedSlotIconRect;
+    private static Vector2 originalIconRectInfo;
     private static bool nowDragging = false;
 
     private void Start()
     {
-        canvasGroup = GetComponent<CanvasGroup>();
+        canvasGroup = GetComponentInChildren<CanvasGroup>();
         canvas = GetComponentInParent<Canvas>();
     }
 
@@ -74,10 +74,11 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
 
             if (pickedSlot.Item != null)    //  클릭한 슬롯에 아이템이 있다면
             {
-                pickedSlotRect = pickedSlot.gameObject.GetComponent<RectTransform>();   //  pickedSlot의 RectTransform 컴포넌트를 받아옴
-                originalRectInfo = pickedSlotRect.anchoredPosition;    //  pickedSlot의 위치를 저장해 놓음
+                pickedSlotIconRect = pickedSlot.iconImage.GetComponent<RectTransform>();   //  pickedSlot의 RectTransform 컴포넌트를 받아옴
+                originalIconRectInfo = pickedSlotIconRect.anchoredPosition;    //  pickedSlot의 위치를 저장해 놓음
                 nowDragging = true; //  업데이트에서 조건으로 쓰일 variable
                 pickedSlot.iconImage.raycastTarget = false;
+                pickedSlot.canvasGroup.blocksRaycasts = false;
             }
             else    //  클릭한 슬롯에 아이템이 없다면
             {
@@ -92,12 +93,11 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
             nowDragging = false;
 
             pickedSlot.iconImage.raycastTarget = true;
-            pickedSlotRect.anchoredPosition = originalRectInfo;
+            pickedSlotIconRect.anchoredPosition = originalIconRectInfo;
+            pickedSlot.canvasGroup.blocksRaycasts = true;
 
             pickedSlot = null;
-            Debug.Log(pickedSlot);
-            pickedSlotRect = null;
-            Debug.Log(pickedSlotRect);
+            pickedSlotIconRect = null;
         }
     }
 
@@ -111,9 +111,9 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
         Vector3 globalMousePos;
         if (RectTransformUtility.ScreenPointToWorldPointInRectangle(canvas.transform as RectTransform, Input.mousePosition, null, out globalMousePos))
         {
-            if (pickedSlotRect != null)
+            if (pickedSlotIconRect != null)
             {
-                pickedSlotRect.position = globalMousePos;
+                pickedSlotIconRect.position = globalMousePos;
             }
         }
     }
