@@ -11,7 +11,7 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
     private Canvas canvas;
     private CanvasGroup canvasGroup; // 알파값 조정을 위한 캔버스그룹
 
-    public InventoryItem Item {  get;  set; }
+    public InventoryItem Item { get; set; }
 
     private static InventorySlot pickedSlot = null;
     private static RectTransform pickedSlotIconRect;
@@ -70,15 +70,17 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (pickedSlot == null) //  처음 클릭하는 슬롯일 경우
-        {
-            pickedSlot = this;  //  클릭한 슬롯을 pickedSlot 으로
+        Debug.Log($"Slot clicked: {this.name}");
 
-            if (pickedSlot.Item != null)    //  클릭한 슬롯에 아이템이 있다면
+        if (pickedSlot == null) // 처음 클릭하는 슬롯일 경우
+        {
+            pickedSlot = this; // 클릭한 슬롯을 pickedSlot으로
+
+            if (pickedSlot.Item != null) // 클릭한 슬롯에 아이템이 있다면
             {
-                pickedSlotIconRect = pickedSlot.iconImage.GetComponent<RectTransform>();   //  pickedSlot의 RectTransform 컴포넌트를 받아옴
-                originalIconRectInfo = pickedSlotIconRect.anchoredPosition;    //  pickedSlot의 위치를 저장해 놓음
-                nowDragging = true; //  업데이트에서 조건으로 쓰일 variable
+                pickedSlotIconRect = pickedSlot.iconImage.GetComponent<RectTransform>(); // pickedSlot의 RectTransform 컴포넌트를 받아옴
+                originalIconRectInfo = pickedSlotIconRect.anchoredPosition; // pickedSlot의 위치를 저장해 놓음
+                nowDragging = true; // 업데이트에서 조건으로 쓰일 변수
                 pickedSlot.iconImage.raycastTarget = false;
                 pickedSlot.canvasGroup.blocksRaycasts = false;
 
@@ -89,17 +91,37 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
                 originalIconScaleInfo = pickedSlot.iconImage.rectTransform.localScale;
                 pickedSlot.iconImage.rectTransform.localScale = Vector3.one;
             }
-            else    //  클릭한 슬롯에 아이템이 없다면
+            else // 클릭한 슬롯에 아이템이 없다면
             {
-                pickedSlot = null;  //  클릭한 슬롯을 초기화 (아이템이 있는 슬롯을 클릭했을때만 진행되게 한다)
+                pickedSlot = null; // 클릭한 슬롯을 초기화 (아이템이 있는 슬롯을 클릭했을때만 진행되게 한다)
             }
         }
-        else    //  이미 클릭한 슬롯이 있어서 아이템 아이콘을 드래깅 중일때 두번째 슬롯을 클릭한 경우
+        else // 이미 클릭한 슬롯이 있어서 아이템 아이콘을 드래깅 중일때 두번째 슬롯을 클릭한 경우
         {
-            SwapItems(pickedSlot, this);
+            if (this == pickedSlot) // 두 번째 클릭한 슬롯이 처음 클릭한 슬롯인 경우
+            {
+                // 드래그를 취소하고 아이템을 원래 위치로 되돌림
+                ResetDraggingState();
+            }
+            else if (this.Item != null) // 두 번째 클릭한 슬롯에 아이템이 있는 경우
+            {
+                SwapItems(pickedSlot, this);
+                ResetDraggingState();
+            }
+            else // 두 번째 클릭한 슬롯에 아이템이 없는 경우
+            {
+                MoveItem(pickedSlot, this);
+                ResetDraggingState();
+            }
+        }
+    }
 
-            nowDragging = false;
+    private void ResetDraggingState()
+    {
+        nowDragging = false;
 
+        if (pickedSlot != null)
+        {
             pickedSlot.iconImage.gameObject.transform.SetParent(pickedSlot.transform, false);
             pickedSlot.iconImage.rectTransform.localScale = originalIconScaleInfo;
             Destroy(parentOfDraggingIcon.gameObject);
@@ -136,5 +158,12 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
         // UI 업데이트
         pickedSlot.AddItem(secondSlot.Item);
         secondSlot.AddItem(tempItem);
+    }
+
+    private void MoveItem(InventorySlot pickedSlot, InventorySlot emptySlot)
+    {
+        // emptySlot이 비어 있는 슬롯일 경우 아이템 이동
+        emptySlot.AddItem(pickedSlot.Item);
+        pickedSlot.ClearSlot();
     }
 }

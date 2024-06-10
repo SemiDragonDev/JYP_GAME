@@ -10,12 +10,14 @@ public class InventoryUI : MonoBehaviour
 
     private Inventory inventory;
     private InventorySlot[] slots;
+    private PlayerMovement playerMovement;
 
     private SetMouseState mouseState;
 
     void Start()
     {
         mouseState = FindObjectOfType<SetMouseState>();
+        playerMovement = FindObjectOfType<PlayerMovement>();
 
         inventory = Inventory.Instance;
         inventory.onInventoryChangedCallback += UpdateUI;
@@ -42,10 +44,12 @@ public class InventoryUI : MonoBehaviour
 
             if (isInventoryOpen)
             {
+                playerMovement.enabled = false;
                 mouseState.UnlockCursor();
             }
             else
             {
+                playerMovement.enabled= true;
                 mouseState.LockCursor();
             }
         }
