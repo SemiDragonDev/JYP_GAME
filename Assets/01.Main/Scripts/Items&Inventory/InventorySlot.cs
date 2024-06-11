@@ -8,7 +8,8 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
     public Image iconImage;
     public TextMeshProUGUI stackSizeText;
 
-    private Canvas canvas;
+    private Canvas mainCanvas;
+    
     private CanvasGroup canvasGroup; // 알파값 조정을 위한 캔버스그룹
 
     public InventoryItem Item { get; set; }
@@ -21,7 +22,7 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
     private void Start()
     {
         canvasGroup = GetComponentInChildren<CanvasGroup>();
-        canvas = GetComponentInParent<Canvas>();
+        mainCanvas = GetComponentInParent<Canvas>();
     }
 
     private void Update()
@@ -81,7 +82,6 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
                 nowDragging = true; // 업데이트에서 조건으로 쓰일 변수
                 pickedSlot.iconImage.raycastTarget = false;
                 pickedSlot.canvasGroup.blocksRaycasts = false;
-                pickedSlot.canvasGroup.alpha = 0.6f;
             }
             else // 클릭한 슬롯에 아이템이 없다면
             {
@@ -117,7 +117,6 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
             pickedSlot.iconImage.raycastTarget = true;
             pickedSlotIconRect.anchoredPosition = originalIconRectInfo;
             pickedSlot.canvasGroup.blocksRaycasts = true;
-            pickedSlot.canvasGroup.alpha = 1f;
 
             pickedSlot = null;
             pickedSlotIconRect = null;
@@ -129,10 +128,10 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
     {
         // 아이템이 든 슬롯이라면, 슬롯의 Rect Transform 을 받아와 커서를 따라가게 만든다.
         Vector2 movePosition;
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas.transform as RectTransform, Input.mousePosition, null, out movePosition);
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(mainCanvas.transform as RectTransform, Input.mousePosition, null, out movePosition);
 
         Vector3 globalMousePos;
-        if (RectTransformUtility.ScreenPointToWorldPointInRectangle(canvas.transform as RectTransform, Input.mousePosition, null, out globalMousePos))
+        if (RectTransformUtility.ScreenPointToWorldPointInRectangle(mainCanvas.transform as RectTransform, Input.mousePosition, null, out globalMousePos))
         {
             if (pickedSlotIconRect != null)
             {
