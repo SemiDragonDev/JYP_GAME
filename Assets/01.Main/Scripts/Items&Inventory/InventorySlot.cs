@@ -80,7 +80,6 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
                 pickedSlotIconRect = pickedSlot.iconImage.GetComponent<RectTransform>(); // pickedSlot의 RectTransform 컴포넌트를 받아옴
                 originalIconRectInfo = pickedSlotIconRect.anchoredPosition; // pickedSlot의 위치를 저장해 놓음
                 nowDragging = true; // 업데이트에서 조건으로 쓰일 변수
-                pickedSlot.iconImage.raycastTarget = false;
                 pickedSlot.canvasGroup.blocksRaycasts = false;
             }
             else // 클릭한 슬롯에 아이템이 없다면
@@ -114,7 +113,6 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
 
         if (pickedSlot != null)
         {
-            pickedSlot.iconImage.raycastTarget = true;
             pickedSlotIconRect.anchoredPosition = originalIconRectInfo;
             pickedSlot.canvasGroup.blocksRaycasts = true;
 
