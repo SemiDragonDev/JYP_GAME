@@ -87,6 +87,8 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
                 {
                     draggingText.text = pickedSlot.Item.stackSize.ToString();
                 }  // pickedSlot에 있는 이미지와 텍스트를 dragging 오브젝트 쪽으로 옮긴다
+
+                draggingImage.gameObject.SetActive(true);
                 draggingImage.color = Color.white;
 
                 this.ClearSlot();
@@ -126,6 +128,7 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
             draggingImage.sprite = null;
             draggingImage.color = Color.clear;
             draggingText.text = "";
+            draggingImage.gameObject.SetActive(false);
 
             pickedSlot = null;
             tempSavingItem = null;
