@@ -15,8 +15,10 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
     public InventoryItem Item { get; set; }
 
     private static InventorySlot pickedSlot = null;
-    private static RectTransform pickedSlotIconRect;
-    private static Vector2 originalIconRectInfo;
+    private static InventoryItem tempSavingItem = null;
+    private static Image draggingImage;
+    private static TextMeshProUGUI draggingText;
+
     private static bool nowDragging = false;
 
     private void Start()
@@ -77,10 +79,18 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
 
             if (pickedSlot.Item != null) // 클릭한 슬롯에 아이템이 있다면
             {
-                pickedSlotIconRect = pickedSlot.iconImage.GetComponent<RectTransform>(); // pickedSlot의 RectTransform 컴포넌트를 받아옴
-                originalIconRectInfo = pickedSlotIconRect.anchoredPosition; // pickedSlot의 위치를 저장해 놓음
+                tempSavingItem = pickedSlot.Item;   //  아이템 정보를 임시로 저장해놓는다
+                draggingImage = InventoryManager.Instance.draggingImage;
+                draggingText = InventoryManager.Instance.draggingText;
+                draggingImage.sprite = pickedSlot.Item.item.icon;
+                if (pickedSlot.Item.stackSize > 1)
+                {
+                    draggingText.text = pickedSlot.Item.stackSize.ToString();
+                }  // pickedSlot에 있는 이미지와 텍스트를 dragging 오브젝트 쪽으로 옮긴다
+                draggingImage.color = Color.white;
+
+                this.ClearSlot();
                 nowDragging = true; // 업데이트에서 조건으로 쓰일 변수
-                pickedSlot.canvasGroup.blocksRaycasts = false;
             }
             else // 클릭한 슬롯에 아이템이 없다면
             {
@@ -113,11 +123,12 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
 
         if (pickedSlot != null)
         {
-            pickedSlotIconRect.anchoredPosition = originalIconRectInfo;
-            pickedSlot.canvasGroup.blocksRaycasts = true;
+            draggingImage.sprite = null;
+            draggingImage.color = Color.clear;
+            draggingText.text = "";
 
             pickedSlot = null;
-            pickedSlotIconRect = null;
+            tempSavingItem = null;
         }
     }
 
@@ -131,26 +142,25 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
         Vector3 globalMousePos;
         if (RectTransformUtility.ScreenPointToWorldPointInRectangle(mainCanvas.transform as RectTransform, Input.mousePosition, null, out globalMousePos))
         {
-            if (pickedSlotIconRect != null)
+            RectTransform rectTransform = InventoryManager.Instance.draggingImageRect;
+            if (rectTransform != null)
             {
-                pickedSlotIconRect.position = globalMousePos;
+                rectTransform.position = globalMousePos;
             }
         }
     }
 
     private void SwapItems(InventorySlot pickedSlot, InventorySlot secondSlot)
     {
-        var tempItem = pickedSlot.Item;
-
         // UI 업데이트
         pickedSlot.AddItem(secondSlot.Item);
-        secondSlot.AddItem(tempItem);
+        secondSlot.AddItem(tempSavingItem);
     }
 
     private void MoveItem(InventorySlot pickedSlot, InventorySlot emptySlot)
     {
         // emptySlot이 비어 있는 슬롯일 경우 아이템 이동
-        emptySlot.AddItem(pickedSlot.Item);
+        emptySlot.AddItem(tempSavingItem);
         pickedSlot.ClearSlot();
     }
 }
