@@ -14,8 +14,8 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
 
     public InventoryItem Item { get; set; }
 
-    public static InventorySlot pickedSlot = null;
-    private static InventoryItem tempSavingItem = null;
+    private static InventorySlot pickedSlot = null;
+    public static InventoryItem tempSavingItem = null;
     private static Image draggingImage;
     private static TextMeshProUGUI draggingText;
 

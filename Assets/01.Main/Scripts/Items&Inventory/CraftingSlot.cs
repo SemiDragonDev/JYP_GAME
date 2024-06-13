@@ -1,29 +1,33 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
-public class CraftingSlot : MonoBehaviour, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler
+public class CraftingSlot : MonoBehaviour, IPointerClickHandler
 {
-    public InventoryItem InventoryItem { get; private set; }
+    InventoryItem Item { get; set; }
+    Image iconImage;
 
     public int slotIndex;
 
+    private void Start()
+    {
+        iconImage = GetComponent<Image>();
+    }
+
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (InventorySlot.pickedSlot != null)
+        if (InventorySlot.tempSavingItem != null)
         {
-
+            PlaceItem(InventorySlot.tempSavingItem);
         }
     }
 
-    public void OnPointerDown(PointerEventData eventData)
+    void PlaceItem(InventoryItem inventoryItem)
     {
-        throw new System.NotImplementedException();
-    }
+        inventoryItem.stackSize--;
 
-    public void OnPointerUp(PointerEventData eventData)
-    {
-        throw new System.NotImplementedException();
+        Debug.Log("Picked Slot's Item : " + inventoryItem);
+        iconImage.sprite = inventoryItem.item.icon;
+        iconImage.color = Color.white;
     }
 }
