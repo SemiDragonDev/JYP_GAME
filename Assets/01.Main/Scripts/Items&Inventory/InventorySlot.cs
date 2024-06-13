@@ -14,7 +14,7 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
 
     public InventoryItem Item { get; set; }
 
-    private static InventorySlot pickedSlot = null;
+    public static InventorySlot pickedSlot = null;
     private static InventoryItem tempSavingItem = null;
     private static Image draggingImage;
     private static TextMeshProUGUI draggingText;
@@ -103,7 +103,7 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
         {
             if (this == pickedSlot) // 두 번째 클릭한 슬롯이 처음 클릭한 슬롯인 경우
             {
-                // 드래그를 취소하고 아이템을 원래 위치로 되돌림
+                AddItem(tempSavingItem);
                 ResetDraggingState();
             }
             else if (this.Item != null) // 두 번째 클릭한 슬롯에 아이템이 있는 경우

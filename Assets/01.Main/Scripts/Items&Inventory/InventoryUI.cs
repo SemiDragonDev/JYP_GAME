@@ -1,17 +1,29 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class InventoryUI : MonoBehaviour
 {
-    public Transform itemsParent;  // Parent object to hold the slots
-    public GameObject inventoryUI;  // Inventory UI panel
-    public GameObject inventorySlotPrefab;  // Prefab for inventory slots
-    public int slotCount = 27;  // Number of slots in the inventory
+    [Header("인벤토리 슬롯")]
+    public Transform itemsParent;
+    public GameObject inventoryUI;
+    public GameObject inventorySlotPrefab;
+    public int slotCount = 27;
     public bool isInventoryOpen = false;
 
     private Inventory inventory;
     private InventorySlot[] slots;
-    private PlayerMovement playerMovement;
 
+
+    [Space(10)]
+    [Header("크래프팅 슬롯")]
+    public Transform craftingParent;
+    public GameObject craftingSlotPrefab;
+    public int craftingSlotCount = 4;
+
+    private CraftingSlot[] craftingSlots;
+
+
+    private PlayerMovement playerMovement;
     private SetMouseState mouseState;
 
     void Start()
@@ -23,12 +35,20 @@ public class InventoryUI : MonoBehaviour
         inventory.onInventoryChangedCallback += UpdateUI;
 
         slots = new InventorySlot[slotCount];
+        craftingSlots = new CraftingSlot[craftingSlotCount];
 
-        // Create slots dynamically based on the slotCount
+        // 동적으로 인벤토리 슬롯 생성
         for (int i = 0; i < slots.Length; i++)
         {
             GameObject slotGO = Instantiate(inventorySlotPrefab, itemsParent);
             slots[i] = slotGO.GetComponent<InventorySlot>();
+        }
+
+        for (int i = 0; i < craftingSlots.Length; i++)
+        {
+            GameObject craftingSlotGO = Instantiate(craftingSlotPrefab, craftingParent);
+            craftingSlots[i] = craftingSlotGO.GetComponent<CraftingSlot>();
+            craftingSlots[i].slotIndex = i;
         }
 
         UpdateUI();  // Initial UI update
