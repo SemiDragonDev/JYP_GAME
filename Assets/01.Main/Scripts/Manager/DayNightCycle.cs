@@ -39,7 +39,7 @@ public class DayNightCycle : MonoBehaviour
         if (time > 180)
         {
             directionalLight.intensity = Mathf.Lerp(3, 2, (time - 180) / 180);
-            directionalLight.color = Color.Lerp(Color.yellow, Color.blue, (time - 180) / 180);
+            directionalLight.color = Color.Lerp(new Color(1.0f, 0.6f, 0.3f), new Color(0.2f, 0.2f, 0.6f), (time - 180) / 180);
             isNight = true;
             isDay = false;
         }
@@ -47,7 +47,7 @@ public class DayNightCycle : MonoBehaviour
         else
         {
             directionalLight.intensity = Mathf.Lerp(2, 3, time / 180);
-            directionalLight.color = Color.Lerp(Color.blue, Color.yellow, time / 180);
+            directionalLight.color = Color.Lerp(new Color(0.2f, 0.2f, 0.6f), new Color(1.0f, 0.95f, 0.8f), time / 180);
             isNight = false;
             isDay=true;
         }
