@@ -14,10 +14,10 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
 
     public InventoryItem Item { get; set; }
 
-    private static InventorySlot pickedSlot = null;
+    public static InventorySlot pickedSlot = null;
     public static InventoryItem tempSavingItem = null;
-    private static Image draggingImage;
-    private static TextMeshProUGUI draggingText;
+    public static Image draggingImage;
+    public static TextMeshProUGUI draggingText;
 
     private static bool nowDragging = false;
 
@@ -108,8 +108,7 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
             }
             else if (this.Item != null) // 두 번째 클릭한 슬롯에 아이템이 있는 경우
             {
-                SwapItems(pickedSlot, this);
-                ResetDraggingState();
+                SwitchWithDraggingItems(this);
             }
             else // 두 번째 클릭한 슬롯에 아이템이 없는 경우
             {
@@ -153,11 +152,23 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
         }
     }
 
-    private void SwapItems(InventorySlot pickedSlot, InventorySlot secondSlot)
+    /// <summary>
+    /// 현재 dragging 중인 아이템이 secondSlot의 위치에 들어가고, secondSlot에 있는 아이템이 dragging 아이템이 된다.
+    /// </summary>
+    /// <param name="secondSlot"></param>
+    private void SwitchWithDraggingItems(InventorySlot secondSlot)
     {
+        pickedSlot.Item = secondSlot.Item;
+
         // UI 업데이트
-        pickedSlot.AddItem(secondSlot.Item);
-        secondSlot.AddItem(tempSavingItem);
+        secondSlot.AddItem(tempSavingItem); // 두번째 클릭한 슬롯에는 tempSavingItem을 넣어준다.
+
+        //  두번째 클릭한 슬롯의 아이템은 dragging 상태로 바꿔주기
+        tempSavingItem = pickedSlot.Item;
+        draggingImage.sprite = pickedSlot.Item.item.icon;
+        draggingText.text = pickedSlot.Item.stackSize.ToString();
+
+        pickedSlot.ClearSlot();
     }
 
     private void MoveItem(InventorySlot pickedSlot, InventorySlot emptySlot)
