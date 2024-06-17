@@ -79,7 +79,7 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
 
             if (pickedSlot.Item != null) // 클릭한 슬롯에 아이템이 있다면
             {
-                tempSavingItem = pickedSlot.Item;   //  아이템 정보를 임시로 저장해놓는다
+                DraggingSlot.DraggingItem = pickedSlot.Item;   //  아이템 정보를 임시로 저장해놓는다
                 draggingImage = InventoryManager.Instance.draggingImage;
                 draggingText = InventoryManager.Instance.draggingText;
                 draggingImage.sprite = pickedSlot.Item.item.icon;
