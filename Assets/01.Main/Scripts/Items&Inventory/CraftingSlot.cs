@@ -8,6 +8,7 @@ public class CraftingSlot : MonoBehaviour, IPointerClickHandler
     public InventoryItem CraftingItem { get; set; }
     Image iconImage;
     TextMeshProUGUI tmpUGUI;
+    InventoryItem tempItemForSwitch;
 
     public int slotIndex;
 
@@ -52,7 +53,7 @@ public class CraftingSlot : MonoBehaviour, IPointerClickHandler
             }
             else if (CraftingItem.item != tempSavingItem.item)  //  dragging 중인 아이템과 다른 아이템을 클릭한 경우 슬롯의 아이템과 교체해준다
             {
-
+                
             }
         }
 
