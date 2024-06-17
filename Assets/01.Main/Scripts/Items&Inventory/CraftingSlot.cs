@@ -1,4 +1,5 @@
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -28,7 +29,7 @@ public class CraftingSlot : MonoBehaviour, IPointerClickHandler
 
         if(eventData.button == PointerEventData.InputButton.Right)  //  우클릭 입력시 곧바로 InventorySlot으로 돌아가게 하기
         {
-
+            ReturnToInventory(this.CraftingItem);
         }
     }
 
@@ -67,6 +68,20 @@ public class CraftingSlot : MonoBehaviour, IPointerClickHandler
             InventorySlot.draggingText.text = "";
 
             InventorySlot.pickedSlot = null;
+        }
+    }
+
+    /// <summary>
+    /// craftingSlot 에 있는 아이템을 Inventory Slot 으로 되돌린다
+    /// </summary>
+    /// <param name="craftingSlotItem"></param>
+    void ReturnToInventory(InventoryItem craftingSlotItem)
+    {
+        Inventory.Instance.AddItem(craftingSlotItem.item);
+        craftingSlotItem.stackSize--;
+        if (craftingSlotItem.stackSize > 1)
+        {
+            tmpUGUI.text = CraftingItem.stackSize.ToString();
         }
     }
 }
