@@ -15,6 +15,7 @@ public class CraftingSlot : MonoBehaviour, IPointerClickHandler
     {
         iconImage = GetComponent<Image>();
         tmpUGUI = GetComponentInChildren<TextMeshProUGUI>();
+        CraftingItem = new InventoryItem(null, 0);
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -37,15 +38,22 @@ public class CraftingSlot : MonoBehaviour, IPointerClickHandler
     void PlaceItem(InventoryItem tempSavingItem)
     {
         tempSavingItem.stackSize--;  //  tempSavingItem의 Item 정보에서 stackSize를 하나씩 감소시켜준다
-        if (this.CraftingItem == null)
+        if (tempSavingItem.stackSize >= 0)
         {
-            CraftingItem.item = tempSavingItem.item;    //  대신 craftingSlot 또한 Item 정보를 갖게 하고, stackSize를 하나씩 증가시켜준다
-            CraftingItem.stackSize = 1;
-        }
-        else
-        {
-            CraftingItem.stackSize++;
-            tmpUGUI.text = CraftingItem.stackSize.ToString();
+            if (this.CraftingItem.item == null)
+            {
+                CraftingItem.item = tempSavingItem.item;    //  대신 craftingSlot 또한 Item 정보를 갖게 하고, stackSize를 하나씩 증가시켜준다
+                CraftingItem.stackSize = 1;
+            }
+            else if (CraftingItem.item == tempSavingItem.item)  //  dragging 중인 아이템과 같은 아이템이 있는 craftingSlot을 클릭했을 땐 슬롯의 스택을 늘려준다
+            {
+                CraftingItem.stackSize++;
+                tmpUGUI.text = CraftingItem.stackSize.ToString();
+            }
+            else if (CraftingItem.item != tempSavingItem.item)  //  dragging 중인 아이템과 다른 아이템을 클릭한 경우 슬롯의 아이템과 교체해준다
+            {
+
+            }
         }
 
         iconImage.sprite = CraftingItem.item.icon;
