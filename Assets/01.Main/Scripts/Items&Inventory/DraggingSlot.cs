@@ -6,8 +6,15 @@ using UnityEngine.UI;
 
 public class DraggingSlot : MonoBehaviour
 {
-    public InventoryItem DraggingItem { get; set; }
+    public static InventoryItem DraggingItem { get; set; }
 
-    public Image draggingItemImage;
-    public TextMeshProUGUI draggingItemCount;
+    public static Image draggingItemImage;
+    public static TextMeshProUGUI draggingItemCount;
+
+    private void Start()
+    {
+        DraggingItem = new InventoryItem(null, 0);
+        draggingItemImage = GetComponent<Image>();
+        draggingItemCount = GetComponentInChildren<TextMeshProUGUI>();
+    }
 }
