@@ -81,10 +81,6 @@ public class InventoryUI : MonoBehaviour
                 slotImages[i].sprite = slots[i].inventoryItem.item.itemImage;
                 slotTexts[i].text = slots[i].inventoryItem.itemCount.ToString();
                 slotImages[i].enabled = true;
-
-                // 슬롯 클릭 이벤트 추가
-                int index = i; // 클로저 문제 해결을 위해 임시 변수 사용
-                slotImages[i].GetComponent<Button>().onClick.AddListener(() => slots[index].OnSlotClicked());
             }
             else
             {

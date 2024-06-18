@@ -5,12 +5,31 @@ public class Inventory : MonoBehaviour
 {
     public event Action OnInventoryChanged;
 
-    public InventorySlot[] slots;
+    public InventorySlot[] slots; // 이미 에디터에서 설정된 슬롯들
+
+    private void Start()
+    {
+        // Start 메서드에서 slots 배열의 초기화 상태를 확인
+        for (int i = 0; i < slots.Length; i++)
+        {
+            if (slots[i] == null)
+            {
+                Debug.LogError($"Slot {i} is not initialized!");
+            }
+            else
+            {
+                Debug.Log($"Slot {i} initialized.");
+                slots[i].ClearSlot(); // 모든 슬롯을 명시적으로 초기화
+            }
+        }
+    }
 
     public void AddItem(Item item, int count)
     {
         for (int i = 0; i < slots.Length; i++)
         {
+            Debug.Log($"Checking slot {i}, IsEmpty: {slots[i].IsEmpty()}"); // 슬롯 상태 확인
+
             if (slots[i].IsEmpty())
             {
                 slots[i].AddItem(item, count);
