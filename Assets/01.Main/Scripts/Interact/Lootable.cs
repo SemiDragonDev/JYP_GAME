@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Lootable : MonoBehaviour, IInteractable
 {
-    public Item item; // The item to be added to the inventory
+    public Item item;
 
     public void Interact()
     {
