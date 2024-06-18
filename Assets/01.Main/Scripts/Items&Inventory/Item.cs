@@ -4,7 +4,7 @@ using UnityEngine;
 public class Item : ScriptableObject
 {
     public string itemName;
-    public Sprite icon;
+    public Sprite itemImage;
     public bool isStackable;
     public int maxStackSize = 64;
     public bool isConsumable;

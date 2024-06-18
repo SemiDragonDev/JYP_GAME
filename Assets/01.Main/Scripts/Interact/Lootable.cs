@@ -1,5 +1,3 @@
-using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Lootable : MonoBehaviour, IInteractable
@@ -14,6 +12,14 @@ public class Lootable : MonoBehaviour, IInteractable
 
     private void AddToInventory()
     {
-        Inventory.Instance.AddItem(item);
+        Inventory inventory = FindObjectOfType<Inventory>();
+        if (inventory != null)
+        {
+            inventory.AddItem(item, 1); // 아이템을 1개 추가
+        }
+        else
+        {
+            Debug.LogError("Inventory not found!");
+        }
     }
 }

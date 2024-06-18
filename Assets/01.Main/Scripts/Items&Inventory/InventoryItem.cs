@@ -2,11 +2,11 @@
 public class InventoryItem
 {
     public Item item;
-    public int stackSize;
+    public int itemCount;
 
-    public InventoryItem(Item item, int stackSize)
+    public InventoryItem(Item item, int itemCount)
     {
         this.item = item;
-        this.stackSize = stackSize;
+        this.itemCount = itemCount;
     }
 }

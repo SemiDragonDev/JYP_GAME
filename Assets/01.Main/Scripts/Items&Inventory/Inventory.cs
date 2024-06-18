@@ -1,63 +1,40 @@
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
-public class Inventory : Singleton<Inventory>
+public class Inventory : MonoBehaviour
 {
-    public List<InventoryItem> items = new List<InventoryItem>();
-    public int maxInventorySize = 27;
+    public event Action OnInventoryChanged;
 
-    public delegate void OnInventoryChanged();
-    public OnInventoryChanged onInventoryChangedCallback;
+    public InventorySlot[] slots = new InventorySlot[27];
 
-    public bool AddItem(Item item, int amount = 1)
+    public void AddItem(Item item, int count)
     {
-        if (!item.isStackable)
+        for (int i = 0; i < slots.Length; i++)
         {
-            if (items.Count >= maxInventorySize)
+            if (slots[i].IsEmpty())
             {
-                Debug.Log("Not enough space in inventory");
-                return false;
+                slots[i].AddItem(item, count);
+                OnInventoryChanged?.Invoke();
+                return;
             }
-
-            items.Add(new InventoryItem(item, amount));
-            onInventoryChangedCallback?.Invoke();
-            return true;
+            else if (slots[i].inventoryItem.item == item && item.isStackable)
+            {
+                slots[i].inventoryItem.itemCount += count;
+                OnInventoryChanged?.Invoke();
+                return;
+            }
         }
-        else
-        {
-            foreach (InventoryItem inventoryItem in items)
-            {
-                if (inventoryItem.item == item && inventoryItem.stackSize < item.maxStackSize)
-                {
-                    int availableSpace = item.maxStackSize - inventoryItem.stackSize;
-                    if (amount <= availableSpace)
-                    {
-                        inventoryItem.stackSize += amount;
-                        onInventoryChangedCallback?.Invoke();
-                        return true;
-                    }
-                    else
-                    {
-                        inventoryItem.stackSize = item.maxStackSize;
-                        amount -= availableSpace;
-                    }
-                }
-            }
+    }
 
-            while (amount > 0)
-            {
-                int stackAmount = Mathf.Min(amount, item.maxStackSize);
-                if (items.Count >= maxInventorySize)
-                {
-                    Debug.Log("Not enough space in inventory");
-                    return false;
-                }
-                items.Add(new InventoryItem(item, stackAmount));
-                amount -= stackAmount;
-            }
+    public void RemoveItem(int slotIndex)
+    {
+        if (slotIndex < 0 || slotIndex >= slots.Length) return;
+        slots[slotIndex].ClearSlot();
+        OnInventoryChanged?.Invoke();
+    }
 
-            onInventoryChangedCallback?.Invoke();
-            return true;
-        }
+    public InventorySlot[] GetSlots()
+    {
+        return slots;
     }
 }

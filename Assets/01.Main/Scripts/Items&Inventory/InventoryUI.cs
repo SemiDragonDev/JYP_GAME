@@ -1,95 +1,96 @@
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InventoryUI : MonoBehaviour
 {
-    [Header("인벤토리 슬롯")]
-    public Transform itemsParent;
-    public GameObject inventoryUI;
-    public GameObject inventorySlotPrefab;
-    public int slotCount = 27;
-    public bool isInventoryOpen = false;
-
+    [SerializeField]
     private Inventory inventory;
-    private InventorySlot[] slots;
 
+    [SerializeField]
+    private Image[] slotImages; // 27개의 슬롯 이미지를 담는 배열
 
-    [Space(10)]
-    [Header("크래프팅 슬롯")]
-    public Transform craftingParent;
-    public GameObject craftingSlotPrefab;
-    public int craftingSlotCount = 4;
+    [SerializeField]
+    private Text[] slotTexts; // 27개의 슬롯 텍스트를 담는 배열
 
-    private CraftingSlot[] craftingSlots;
+    [SerializeField]
+    private GameObject inventoryUI; // 인벤토리 UI 전체를 담는 GameObject
 
+    [SerializeField]
+    private SetMouseState setMouseState;
 
+    private Animator playerAnimator;
     private PlayerMovement playerMovement;
-    private Animator playerAnim;
-    private SetMouseState mouseState;
+
+    public bool IsInventoryOpen { get; private set; } // 인벤토리가 열렸는지 닫혔는지 확인할 수 있는 bool 변수
 
     void Start()
     {
-        mouseState = FindObjectOfType<SetMouseState>();
-        playerMovement = FindObjectOfType<PlayerMovement>();
-        playerAnim = GameObject.FindGameObjectWithTag("Player").GetComponent<Animator>();
+        inventory.OnInventoryChanged += UpdateUI;
 
-        inventory = Inventory.Instance;
-        inventory.onInventoryChangedCallback += UpdateUI;
-
-        slots = new InventorySlot[slotCount];
-        craftingSlots = new CraftingSlot[craftingSlotCount];
-
-        // 동적으로 인벤토리 슬롯 생성
-        for (int i = 0; i < slots.Length; i++)
-        {
-            GameObject slotGO = Instantiate(inventorySlotPrefab, itemsParent);
-            slots[i] = slotGO.GetComponent<InventorySlot>();
-        }
-
-        for (int i = 0; i < craftingSlots.Length; i++)
-        {
-            GameObject craftingSlotGO = Instantiate(craftingSlotPrefab, craftingParent);
-            craftingSlots[i] = craftingSlotGO.GetComponent<CraftingSlot>();
-            craftingSlots[i].slotIndex = i;
-        }
-
-        UpdateUI();  // Initial UI update
+        // 초기에는 인벤토리 UI를 비활성화
         inventoryUI.SetActive(false);
+        IsInventoryOpen = false;
+
+        // 플레이어의 Animator와 PlayerMovement 컴포넌트를 찾아서 할당
+        playerAnimator = GameObject.FindGameObjectWithTag("Player").GetComponent<Animator>();
+        playerMovement = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
+    }
+
+    void OnDestroy()
+    {
+        inventory.OnInventoryChanged -= UpdateUI;
     }
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            isInventoryOpen = !isInventoryOpen;
-            inventoryUI.SetActive(isInventoryOpen);
-
-            if (isInventoryOpen)
-            {
-                playerMovement.enabled = false;
-                playerAnim.enabled = false;
-                mouseState.UnlockCursor();
-            }
-            else
-            {
-                playerMovement.enabled= true;
-                playerAnim.enabled= true;
-                mouseState.LockCursor();
-            }
+            ToggleInventoryUI();
         }
     }
 
-    public void UpdateUI()
+    void ToggleInventoryUI()
     {
+        bool isActive = inventoryUI.activeSelf;
+        inventoryUI.SetActive(!isActive);
+        IsInventoryOpen = !isActive;
+
+        if (!isActive)
+        {
+            // UI가 켜질 때 플레이어의 Animator와 PlayerMovement를 비활성화
+            playerAnimator.enabled = false;
+            playerMovement.enabled = false;
+            setMouseState.UnlockCursor();
+        }
+        else
+        {
+            // UI가 꺼질 때 플레이어의 Animator와 PlayerMovement를 다시 활성화
+            playerAnimator.enabled = true;
+            playerMovement.enabled = true;
+            setMouseState.LockCursor();
+        }
+    }
+
+    void UpdateUI()
+    {
+        var slots = inventory.GetSlots();
         for (int i = 0; i < slots.Length; i++)
         {
-            if (i < inventory.items.Count)
+            if (!slots[i].IsEmpty())
             {
-                slots[i].AddItem(inventory.items[i]);
+                slotImages[i].sprite = slots[i].inventoryItem.item.itemImage;
+                slotTexts[i].text = slots[i].inventoryItem.itemCount.ToString();
+                slotImages[i].enabled = true;
+
+                // 슬롯 클릭 이벤트 추가
+                int index = i; // 클로저 문제 해결을 위해 임시 변수 사용
+                slotImages[i].GetComponent<Button>().onClick.AddListener(() => slots[index].OnSlotClicked());
             }
             else
             {
-                slots[i].ClearSlot();
+                slotImages[i].enabled = false;
+                slotTexts[i].text = "";
+                slotImages[i].GetComponent<Button>().onClick.RemoveAllListeners();
             }
         }
     }

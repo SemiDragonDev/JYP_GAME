@@ -15,7 +15,7 @@ public class CursorFollow : MonoBehaviour
 
     private void Update()
     {
-        if (inventoryUI.isInventoryOpen)
+        if (inventoryUI.IsInventoryOpen)
         {
             cursorImage.gameObject.SetActive(true);
             Vector2 cursorPos;
