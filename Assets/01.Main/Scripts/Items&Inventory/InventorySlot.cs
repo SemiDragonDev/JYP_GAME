@@ -9,6 +9,7 @@ public class InventorySlot : MonoBehaviour
     void Start()
     {
         draggingSlot = FindObjectOfType<DraggingSlot>();
+        ClearSlot();
     }
 
     public void AddItem(Item newItem, int count)
