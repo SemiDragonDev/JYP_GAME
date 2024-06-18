@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,7 +11,7 @@ public class InventoryUI : MonoBehaviour
     private Image[] slotImages; // 27개의 슬롯 이미지를 담는 배열
 
     [SerializeField]
-    private Text[] slotTexts; // 27개의 슬롯 텍스트를 담는 배열
+    private TextMeshProUGUI[] slotTexts; // 27개의 슬롯 텍스트를 담는 배열
 
     [SerializeField]
     private GameObject inventoryUI; // 인벤토리 UI 전체를 담는 GameObject
