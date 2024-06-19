@@ -75,19 +75,26 @@ public class InventoryUI : MonoBehaviour
     void UpdateUI()
     {
         var slots = inventory.GetSlots();
-        for (int i = 0; i < slots.Length; i++)
+        for (int i = 0; i < slots.Count; i++)
         {
             if (!slots[i].IsEmpty())
             {
-                slotImages[i].sprite = slots[i].inventoryItem.item.itemImage;
-                slotTexts[i].text = slots[i].inventoryItem.itemCount.ToString();
-                slotImages[i].enabled = true;
+                slotImages[i].sprite = slots[i].InventoryItem.item.itemImage;
+                slotImages[i].color = Color.white;
+                if (slots[i].InventoryItem.itemCount > 1)
+                {
+                    slotTexts[i].text = slots[i].InventoryItem.itemCount.ToString();
+                }
+                else
+                {
+                    slotTexts[i].text = "";
+                }
             }
             else
             {
-                slotImages[i].enabled = false;
+                slotImages[i].sprite = null;
+                slotImages[i].color = Color.clear;
                 slotTexts[i].text = "";
-                slotImages[i].GetComponent<Button>().onClick.RemoveAllListeners();
             }
         }
     }

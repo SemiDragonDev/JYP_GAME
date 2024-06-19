@@ -1,46 +1,42 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
     public event Action OnInventoryChanged;
 
-    public InventorySlot[] slots; // 이미 에디터에서 설정된 슬롯들
+    public List<InventorySlot> slots = new List<InventorySlot>();
 
     private void Start()
     {
-        // Start 메서드에서 slots 배열의 초기화 상태를 확인
-        for (int i = 0; i < slots.Length; i++)
+        var foundSlots = Resources.FindObjectsOfTypeAll<InventorySlot>();   //  Resources.FindObjectsOfTypeAll을 써야 Active가 아닌 오브젝트까지 찾아올 수 있다. (하지만 Asset 폴더에 있는 오브젝트까지 찾아오므로, prefab을 만들었을 경우 개수가 안맞는 일이 생김)
+        var sortedSlots = foundSlots.OrderBy(slot => slot.slotIndex).ToList();
+        slots = sortedSlots;
+        foreach (var slot in slots)
         {
-            if (slots[i] == null)
-            {
-                Debug.LogError($"Slot {i} is not initialized!");
-            }
-            else
-            {
-                Debug.Log($"Slot {i} initialized.");
-                slots[i].ClearSlot(); // 모든 슬롯을 명시적으로 초기화
-            }
+            slot.InventoryItem = null;
         }
     }
 
     public void AddItem(Item item, int count)
     {
-        for (int i = 0; i < slots.Length; i++)
+        for (int i = 0; i < slots.Count; i++)
         {
             Debug.Log($"Checking slot {i}, IsEmpty: {slots[i].IsEmpty()}"); // 슬롯 상태 확인
 
             if (slots[i].IsEmpty())
             {
                 slots[i].AddItem(item, count);
-                Debug.Log($"Added {item.itemName} to slot {i}"); // 디버그 메시지 추가
+                Debug.Log($"Added {item.itemName} to slot {i}"); // 디버그
                 OnInventoryChanged?.Invoke();
                 return;
             }
-            else if (slots[i].inventoryItem.item == item && item.isStackable)
+            else if (slots[i].InventoryItem.item == item && item.isStackable)
             {
-                slots[i].inventoryItem.itemCount += count;
-                Debug.Log($"Stacked {item.itemName} in slot {i}"); // 디버그 메시지 추가
+                slots[i].InventoryItem.itemCount += count;
+                Debug.Log($"Stacked {item.itemName} in slot {i}"); // 디버그
                 OnInventoryChanged?.Invoke();
                 return;
             }
@@ -51,12 +47,12 @@ public class Inventory : MonoBehaviour
 
     public void RemoveItem(int slotIndex)
     {
-        if (slotIndex < 0 || slotIndex >= slots.Length) return;
+        if (slotIndex < 0 || slotIndex >= slots.Count) return;
         slots[slotIndex].ClearSlot();
         OnInventoryChanged?.Invoke();
     }
 
-    public InventorySlot[] GetSlots()
+    public List<InventorySlot> GetSlots()
     {
         return slots;
     }
