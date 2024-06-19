@@ -19,6 +19,9 @@ public class InventoryUI : MonoBehaviour
     [SerializeField]
     private SetMouseState setMouseState;
 
+    [SerializeField]
+    private DraggingSlot draggingSlot;
+
     private Animator playerAnimator;
     private PlayerMovement playerMovement;
 
@@ -96,6 +99,24 @@ public class InventoryUI : MonoBehaviour
                 slotImages[i].color = Color.clear;
                 slotTexts[i].text = "";
             }
+        }
+
+        if (draggingSlot.DraggingItem == null)
+        {
+            draggingSlot.draggingItemImage.color = Color.clear;
+            draggingSlot.draggingItemCountText.text = "";
+            draggingSlot.draggingItemImage.enabled = false;
+
+        }
+        else
+        {
+            draggingSlot.draggingItemImage.sprite = draggingSlot.DraggingItem.item.itemImage;
+            draggingSlot.draggingItemImage.color = Color.white;
+            if (draggingSlot.DraggingItem.itemCount > 1)
+            {
+                draggingSlot.draggingItemCountText.text = draggingSlot.DraggingItem.itemCount.ToString();
+            }
+            draggingSlot.draggingItemImage.enabled = true;
         }
     }
 }

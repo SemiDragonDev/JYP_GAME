@@ -7,6 +7,8 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
     public InventoryItem InventoryItem { get; set; }
     public int slotIndex;
 
+    public bool NowDraggingSlot { get; set; }
+
     public void AddItem(Item newItem, int count)
     {
         InventoryItem = new InventoryItem(newItem, count);
@@ -27,6 +29,10 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        throw new System.NotImplementedException();
+        if (!NowDraggingSlot)
+        {
+            Inventory.Instance.ToDraggingItem(slotIndex);
+            NowDraggingSlot = true;
+        }
     }
 }

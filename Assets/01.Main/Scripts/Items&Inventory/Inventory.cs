@@ -2,12 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class Inventory : MonoBehaviour
+public class Inventory : Singleton<Inventory>
 {
     public event Action OnInventoryChanged;
 
     public List<InventorySlot> slots = new List<InventorySlot>();
+    public DraggingSlot draggingSlot;
 
     private void Start()
     {
@@ -18,14 +20,13 @@ public class Inventory : MonoBehaviour
         {
             slot.InventoryItem = null;
         }
+        draggingSlot = GameObject.Find("DraggingSlot").GetComponent<DraggingSlot>();
     }
 
     public void AddItem(Item item, int count)
     {
         for (int i = 0; i < slots.Count; i++)
         {
-            Debug.Log($"Checking slot {i}, IsEmpty: {slots[i].IsEmpty()}"); // 슬롯 상태 확인
-
             if (slots[i].IsEmpty())
             {
                 slots[i].AddItem(item, count);
@@ -49,6 +50,14 @@ public class Inventory : MonoBehaviour
     {
         if (slotIndex < 0 || slotIndex >= slots.Count) return;
         slots[slotIndex].ClearSlot();
+        OnInventoryChanged?.Invoke();
+    }
+
+    public void ToDraggingItem(int slotIndex)
+    {
+        draggingSlot.DraggingItem = slots[slotIndex].InventoryItem;
+        Debug.Log("Dragging Slot에 들어있는 Item : " + draggingSlot.DraggingItem);
+        slots[slotIndex].InventoryItem = null;
         OnInventoryChanged?.Invoke();
     }
 
