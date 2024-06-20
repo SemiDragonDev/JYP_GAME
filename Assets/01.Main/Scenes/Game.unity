@@ -2602,7 +2602,7 @@ MonoBehaviour:
   - {fileID: 8810277026286895467}
   inventoryUI: {fileID: 1579744589}
   setMouseState: {fileID: 1661494957}
-  draggingSlot: {fileID: 0}
+  draggingSlot: {fileID: 1796969887}
 --- !u!1 &1624590750
 GameObject:
   m_ObjectHideFlags: 0

@@ -34,5 +34,6 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
             Inventory.Instance.ToDraggingItem(slotIndex);
             NowDraggingSlot = true;
         }
+        
     }
 }
