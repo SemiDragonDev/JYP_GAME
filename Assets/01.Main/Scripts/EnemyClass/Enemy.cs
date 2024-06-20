@@ -24,7 +24,7 @@ public class Enemy : MonoBehaviour, IDamagable
     private void OnEnable()
     {
         dayNightCycle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<DayNightCycle>();
-        coroutine = GetDamageOverTime(10f, 1f);
+        coroutine = TakeDamageOverTime(10f, 1f);
     }
 
     private void OnDisable()
@@ -41,17 +41,17 @@ public class Enemy : MonoBehaviour, IDamagable
         }
     }
 
-    public virtual void GetDamage(float damage)
+    public virtual void TakeDamage(float damage)
     {
         Hp -= damage;
     }
 
-    public virtual IEnumerator GetDamageOverTime(float damage, float interval)
+    public virtual IEnumerator TakeDamageOverTime(float damage, float interval)
     {
         isTakingDamage = true;
         while(Hp > 0)
         {
-            GetDamage(damage);
+            TakeDamage(damage);
             yield return new WaitForSeconds(interval);
         }
         isTakingDamage = false;

@@ -11,7 +11,6 @@ public class EnemySpawner : MonoBehaviour
     private Vector3 playerPos;
     private string playerTag = "Player";
     private string skeletonTag = "Skeleton";
-    private string burnEffectTag = "BurnEffect";
 
     private float minDistFromPlayer = 30f;
     private float maxDistFromPlayer = 50f;

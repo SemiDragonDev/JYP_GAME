@@ -12,8 +12,6 @@ GameObject:
   - component: {fileID: 33875641874888616}
   - component: {fileID: 23374305754528276}
   - component: {fileID: 64819859478352756}
-  - component: {fileID: 6585489767360943611}
-  - component: {fileID: 2592668390249782469}
   m_Layer: 0
   m_Name: Axe
   m_TagString: Untagged
@@ -108,30 +106,3 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 43009796710234594, guid: a3d5a90fe992af9499545e1e40d1f832, type: 2}
---- !u!114 &6585489767360943611
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1309244834713454}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3bd51a18dd7d104cb8508ffdc7440cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  item: {fileID: 11400000, guid: 3143bf2007d899d468b9d82ce015c6da, type: 2}
-  <amount>k__BackingField: 1
---- !u!114 &2592668390249782469
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1309244834713454}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6258ac2b978ed342a9864407e57db92, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inventory: {fileID: 11400000, guid: 55bc1a63a52eb1e4381615de27b8e5ec, type: 2}

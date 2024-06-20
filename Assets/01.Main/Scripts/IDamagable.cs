@@ -4,6 +4,6 @@ using UnityEngine;
 
 public interface IDamagable
 {
-    void GetDamage(float damage);
-    IEnumerator GetDamageOverTime(float damage, float interval);
+    void TakeDamage(float damage);
+    IEnumerator TakeDamageOverTime(float damage, float interval);
 }

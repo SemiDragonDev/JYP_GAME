@@ -172,7 +172,7 @@ public class EnemyStateManager : FSM<EnemyStateManager>
     {
         if (IsCloseToTarget(player.transform.position, stopDistanceFromPlayer))
         {
-            playerHealth.TakeDamage(40, this.transform);
+            playerHealth.TakeDamage(40);
         }
     }
 
