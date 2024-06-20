@@ -9,11 +9,6 @@ public class DraggingSlot : MonoBehaviour
 
     public InventoryItem DraggingItem { get; set; }
 
-    void Start()
-    {
-        draggingItemImage.enabled = false;
-    }
-
     void Update()
     {
         if (draggingItemImage.enabled)

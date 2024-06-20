@@ -53,11 +53,22 @@ public class Inventory : Singleton<Inventory>
         OnInventoryChanged?.Invoke();
     }
 
+    /// <summary>
+    /// 클릭한 슬롯을 드래깅아이템으로 옮겨준다
+    /// </summary>
+    /// <param name="clickedSlot"> 클릭한 슬롯 </param>
     public void ToDraggingItem(int slotIndex)
     {
         draggingSlot.DraggingItem = slots[slotIndex].InventoryItem;
-        Debug.Log("Dragging Slot에 들어있는 Item : " + draggingSlot.DraggingItem);
+        Debug.Log("Dragging Slot에 들어있는 Item : " + draggingSlot.DraggingItem.item.itemName);
         slots[slotIndex].InventoryItem = null;
+        OnInventoryChanged?.Invoke();
+    }
+
+    public void DraggingItemToEmptySlot(int slotIndex)
+    {
+        slots[slotIndex].InventoryItem = draggingSlot.DraggingItem;
+        draggingSlot.DraggingItem = null;
         OnInventoryChanged?.Invoke();
     }
 

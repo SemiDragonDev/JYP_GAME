@@ -106,7 +106,6 @@ public class InventoryUI : MonoBehaviour
             draggingSlot.draggingItemImage.color = Color.clear;
             draggingSlot.draggingItemCountText.text = "";
             draggingSlot.draggingItemImage.enabled = false;
-
         }
         else
         {

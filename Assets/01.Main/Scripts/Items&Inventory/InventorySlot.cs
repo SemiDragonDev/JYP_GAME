@@ -7,7 +7,7 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
     public InventoryItem InventoryItem { get; set; }
     public int slotIndex;
 
-    public bool NowDraggingSlot { get; set; }
+    public bool IsDraggingSlot { get; set; } = false;
 
     public void AddItem(Item newItem, int count)
     {
@@ -23,17 +23,22 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
     public bool IsEmpty()
     {
         bool empty = InventoryItem == null;
-        Debug.Log($"IsEmpty called, result: {empty}"); // 디버그 메시지 추가
         return empty;
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (!NowDraggingSlot)
+        Debug.Log("클릭한 슬롯 인덱스 : " + this.slotIndex);
+        Debug.Log("클릭한 슬롯의 InventoryItem이 Null? : " + this.InventoryItem);
+        if (!IsDraggingSlot && this.InventoryItem != null)
         {
-            Inventory.Instance.ToDraggingItem(slotIndex);
-            NowDraggingSlot = true;
+            Inventory.Instance.ToDraggingItem(this.slotIndex);
+            IsDraggingSlot = true;
         }
-        
+        else if (IsDraggingSlot && this.InventoryItem == null)
+        {
+            Inventory.Instance.DraggingItemToEmptySlot(this.slotIndex);
+            IsDraggingSlot = false;
+        }
     }
 }
