@@ -72,6 +72,15 @@ public class Inventory : Singleton<Inventory>
         OnInventoryChanged?.Invoke();
     }
 
+    public void SwapWithDraggingItem(int slotIndex)
+    {
+        var tempItemSave = new InventoryItem(null, 0);
+        tempItemSave = draggingSlot.DraggingItem;
+        draggingSlot.DraggingItem = slots[slotIndex].InventoryItem;
+        slots[slotIndex].InventoryItem = tempItemSave;
+        OnInventoryChanged?.Invoke();
+    }
+
     public List<InventorySlot> GetSlots()
     {
         return slots;
