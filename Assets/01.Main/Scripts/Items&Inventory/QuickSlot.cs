@@ -4,15 +4,7 @@ using UnityEngine;
 
 public class QuickSlot : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public int slotIndex;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public InventoryItem QuickSlotItem { get; set; }
 }
