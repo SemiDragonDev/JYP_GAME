@@ -7,12 +7,21 @@ public class InventoryUI : MonoBehaviour
     [SerializeField]
     private Inventory inventory;
 
+    [Header("인벤토리 슬롯")]
     [SerializeField]
     private Image[] slotImages; // 27개의 슬롯 이미지를 담는 배열
 
     [SerializeField]
     private TextMeshProUGUI[] slotTexts; // 27개의 슬롯 텍스트를 담는 배열
 
+    [Header("크래프팅 슬롯")]
+    [SerializeField]
+    private Image[] craftingSlotImages;
+
+    [SerializeField]
+    private TextMeshProUGUI[] craftingSlotTexts;
+
+    [Space(10)]
     [SerializeField]
     private GameObject inventoryUI; // 인벤토리 UI 전체를 담는 GameObject
 
@@ -77,6 +86,7 @@ public class InventoryUI : MonoBehaviour
 
     void UpdateUI()
     {
+        //  InventorySlot UI 업데이트
         var slots = inventory.GetSlots();
         for (int i = 0; i < slots.Count; i++)
         {
@@ -101,6 +111,7 @@ public class InventoryUI : MonoBehaviour
             }
         }
 
+        //  DraggingSlot UI 업데이트
         if (draggingSlot.DraggingItem == null)
         {
             draggingSlot.draggingItemImage.color = Color.clear;
@@ -115,7 +126,36 @@ public class InventoryUI : MonoBehaviour
             {
                 draggingSlot.draggingItemCountText.text = draggingSlot.DraggingItem.itemCount.ToString();
             }
+            else
+            {
+                draggingSlot.draggingItemCountText.text = "";
+            }
             draggingSlot.draggingItemImage.enabled = true;
+        }
+
+        //  CraftingSlot UI 업데이트
+        var craftingSlots = inventory.GetCraftingSlots();
+        for (int i = 0; i < craftingSlots.Count; i++)
+        {
+            if (!craftingSlots[i].IsEmpty())
+            {
+                craftingSlotImages[i].sprite = craftingSlots[i].InventoryItem.item.itemImage;
+                craftingSlotImages[i].color = Color.white;
+                if (craftingSlots[i].InventoryItem.itemCount > 1)
+                {
+                    craftingSlotTexts[i].text = craftingSlots[i].InventoryItem.itemCount.ToString();
+                }
+                else
+                {
+                    craftingSlotTexts[i].text = "";
+                }
+            }
+            else
+            {
+                craftingSlotImages[i].sprite = null;
+                craftingSlotImages[i].color = Color.clear;
+                craftingSlotTexts[i].text = "";
+            }
         }
     }
 }

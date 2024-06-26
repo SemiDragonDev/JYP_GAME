@@ -9,6 +9,7 @@ public class Inventory : Singleton<Inventory>
     public event Action OnInventoryChanged;
 
     public List<InventorySlot> slots = new List<InventorySlot>();
+    public List<CraftingSlot> craftingSlots = new List<CraftingSlot>();
     public DraggingSlot draggingSlot;
 
     private void Start()
@@ -20,6 +21,15 @@ public class Inventory : Singleton<Inventory>
         {
             slot.InventoryItem = null;
         }
+
+        var foundCraftingSlots = Resources.FindObjectsOfTypeAll<CraftingSlot>();
+        var sortedCraftingSlots = foundCraftingSlots.OrderBy(slot => slot.slotIndex).ToList();
+        craftingSlots = sortedCraftingSlots;
+        foreach(var craftingSlot in craftingSlots)
+        {
+            craftingSlot.InventoryItem = null;
+        }
+
         draggingSlot = GameObject.Find("DraggingSlot").GetComponent<DraggingSlot>();
     }
 
@@ -81,8 +91,47 @@ public class Inventory : Singleton<Inventory>
         OnInventoryChanged?.Invoke();
     }
 
+    public void DraggingToCrafting(int slotIndex)
+    {
+        if (draggingSlot.DraggingItem == null)
+        {
+            Debug.LogWarning("No item is being dragged.");
+            return;
+        }
+
+        if (craftingSlots[slotIndex].InventoryItem == null)
+        {
+            craftingSlots[slotIndex].InventoryItem = new InventoryItem(draggingSlot.DraggingItem.item, 1);
+        }
+        else if (craftingSlots[slotIndex].InventoryItem.item == draggingSlot.DraggingItem.item && draggingSlot.DraggingItem.item.isStackable)
+        {
+            craftingSlots[slotIndex].InventoryItem.itemCount++;
+        }
+        else
+        {
+            Debug.LogWarning("Crafting slot already contains a different item.");
+            return;
+        }
+
+        draggingSlot.DraggingItem.itemCount--;
+
+        if (draggingSlot.DraggingItem.itemCount <= 0)
+        {
+            draggingSlot.DraggingItem = null;
+            InventorySlot.IsDraggingSlot = false;
+        }
+
+        OnInventoryChanged?.Invoke();
+    }
+
+
     public List<InventorySlot> GetSlots()
     {
         return slots;
+    }
+
+    public List<CraftingSlot> GetCraftingSlots()
+    {
+        return craftingSlots;
     }
 }
