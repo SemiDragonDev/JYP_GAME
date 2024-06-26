@@ -168,6 +168,15 @@ public class Inventory : Singleton<Inventory>
         OnInventoryChanged?.Invoke();
     }
 
+    /// <summary>
+    /// QuickSlotInven 에 있는 아이템 클릭시 드래깅슬롯으로 옮긴다
+    /// </summary>
+    /// <param name="slotIndex"></param>
+    public void QSIToDragging(int slotIndex)
+    {
+
+    }
+
 
     public List<InventorySlot> GetSlots()
     {
