@@ -31,6 +31,7 @@ public class CraftingSystem : MonoBehaviour
         Recipe matchedRecipe = FindMatchingRecipe(currentItems);
         if (matchedRecipe != null)
         {
+            buildSlot.BuildItem = new InventoryItem(matchedRecipe.result, 1);
             buildSlot.DisplayItem(matchedRecipe.result);
         }
         else

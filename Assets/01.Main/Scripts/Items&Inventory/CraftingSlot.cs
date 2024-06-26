@@ -17,7 +17,7 @@ public class CraftingSlot : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (InventorySlot.IsDraggingSlot)
+        if (Inventory.Instance.IsDraggingSlot)
         {
             Inventory.Instance.DraggingToCrafting(this.slotIndex);
 

@@ -8,7 +8,7 @@ public class BuildSlot : MonoBehaviour, IPointerClickHandler
     [SerializeField]
     private Image iconImage;
 
-    InventoryItem BuildItem { get; set; }
+    public InventoryItem BuildItem { get; set; }
 
     public void DisplayItem(Item item)
     {
@@ -22,11 +22,17 @@ public class BuildSlot : MonoBehaviour, IPointerClickHandler
         iconImage.color = Color.clear;
     }
 
+    public bool IsEmpty()
+    {
+        bool empty = BuildItem == null;
+        return empty;
+    }
+
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (!InventorySlot.IsDraggingSlot)  //  DraggingSlot에 아무것도 없을 경우
+        if (!Inventory.Instance.IsDraggingSlot)  //  DraggingSlot에 아무것도 없을 경우
         {
-            // BuildSlot에 있는 아이템을 DraggingSlot으로 옮긴다
+            Inventory.Instance.BuildToDragging();
         }
         else  //    만일 DraggingSlot에 무언가 들고있다면
         {

@@ -7,8 +7,6 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
     public InventoryItem InventoryItem { get; set; }
     public int slotIndex;
 
-    public static bool IsDraggingSlot { get; set; } = false;
-
     public void AddItem(Item newItem, int count)
     {
         InventoryItem = new InventoryItem(newItem, count);
@@ -30,21 +28,21 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
     {
         Debug.Log("≈¨∏Ø«— ΩΩ∑‘ ¿Œµ¶Ω∫ : " + this.slotIndex);
         Debug.Log("≈¨∏Ø«— ΩΩ∑‘¿« InventoryItem¿Ã Null? : " + (this.InventoryItem == null));
-        Debug.Log($"IsDraggingSlot: {IsDraggingSlot}");
+        Debug.Log($"IsDraggingSlot: {Inventory.Instance.IsDraggingSlot}");
 
-        if (!IsDraggingSlot && this.InventoryItem != null)
+        if (!Inventory.Instance.IsDraggingSlot && this.InventoryItem != null)
         {
             Inventory.Instance.ToDraggingItem(this.slotIndex);
-            IsDraggingSlot = true;
+            Inventory.Instance.IsDraggingSlot = true;
             Debug.Log("Started dragging item from slot " + this.slotIndex);
         }
-        else if (IsDraggingSlot && IsEmpty())
+        else if (Inventory.Instance.IsDraggingSlot && IsEmpty())
         {
             Inventory.Instance.DraggingItemToEmptySlot(this.slotIndex);
-            IsDraggingSlot = false;
+            Inventory.Instance.IsDraggingSlot = false;
             Debug.Log("Dropped dragging item to empty slot " + this.slotIndex);
         }
-        else if (IsDraggingSlot && !IsEmpty())
+        else if (Inventory.Instance.IsDraggingSlot && !IsEmpty())
         {
             Inventory.Instance.SwapWithDraggingItem(this.slotIndex);
         }

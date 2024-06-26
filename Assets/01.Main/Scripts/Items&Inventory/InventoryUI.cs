@@ -21,6 +21,13 @@ public class InventoryUI : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI[] craftingSlotTexts;
 
+    [Header("빌드 슬롯")]
+    [SerializeField]
+    private Image buildSlotImage;
+
+    [SerializeField]
+    private BuildSlot buildSlot;
+
     [Space(10)]
     [SerializeField]
     private GameObject inventoryUI; // 인벤토리 UI 전체를 담는 GameObject
@@ -156,6 +163,12 @@ public class InventoryUI : MonoBehaviour
                 craftingSlotImages[i].color = Color.clear;
                 craftingSlotTexts[i].text = "";
             }
+        }
+
+        //  BuildSlot UI 업데이트
+        if (buildSlot.IsEmpty())
+        {
+            buildSlot.ClearSlot();
         }
     }
 }
