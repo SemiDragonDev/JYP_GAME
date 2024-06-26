@@ -11,6 +11,7 @@ public class Inventory : Singleton<Inventory>
     public List<InventorySlot> slots = new List<InventorySlot>();
     public List<CraftingSlot> craftingSlots = new List<CraftingSlot>();
     public BuildSlot buildSlot;
+    public List<QuickSlotInven> quickSlotInvens = new List<QuickSlotInven>();
     public DraggingSlot draggingSlot;
 
     public bool IsDraggingSlot { get; set; } = false;
@@ -33,6 +34,14 @@ public class Inventory : Singleton<Inventory>
         }
         
         draggingSlot = GameObject.Find("DraggingSlot").GetComponent<DraggingSlot>();
+
+        var foundQuickSlotInvens = Resources.FindObjectsOfTypeAll<QuickSlotInven>();
+        var sortedQuickSlotInvens = foundQuickSlotInvens.OrderBy(slots => slots.slotIndex).ToList();
+        quickSlotInvens = sortedQuickSlotInvens;
+        foreach(var quickSlot in quickSlotInvens)
+        {
+            quickSlot.QuickSlotInvenItem = null;
+        }
     }
 
     public void AddItem(Item item, int count)
