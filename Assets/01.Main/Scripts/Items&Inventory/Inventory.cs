@@ -11,7 +11,8 @@ public class Inventory : Singleton<Inventory>
     public List<InventorySlot> slots = new List<InventorySlot>();
     public List<CraftingSlot> craftingSlots = new List<CraftingSlot>();
     public BuildSlot buildSlot;
-    public List<QuickSlotInven> quickSlotInvens = new List<QuickSlotInven>();
+    public static List<QuickSlot> quickSlotsGroup1 = new List<QuickSlot>();
+    public static List<QuickSlot> quickSlotsGroup2 = new List<QuickSlot>();
     public DraggingSlot draggingSlot;
 
     public bool IsDraggingSlot { get; set; } = false;
@@ -35,12 +36,28 @@ public class Inventory : Singleton<Inventory>
         
         draggingSlot = GameObject.Find("DraggingSlot").GetComponent<DraggingSlot>();
 
-        var foundQuickSlotInvens = Resources.FindObjectsOfTypeAll<QuickSlotInven>();
-        var sortedQuickSlotInvens = foundQuickSlotInvens.OrderBy(slots => slots.slotIndex).ToList();
-        quickSlotInvens = sortedQuickSlotInvens;
-        foreach(var quickSlot in quickSlotInvens)
+        QuickSlot[] foundQuickSlots = Resources.FindObjectsOfTypeAll<QuickSlot>();    //  QuickSlot은 Index 0~8까지 두 쌍이 존재한다. 모두 찾아온다.
+        Dictionary<int, List<QuickSlot>>  slotGroups = new Dictionary<int, List<QuickSlot>>();  //  index가 같은 것끼리 같은 List로 묶기위해 Dict를 사용
+        foreach(var quickSlot in foundQuickSlots)
         {
-            quickSlot.QuickSlotInvenItem = null;
+            if (!slotGroups.ContainsKey(quickSlot.slotIndex))   //  index를 가진 key가 아직 없다면
+            {
+                slotGroups[quickSlot.slotIndex] = new List<QuickSlot>();    //  그 키에 새 리스트를 만들고
+            }
+            slotGroups[quickSlot.slotIndex].Add(quickSlot); //  그 리스트에 슬롯을 추가한다
+        }
+        foreach(var slotIndex in slotGroups.Keys)   //  Key를 0~8까지 돌면서
+        {
+            quickSlotsGroup1.Add(slotGroups[slotIndex][0]);
+            quickSlotsGroup2.Add(slotGroups[slotIndex][1]); //  각 키에 들어간 리스트에 있을 두 쌍의 슬롯을 각각 리스트로 나눠준다. 그러면 각 쌍을 Index 순서대로 정렬하기 완성!
+        }
+        foreach (var slot in quickSlotsGroup1)
+        {
+            slot.QuickSlotItem = null;
+        }
+        foreach (var slot in quickSlotsGroup2)
+        {
+            slot.QuickSlotItem = null;
         }
     }
 
@@ -168,13 +185,102 @@ public class Inventory : Singleton<Inventory>
         OnInventoryChanged?.Invoke();
     }
 
+    public void QSToDraggingFromGroup1(int slotIndex)
+    {
+        Debug.Log($"QSToDraggingFromGroup1 called with slotIndex: {slotIndex}");
+
+        if (slotIndex < 0 || slotIndex >= quickSlotsGroup1.Count)
+        {
+            Debug.LogError("Invalid slotIndex for quickSlotsGroup1");
+            return;
+        }
+
+        if (quickSlotsGroup1[slotIndex].QuickSlotItem != null)
+        {
+            draggingSlot.DraggingItem = quickSlotsGroup1[slotIndex].QuickSlotItem;
+            quickSlotsGroup1[slotIndex].QuickSlotItem = null;
+            quickSlotsGroup2[slotIndex].QuickSlotItem = null;
+            IsDraggingSlot = true;
+            OnInventoryChanged?.Invoke();
+            Debug.Log($"DraggingItem set from Group1. slotIndex: {slotIndex}, Item: {draggingSlot.DraggingItem.item.itemName}");
+        }
+        else
+        {
+            Debug.LogWarning($"No item to drag in quickSlotsGroup1 at slotIndex: {slotIndex}");
+        }
+    }
+
+    public void QSToDraggingFromGroup2(int slotIndex)
+    {
+        Debug.Log($"QSToDraggingFromGroup2 called with slotIndex: {slotIndex}");
+
+        if (slotIndex < 0 || slotIndex >= quickSlotsGroup2.Count)
+        {
+            Debug.LogError("Invalid slotIndex for quickSlotsGroup2");
+            return;
+        }
+
+        if (quickSlotsGroup2[slotIndex].QuickSlotItem != null)
+        {
+            draggingSlot.DraggingItem = quickSlotsGroup2[slotIndex].QuickSlotItem;
+            quickSlotsGroup2[slotIndex].QuickSlotItem = null;
+            quickSlotsGroup1[slotIndex].QuickSlotItem = null;
+            IsDraggingSlot = true;
+            OnInventoryChanged?.Invoke();
+            Debug.Log($"DraggingItem set from Group2. slotIndex: {slotIndex}, Item: {draggingSlot.DraggingItem.item.itemName}");
+        }
+        else
+        {
+            Debug.LogWarning($"No item to drag in quickSlotsGroup2 at slotIndex: {slotIndex}");
+        }
+    }
+
+
+
     /// <summary>
-    /// QuickSlotInven 에 있는 아이템 클릭시 드래깅슬롯으로 옮긴다
+    /// DraggingSlot 에 있는 아이템을 클릭한 QuickSlotInven으로 옮긴다
     /// </summary>
     /// <param name="slotIndex"></param>
-    public void QSIToDragging(int slotIndex)
+    public void DraggingToQS(int slotIndex)
     {
+        if (slotIndex < 0 || slotIndex >= quickSlotsGroup1.Count)
+        {
+            Debug.LogError("Invalid slotIndex for quickSlots");
+            return;
+        }
 
+        if (draggingSlot.DraggingItem != null)
+        {
+            quickSlotsGroup1[slotIndex].QuickSlotItem = draggingSlot.DraggingItem;
+            quickSlotsGroup2[slotIndex].QuickSlotItem = draggingSlot.DraggingItem;
+
+            Debug.Log($"QuickSlot Group1 Index {slotIndex} set to {quickSlotsGroup1[slotIndex].QuickSlotItem.item.itemName}");
+            Debug.Log($"QuickSlot Group2 Index {slotIndex} set to {quickSlotsGroup2[slotIndex].QuickSlotItem.item.itemName}");
+
+            draggingSlot.DraggingItem = null;
+            IsDraggingSlot = false;
+            OnInventoryChanged?.Invoke();
+
+            // 추가 디버깅 로그
+            Debug.Log($"Post-OnInventoryChanged status: Group1 Index {slotIndex}, QuickSlotItem: {(quickSlotsGroup1[slotIndex].QuickSlotItem != null ? quickSlotsGroup1[slotIndex].QuickSlotItem.item.itemName : "null")}");
+            Debug.Log($"Post-OnInventoryChanged status: Group2 Index {slotIndex}, QuickSlotItem: {(quickSlotsGroup2[slotIndex].QuickSlotItem != null ? quickSlotsGroup2[slotIndex].QuickSlotItem.item.itemName : "null")}");
+        }
+        else
+        {
+            Debug.LogWarning("No item is being dragged.");
+        }
+    }
+
+
+    public void SwapDraggingAndQS(int slotIndex)
+    {
+        var tempItem = new InventoryItem(null, 0);
+        tempItem = draggingSlot.DraggingItem;
+        draggingSlot.DraggingItem = quickSlotsGroup1[slotIndex].QuickSlotItem;
+        draggingSlot.DraggingItem = quickSlotsGroup2[slotIndex].QuickSlotItem;
+        quickSlotsGroup1[slotIndex].QuickSlotItem = tempItem;
+        quickSlotsGroup2[slotIndex].QuickSlotItem = tempItem;
+        OnInventoryChanged?.Invoke();
     }
 
 
@@ -186,5 +292,10 @@ public class Inventory : Singleton<Inventory>
     public List<CraftingSlot> GetCraftingSlots()
     {
         return craftingSlots;
+    }
+
+    public List<QuickSlot> GetQuickSlots()
+    {
+        return quickSlotsGroup1;
     }
 }

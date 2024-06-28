@@ -28,6 +28,18 @@ public class InventoryUI : MonoBehaviour
     [SerializeField]
     private BuildSlot buildSlot;
 
+    [Header("퀵슬롯")]
+    [SerializeField]
+    private Image[] QSImages;
+    [SerializeField]
+    private Image[] QSImagesForInven;
+
+    [SerializeField]
+    private TextMeshProUGUI[] QSTexts;
+    [SerializeField]
+    private TextMeshProUGUI[] QSTextsForInven;
+
+
     [Space(10)]
     [SerializeField]
     private GameObject inventoryUI; // 인벤토리 UI 전체를 담는 GameObject
@@ -169,6 +181,38 @@ public class InventoryUI : MonoBehaviour
         if (buildSlot.IsEmpty())
         {
             buildSlot.ClearSlot();
+        }
+
+        //  QuickSlot UI 업데이트
+        var QuickSlots = inventory.GetQuickSlots();
+        for (int i = 0; i < QuickSlots.Count; i++)
+        {
+            if (!QuickSlots[i].IsEmpty())
+            {
+                QSImages[i].sprite = QuickSlots[i].QuickSlotItem.item.itemImage;
+                QSImagesForInven[i].sprite = QuickSlots[i].QuickSlotItem.item.itemImage;
+                QSImages[i].color = Color.white;
+                QSImagesForInven[i].color = Color.white;
+                if (QuickSlots[i].QuickSlotItem.itemCount > 1)
+                {
+                    QSTexts[i].text = QuickSlots[i].QuickSlotItem.itemCount.ToString();
+                    QSTextsForInven[i].text = QuickSlots[i].QuickSlotItem.itemCount.ToString();
+                }
+                else
+                {
+                    QSTexts[i].text = "";
+                    QSTextsForInven[i].text = "";
+                }
+            }
+            else
+            {
+                QSImages[i].sprite = null;
+                QSImagesForInven[i].sprite = null;
+                QSImages[i].color = Color.clear;
+                QSImagesForInven[i].color = Color.clear;
+                QSTexts[i].text = "";
+                QSTextsForInven[i].text = "";
+            }
         }
     }
 }
