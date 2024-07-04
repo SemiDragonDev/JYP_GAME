@@ -19,3 +19,6 @@ MonoBehaviour:
   isConsumable: 0
   isEquipable: 1
   itemPrefab: {fileID: 1309244834713454, guid: 5c6a7f41e4878c84ebca42687c6f9222, type: 3}
+  localPosition: {x: 0.015, y: 0.057, z: -0.414}
+  localRotation: {x: 0.55816907, y: -0.42341757, z: 0.3999287, w: -0.5909501}
+  localScale: {x: 1, y: 1, z: 1}

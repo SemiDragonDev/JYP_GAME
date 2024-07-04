@@ -10,7 +10,7 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
     public void AddItem(Item newItem, int count)
     {
         InventoryItem = new InventoryItem(newItem, count);
-        Debug.Log($"Added {newItem.itemName} with count {count} to InventorySlot"); // 디버그 메시지 추가
+        Debug.Log($"인벤토리 슬롯에  {newItem.itemName} 아이템 {count} 개 추가"); // 디버그 메시지 추가
     }
 
     public void ClearSlot()
@@ -34,13 +34,13 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
         {
             Inventory.Instance.ToDraggingItem(this.slotIndex);
             Inventory.Instance.IsDraggingSlot = true;
-            Debug.Log("Started dragging item from slot " + this.slotIndex);
+            Debug.Log("드래깅 시작한 슬롯 :  " + this.slotIndex);
         }
         else if (Inventory.Instance.IsDraggingSlot && IsEmpty())
         {
             Inventory.Instance.DraggingItemToEmptySlot(this.slotIndex);
             Inventory.Instance.IsDraggingSlot = false;
-            Debug.Log("Dropped dragging item to empty slot " + this.slotIndex);
+            Debug.Log("드래깅 아이템을 드롭한 슬롯 :  " + this.slotIndex);
         }
         else if (Inventory.Instance.IsDraggingSlot && !IsEmpty())
         {

@@ -20,3 +20,6 @@ MonoBehaviour:
   isEquipable: 0
   itemPrefab: {fileID: 1793674291786266139, guid: 37641e86dbcb2bd49bf4417ebd4898d5,
     type: 3}
+  localPosition: {x: -0.016, y: 0.089, z: 0.108}
+  localRotation: {x: 0.68888164, y: -0.04974419, z: -0.025012374, w: -0.72273225}
+  localScale: {x: 1, y: 2.5, z: 1}

@@ -1,10 +1,13 @@
 using UnityEngine.EventSystems;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class QuickSlot : MonoBehaviour, IPointerClickHandler
 {
     public int slotIndex;
     public InventoryItem QuickSlotItem { get; set; }
+
+    public Image highlightImage; // 슬롯 강조 표시용 이미지
 
     public bool IsEmpty()
     {
@@ -14,26 +17,25 @@ public class QuickSlot : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        Debug.Log($"QuickSlot clicked: slotIndex {this.slotIndex}, IsDraggingSlot: {Inventory.Instance.IsDraggingSlot}, QuickSlotItem: {(Inventory.quickSlotsGroup1[slotIndex].QuickSlotItem != null ? Inventory.quickSlotsGroup1[slotIndex].QuickSlotItem.item.itemName : "null")}");
-
-        if (!Inventory.Instance.IsDraggingSlot && Inventory.quickSlotsGroup1[slotIndex].QuickSlotItem != null)
+        if (!Inventory.Instance.IsDraggingSlot && Inventory.quickSlots[slotIndex].QuickSlotItem != null)
         {
-            Debug.Log("Dragging from QuickSlot");
-            Inventory.Instance.QSToDraggingFromGroup1(this.slotIndex);
-            Inventory.Instance.QSToDraggingFromGroup2(this.slotIndex);
+            Debug.Log("퀵슬롯에서 드래깅 시작");
+            Inventory.Instance.QSToDragging(this.slotIndex);
         }
-        else if (Inventory.Instance.IsDraggingSlot && Inventory.quickSlotsGroup1[slotIndex].QuickSlotItem == null)
+        else if (Inventory.Instance.IsDraggingSlot && Inventory.quickSlots[slotIndex].QuickSlotItem == null)
         {
-            Debug.Log("Dragging to empty QuickSlot");
+            Debug.Log("퀵슬롯으로 아이템 드래깅");
             Inventory.Instance.DraggingToQS(this.slotIndex);
         }
-        else if (Inventory.Instance.IsDraggingSlot && Inventory.quickSlotsGroup1[slotIndex].QuickSlotItem != null)
+        else if (Inventory.Instance.IsDraggingSlot && Inventory.quickSlots[slotIndex].QuickSlotItem != null)
         {
-            Debug.Log("Swapping with QuickSlot");
+            Debug.Log("퀵슬롯과 아이템 스왑");
             Inventory.Instance.SwapDraggingAndQS(this.slotIndex);
         }
+     }
 
-        // 추가적인 상태 확인 로그
-        Debug.Log($"Post-click status: slotIndex {this.slotIndex}, QuickSlotItem: {(Inventory.quickSlotsGroup1[slotIndex].QuickSlotItem != null ? Inventory.quickSlotsGroup1[slotIndex].QuickSlotItem.item.itemName : "null")}, IsDraggingSlot: {Inventory.Instance.IsDraggingSlot}");
+    public void Highlight(bool isHighlighted)
+    {
+        highlightImage.enabled = isHighlighted; // 강조 표시 이미지 활성화/비활성화
     }
 }

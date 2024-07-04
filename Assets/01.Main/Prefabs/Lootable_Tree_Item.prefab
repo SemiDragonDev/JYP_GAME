@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3416476682825383721}
   - component: {fileID: 8115224202194800624}
   - component: {fileID: 891277804706548802}
+  - component: {fileID: -1135015226151448088}
   m_Layer: 6
   m_Name: Lootable_Tree_Item
   m_TagString: Untagged
@@ -29,13 +30,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1793674291786266139}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 45, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7864144402627332041
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -43,7 +44,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1793674291786266139}
-  m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: -7042607392785830232, guid: 62c764dcc2402de4fbac5ee6bf6a273f, type: 3}
 --- !u!23 &1061780735799087474
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -64,7 +65,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5799cfad25cdb1d449aee0884d2cd75f, type: 2}
+  - {fileID: 2100000, guid: 65d077373205b494bbc2472c5d8ddc37, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -105,10 +106,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5000001
-  m_Height: 2
+  m_Radius: 0.0735814
+  m_Height: 0.27
   m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
+  m_Center: {x: -0.026418597, y: 0.099999994, z: 0}
 --- !u!54 &8115224202194800624
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -149,3 +150,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 11400000, guid: c5e6f06fb5648d14080f0d335342b4a9, type: 2}
+--- !u!114 &-1135015226151448088
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1793674291786266139}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf3735bf71b2c814297a35c56d5acd3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectName: Tree
+  defSize: 10
